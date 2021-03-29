@@ -1,0 +1,11 @@
+.App {
+  flex-grow: 1;
+
+  header {
+    .MuiLink-root {
+      color: white;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+}
