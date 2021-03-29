@@ -6,6 +6,7 @@ import {getFamilyEvent} from '../../../../api/api';
 import {FamilyEventType} from '../../../../models/FamilyEventType';
 import {CircularProgress, Grid, Typography} from '@material-ui/core';
 import {Gallery} from '../../../Gallery/Gallery';
+import {EventMessageFeed} from './EventMessageFeed/EventMessageFeed';
 
 export const FamilyEvent: React.FunctionComponent = () => {
     const {familyCode, eventCode} = useParams<{
@@ -39,7 +40,9 @@ export const FamilyEvent: React.FunctionComponent = () => {
                         <Grid item xs={12} md={6} lg={4}>
                             <Grid container direction={"column"}>
                                 <Grid item xs={12}>
-                                    <div id={"messages"}>test</div>
+                                    <div id={"messages"}>
+                                        <EventMessageFeed familyCode={familyCode} eventCode={eventCode} />
+                                    </div>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div id={"playlist"}>test</div>
