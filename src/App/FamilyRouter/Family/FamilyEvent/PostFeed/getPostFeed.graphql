@@ -1,0 +1,17 @@
+query getPostFeed($postFeedId: MongoID!) {
+    postFeedById(_id: $postFeedId) {
+        _id
+        postConnections {
+            _id
+            message
+            created_at
+            images {
+                url
+            }
+            authorUserConnection {
+                firstName
+                lastName
+            }
+        }
+    }
+}

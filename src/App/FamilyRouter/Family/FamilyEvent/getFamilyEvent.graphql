@@ -1,0 +1,12 @@
+query getFamilyEvent($familyEventId: MongoID!) {
+    familyEventById(_id: $familyEventId) {
+        name
+        description
+        dateStart
+        dateEnd
+        postFeedConnections {
+            _id
+            active
+        }
+    }
+}

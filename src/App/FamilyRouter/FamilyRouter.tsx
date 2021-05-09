@@ -9,8 +9,8 @@ export const FamilyRouter: React.FunctionComponent = () => {
     return (
         <div className={"FamilyRouter"}>
             <Switch>
-                <Route path={`${path}/:familyCode/event/:eventCode`}><FamilyEvent /></Route>
-                <Route path={`${path}/:familyCode`}><Family /></Route>
+                <Route path={`${path}/:familyId/event/:familyEventId`}><FamilyEvent /></Route>
+                <Route path={`${path}/:familyId`}><Family /></Route>
                 <Route exact path={path}>
                     <div>Family page.</div>
                 </Route>

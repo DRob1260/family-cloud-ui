@@ -5,4 +5,5 @@ export type FamilyEventType = {
     eventName: string;
     date: Date;
     gallery?: GalleryType
+    playlistCode?: string;
 }

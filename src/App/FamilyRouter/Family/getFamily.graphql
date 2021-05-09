@@ -1,0 +1,9 @@
+query getFamily($familyId: MongoID!) {
+    familyById(_id: $familyId) {
+        surname
+        familyEventConnections {
+            _id
+            name
+        }
+    }
+}
