@@ -1,0 +1,27 @@
+.PostCreator {
+}
+
+.PostCreator-modal-content {
+  flex-grow: 1;
+  overflow: scroll;
+
+  .MuiPaper-root {
+    width: 95%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .MuiButton-root {
+    width: 100%;
+  }
+
+  .post-creator-item {
+    margin: 20px;
+  }
+
+}

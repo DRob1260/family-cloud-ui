@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -100,6 +100,8 @@ export type CreateManyFamilyPayload = {
 
 export type CreateManyPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   updated_at?: Maybe<Scalars['Date']>;
   created_at?: Maybe<Scalars['Date']>;
@@ -217,6 +219,8 @@ export type CreateOneFamilyPayload = {
 
 export type CreateOnePostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   updated_at?: Maybe<Scalars['Date']>;
   created_at?: Maybe<Scalars['Date']>;
@@ -502,6 +506,8 @@ export type FilterCountFamily_IdOperatorsInput = {
 
 export type FilterCountPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id?: Maybe<Scalars['MongoID']>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -685,6 +691,8 @@ export type FilterFindManyFamily_IdOperatorsInput = {
 
 export type FilterFindManyPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id?: Maybe<Scalars['MongoID']>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -868,6 +876,8 @@ export type FilterFindOneFamily_IdOperatorsInput = {
 
 export type FilterFindOnePostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id?: Maybe<Scalars['MongoID']>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -1051,6 +1061,8 @@ export type FilterRemoveManyFamily_IdOperatorsInput = {
 
 export type FilterRemoveManyPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id?: Maybe<Scalars['MongoID']>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -1234,6 +1246,8 @@ export type FilterUpdateManyFamily_IdOperatorsInput = {
 
 export type FilterUpdateManyPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id?: Maybe<Scalars['MongoID']>;
   updated_at?: Maybe<Scalars['Date']>;
@@ -1861,6 +1875,8 @@ export type PaginationInfo = {
 export type PostFeed = {
   __typename?: 'PostFeed';
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   _id: Scalars['MongoID'];
   updated_at?: Maybe<Scalars['Date']>;
@@ -2636,6 +2652,8 @@ export type UpdateByIdFamilyPayload = {
 
 export type UpdateByIdPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   updated_at?: Maybe<Scalars['Date']>;
   created_at?: Maybe<Scalars['Date']>;
@@ -2747,6 +2765,8 @@ export type UpdateManyFamilyPayload = {
 
 export type UpdateManyPostFeedInput = {
   active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   adminUserIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   updated_at?: Maybe<Scalars['Date']>;
   created_at?: Maybe<Scalars['Date']>;
@@ -2957,6 +2977,35 @@ export type UserPagination = {
   pageInfo: PaginationInfo;
 };
 
+export type AddPostMutationVariables = Exact<{
+  postFeedId: Scalars['String'];
+  authorUserId: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<PostModelImagesInput>> | Maybe<PostModelImagesInput>>;
+}>;
+
+
+export type AddPostMutation = (
+  { __typename?: 'Mutation' }
+  & { postCreateOne?: Maybe<(
+    { __typename?: 'CreateOnePostModelPayload' }
+    & Pick<CreateOnePostModelPayload, 'recordId'>
+  )> }
+);
+
+export type GetUserQueryVariables = Exact<{
+  userId: Scalars['MongoID'];
+}>;
+
+
+export type GetUserQuery = (
+  { __typename?: 'Query' }
+  & { userById?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'firstName' | 'lastName'>
+  )> }
+);
+
 export type GetPostFeedQueryVariables = Exact<{
   postFeedId: Scalars['MongoID'];
 }>;
@@ -2966,7 +3015,7 @@ export type GetPostFeedQuery = (
   { __typename?: 'Query' }
   & { postFeedById?: Maybe<(
     { __typename?: 'PostFeed' }
-    & Pick<PostFeed, '_id'>
+    & Pick<PostFeed, '_id' | 'name' | 'description'>
     & { postConnections: Array<(
       { __typename?: 'PostModel' }
       & Pick<PostModel, '_id' | 'message' | 'created_at'>
@@ -3016,11 +3065,50 @@ export type GetFamilyQuery = (
 );
 
 
+export const AddPostDocument = `
+    mutation addPost($postFeedId: String!, $authorUserId: String!, $message: String, $images: [PostModelImagesInput]) {
+  postCreateOne(
+    record: {postFeedId: $postFeedId, authorUserId: $authorUserId, message: $message, images: $images}
+  ) {
+    recordId
+  }
+}
+    `;
+export const useAddPostMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<AddPostMutation, TError, AddPostMutationVariables, TContext>) => 
+    useMutation<AddPostMutation, TError, AddPostMutationVariables, TContext>(
+      (variables?: AddPostMutationVariables) => fetcher<AddPostMutation, AddPostMutationVariables>(AddPostDocument, variables)(),
+      options
+    );
+export const GetUserDocument = `
+    query getUser($userId: MongoID!) {
+  userById(_id: $userId) {
+    firstName
+    lastName
+  }
+}
+    `;
+export const useGetUserQuery = <
+      TData = GetUserQuery,
+      TError = unknown
+    >(
+      variables: GetUserQueryVariables, 
+      options?: UseQueryOptions<GetUserQuery, TError, TData>
+    ) => 
+    useQuery<GetUserQuery, TError, TData>(
+      ['getUser', variables],
+      fetcher<GetUserQuery, GetUserQueryVariables>(GetUserDocument, variables),
+      options
+    );
 export const GetPostFeedDocument = `
     query getPostFeed($postFeedId: MongoID!) {
   postFeedById(_id: $postFeedId) {
     _id
-    postConnections {
+    name
+    description
+    postConnections(sort: _ID_DESC) {
       _id
       message
       created_at
