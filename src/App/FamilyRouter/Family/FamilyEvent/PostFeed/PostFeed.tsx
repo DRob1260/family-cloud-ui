@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import "./PostFeed.scss";
 import SwiperCore, {Navigation, Pagination, A11y, Autoplay} from "swiper";
-import {Swiper, SwiperSlide} from 'swiper/react';
 import {useGetPostFeedQuery} from '../../../../../graphql/generated/types';
 import {Alert} from '@material-ui/lab';
 import {
@@ -54,25 +53,21 @@ export const PostFeed: React.FunctionComponent<PostFeedProps> = ({postFeedId}) =
                                 </Grid>
                                 <Grid item xs>
                                     <div id={"add-post-button"}>
-                                        <IconButton onClick={() => setOpenPostCreator(!openPostCreator)}>
+                                        <IconButton
+                                            size={"medium"}
+                                            onClick={() => setOpenPostCreator(!openPostCreator)}
+                                        >
                                             <AddCircle />
                                         </IconButton>
                                     </div>
                                 </Grid>
                                 {data.postFeedById?.postConnections &&
-                                <div id={"posts"}>
-                                    {/*<Swiper*/}
-                                    {/*    pagination={{ dynamicBullets: true }}*/}
-                                    {/*    autoplay={{*/}
-                                    {/*        delay: 5000,*/}
-                                    {/*        disableOnInteraction: false*/}
-                                    {/*    }}*/}
-                                    {/*>*/}
-                                    {data?.postFeedById.postConnections
-                                        .map(post => {
-                                            return (
-                                                <Grid key={post._id} item xs={12} md={4} lg={3}>
-                                                    <SwiperSlide>
+                                    <Grid container item xs={12} id={"posts"}>
+                                        {data?.postFeedById.postConnections
+                                            .map(post => {
+                                                return (
+                                                    // <Grid key={post._id} item xs={12} md={4} lg={3}><div>test</div></Grid>
+                                                    <Grid key={post._id} item xs={12} md={4} lg={3}>
                                                         <div className={"post"}>
                                                             <Card>
                                                                 <CardHeader
@@ -87,13 +82,11 @@ export const PostFeed: React.FunctionComponent<PostFeedProps> = ({postFeedId}) =
                                                                 </CardContent>
                                                             </Card>
                                                         </div>
-                                                    </SwiperSlide>
-                                                </Grid>
-                                            );
-                                        })
-                                    }
-                                    {/*</Swiper>*/}
-                                </div>
+                                                    </Grid>
+                                                )
+                                            })
+                                        }
+                                    </Grid>
                                 }
                             </Grid>
                         </Paper>
