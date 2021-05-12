@@ -12,7 +12,12 @@ import {
     Typography
 } from '@material-ui/core';
 import "./PostCreator.scss";
-import {useAddPostMutation, useGetUserQuery} from '../../../../../../graphql/generated/types';
+import {
+    useAddPostMutation,
+    useDeletePostMutation,
+    useGetUserQuery,
+    useUpdatePostMutation
+} from '../../../../../../graphql/generated/types';
 import {DateTime} from 'luxon';
 import {Alert} from '@material-ui/lab';
 
@@ -21,17 +26,28 @@ export type PostCreatorProps = {
     authorUserId: string;
     open: boolean | false;
     onClose: () => void;
+    currentPostId?: string;
+    currentMessage?: string;
+    currentImages?: Image[];
 }
 
-type Image = {
+export type Image = {
     url: string;
     source: string;
 }
 
-export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({ postFeedId, authorUserId, open, onClose }) => {
+export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
+     postFeedId,
+     authorUserId,
+     open,
+     onClose,
+     currentPostId,
+     currentMessage,
+     currentImages
+}) => {
     const { data, isLoading, isSuccess, isError } = useGetUserQuery({ userId: authorUserId });
-    const [message, setMessage] = useState("");
-    const [images, setImages] = useState<Image[]>([]);
+    const [message, setMessage] = useState(currentMessage);
+    const [images, setImages] = useState<Image[]>(currentImages || []);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     const addPostMutation = useAddPostMutation({
@@ -40,6 +56,37 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({ postFee
             onClose();
         }
     });
+
+    const updatePostMutation = useUpdatePostMutation({
+        onSuccess: () => {
+            setShowSuccessMessage(true);
+            onClose();
+        }
+    });
+
+    const deletePostMutation = useDeletePostMutation({
+        onSuccess: () => {
+            setShowSuccessMessage(true);
+            onClose();
+        }
+    });
+
+    const handleSubmit = () => {
+        if(currentPostId) {
+            updatePostMutation.mutate({
+                postId: currentPostId,
+                message: message,
+                images: images
+            });
+        } else {
+            addPostMutation.mutate({
+                postFeedId: postFeedId,
+                authorUserId: authorUserId,
+                message: message,
+                images: images
+            });
+        }
+    }
 
     return (
         <div className={"PostCreator"}>
@@ -51,38 +98,47 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({ postFee
                                 <div className={"post-creator-item"}>
                                     <TextField
                                         label={"Message"}
+                                        defaultValue={message}
                                         multiline={true}
                                         variant={"outlined"}
                                         rows={5}
+                                        disabled={updatePostMutation.isLoading || addPostMutation.isLoading}
                                         onChange={(event) => setMessage(event.target.value)}
                                     />
                                 </div>
                                 <div className={"post-creator-item"}>
                                     <TextField
                                         label={"Image"}
+                                        defaultValue={images.length > 0 ? images[0].url : ""}
                                         variant={"outlined"}
+                                        disabled={updatePostMutation.isLoading || addPostMutation.isLoading}
                                         onChange={(event) => setImages([{url: event.target.value, source: "manual"}])}
                                     />
                                 </div>
                                 <div className={"post-creator-item submit-button-container"}>
                                     <Button
                                         variant={"contained"}
-                                        onClick={() => addPostMutation.mutate(
-                                            {
-                                                postFeedId: postFeedId,
-                                                authorUserId: authorUserId,
-                                                message: message,
-                                                images: images
-                                            })
-                                        }
+                                        onClick={handleSubmit}
+                                        disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
                                     >Submit Message</Button>
                                 </div>
-                                {addPostMutation.isLoading &&
+                                {currentPostId &&
+                                    <div className={'post-creator-item delete-button-container'}>
+                                        <Button
+                                            variant={'contained'}
+                                            onClick={() => deletePostMutation.mutate({postId: currentPostId})}
+                                            disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
+                                        >
+                                            Delete Message
+                                        </Button>
+                                    </div>
+                                }
+                                {(addPostMutation.isLoading || updatePostMutation.isLoading || deletePostMutation.isLoading) &&
                                     <div className={"post-creator-item"}>
                                         <CircularProgress/>
                                     </div>
                                 }
-                                {addPostMutation.isError &&
+                                {(addPostMutation.isError || updatePostMutation.isError || deletePostMutation.isError) &&
                                     <div className={"post-creator-item"}>
                                         <Alert severity={"error"}>Whoops! Something went wrong. Please try again soon.</Alert>
                                     </div>
@@ -103,9 +159,10 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({ postFee
                                         </CardContent>
                                     </Card>
                                 }
-                                {isLoading && <CircularProgress />}
-                                {isError && <Alert severity={"error"}>Whoops! Something went wrong. Please try again soon.</Alert>}
+                                {(isLoading) && <CircularProgress />}
+                                {(isError) && <Alert severity={"error"}>Whoops! Something went wrong. Please try again soon.</Alert>}
                             </Grid>
+
                         </Grid>
                     </Paper>
                 </div>
@@ -120,7 +177,7 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({ postFee
                 }}
             >
                 <Alert severity="success">
-                    Post created successfully.
+                    Submission successful.
                 </Alert>
             </Snackbar>
         </div>

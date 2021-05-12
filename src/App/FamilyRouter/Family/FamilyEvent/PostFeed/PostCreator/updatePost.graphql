@@ -1,0 +1,22 @@
+mutation updatePost(
+    $postId: MongoID!,
+    $message: String,
+    $images: [UpdateByIdPostModelImagesInput]
+) {
+    postUpdateById(
+        _id: $postId,
+        record: {
+            message: $message,
+            images: $images
+        }
+    ) {
+        record {
+            _id
+            message
+            images {
+                url
+                source
+            }
+        }
+    }
+}

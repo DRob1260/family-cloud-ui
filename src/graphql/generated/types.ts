@@ -2993,6 +2993,19 @@ export type AddPostMutation = (
   )> }
 );
 
+export type DeletePostMutationVariables = Exact<{
+  postId: Scalars['MongoID'];
+}>;
+
+
+export type DeletePostMutation = (
+  { __typename?: 'Mutation' }
+  & { postRemoveById?: Maybe<(
+    { __typename?: 'RemoveByIdPostModelPayload' }
+    & Pick<RemoveByIdPostModelPayload, 'recordId'>
+  )> }
+);
+
 export type GetUserQueryVariables = Exact<{
   userId: Scalars['MongoID'];
 }>;
@@ -3003,6 +3016,28 @@ export type GetUserQuery = (
   & { userById?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'firstName' | 'lastName'>
+  )> }
+);
+
+export type UpdatePostMutationVariables = Exact<{
+  postId: Scalars['MongoID'];
+  message?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<UpdateByIdPostModelImagesInput>> | Maybe<UpdateByIdPostModelImagesInput>>;
+}>;
+
+
+export type UpdatePostMutation = (
+  { __typename?: 'Mutation' }
+  & { postUpdateById?: Maybe<(
+    { __typename?: 'UpdateByIdPostModelPayload' }
+    & { record?: Maybe<(
+      { __typename?: 'PostModel' }
+      & Pick<PostModel, '_id' | 'message'>
+      & { images?: Maybe<Array<Maybe<(
+        { __typename?: 'PostModelImages' }
+        & Pick<PostModelImages, 'url' | 'source'>
+      )>>> }
+    )> }
   )> }
 );
 
@@ -3021,7 +3056,7 @@ export type GetPostFeedQuery = (
       & Pick<PostModel, '_id' | 'message' | 'created_at'>
       & { images?: Maybe<Array<Maybe<(
         { __typename?: 'PostModelImages' }
-        & Pick<PostModelImages, 'url'>
+        & Pick<PostModelImages, 'url' | 'source'>
       )>>>, authorUserConnection?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'firstName' | 'lastName'>
@@ -3082,6 +3117,21 @@ export const useAddPostMutation = <
       (variables?: AddPostMutationVariables) => fetcher<AddPostMutation, AddPostMutationVariables>(AddPostDocument, variables)(),
       options
     );
+export const DeletePostDocument = `
+    mutation deletePost($postId: MongoID!) {
+  postRemoveById(_id: $postId) {
+    recordId
+  }
+}
+    `;
+export const useDeletePostMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeletePostMutation, TError, DeletePostMutationVariables, TContext>) => 
+    useMutation<DeletePostMutation, TError, DeletePostMutationVariables, TContext>(
+      (variables?: DeletePostMutationVariables) => fetcher<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, variables)(),
+      options
+    );
 export const GetUserDocument = `
     query getUser($userId: MongoID!) {
   userById(_id: $userId) {
@@ -3102,6 +3152,28 @@ export const useGetUserQuery = <
       fetcher<GetUserQuery, GetUserQueryVariables>(GetUserDocument, variables),
       options
     );
+export const UpdatePostDocument = `
+    mutation updatePost($postId: MongoID!, $message: String, $images: [UpdateByIdPostModelImagesInput]) {
+  postUpdateById(_id: $postId, record: {message: $message, images: $images}) {
+    record {
+      _id
+      message
+      images {
+        url
+        source
+      }
+    }
+  }
+}
+    `;
+export const useUpdatePostMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdatePostMutation, TError, UpdatePostMutationVariables, TContext>) => 
+    useMutation<UpdatePostMutation, TError, UpdatePostMutationVariables, TContext>(
+      (variables?: UpdatePostMutationVariables) => fetcher<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument, variables)(),
+      options
+    );
 export const GetPostFeedDocument = `
     query getPostFeed($postFeedId: MongoID!) {
   postFeedById(_id: $postFeedId) {
@@ -3114,6 +3186,7 @@ export const GetPostFeedDocument = `
       created_at
       images {
         url
+        source
       }
       authorUserConnection {
         firstName

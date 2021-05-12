@@ -66,7 +66,6 @@ export const PostFeed: React.FunctionComponent<PostFeedProps> = ({postFeedId}) =
                                         {data?.postFeedById.postConnections
                                             .map(post => {
                                                 return (
-                                                    // <Grid key={post._id} item xs={12} md={4} lg={3}><div>test</div></Grid>
                                                     <Grid key={post._id} item xs={12} md={4} lg={3}>
                                                         <div className={"post"}>
                                                             <Card>

@@ -9,6 +9,7 @@ query getPostFeed($postFeedId: MongoID!) {
             created_at
             images {
                 url
+                source
             }
             authorUserConnection {
                 firstName

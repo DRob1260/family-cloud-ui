@@ -18,6 +18,14 @@
 
   .MuiButton-root {
     width: 100%;
+    font-weight: bold;
+  }
+
+  .delete-button-container {
+    .MuiButton-root {
+      background-color: darkred;
+      color: white;
+    }
   }
 
   .post-creator-item {

@@ -1,14 +1,10 @@
 import React from 'react';
 import "./FamilyEvent.scss";
 import {useParams} from 'react-router-dom';
-import {useQuery} from 'react-query';
-import {FamilyEventType} from '../../../../models/FamilyEventType';
 import {CircularProgress, Grid, Typography} from '@material-ui/core';
-import {Gallery} from '../../../Gallery/Gallery';
-import {PostFeed} from './PostFeed/PostFeed';
-import {PlaylistCard} from '../../../Playlist/PlaylistCard';
 import {useGetFamilyEventQuery} from '../../../../graphql/generated/types';
 import {Alert} from '@material-ui/lab';
+import {PostFeedHorizontal} from './PostFeed/PostFeedHorizontal/PostFeedHorizontal';
 
 export const FamilyEvent: React.FunctionComponent = () => {
     const {familyEventId} = useParams<{
@@ -44,7 +40,8 @@ export const FamilyEvent: React.FunctionComponent = () => {
                                                     ?
                                                         <Grid key={postFeed._id} item xs={12}>
                                                             <div id={"messages"}>
-                                                                <PostFeed postFeedId={postFeed._id} />
+                                                                {/*<PostFeed postFeedId={postFeed._id} />*/}
+                                                                <PostFeedHorizontal postFeedId={postFeed._id} />
                                                             </div>
                                                         </Grid>
                                                     : <div></div>
