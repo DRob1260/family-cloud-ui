@@ -4,8 +4,8 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardMedia, CircularProgress,
-    Grid,
+    CardMedia, CircularProgress, Dialog, DialogTitle,
+    Grid, List, ListItem, ListItemText,
     Modal,
     Paper, Snackbar,
     TextField,
@@ -20,6 +20,8 @@ import {
 } from '../../../../../../graphql/generated/types';
 import {DateTime} from 'luxon';
 import {Alert} from '@material-ui/lab';
+import {Giphy} from './Giphy/Giphy';
+import { Image } from "../../../../../../models/Image";
 
 export type PostCreatorProps = {
     postFeedId: string;
@@ -29,11 +31,6 @@ export type PostCreatorProps = {
     currentPostId?: string;
     currentMessage?: string;
     currentImages?: Image[];
-}
-
-export type Image = {
-    url: string;
-    source: string;
 }
 
 export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
@@ -49,6 +46,7 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
     const [message, setMessage] = useState(currentMessage);
     const [images, setImages] = useState<Image[]>(currentImages || []);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     const addPostMutation = useAddPostMutation({
         onSuccess: () => {
@@ -90,13 +88,7 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
                                     />
                                 </div>
                                 <div className={"post-creator-item"}>
-                                    <TextField
-                                        label={"Image"}
-                                        defaultValue={images.length > 0 ? images[0].url : ""}
-                                        variant={"outlined"}
-                                        disabled={updatePostMutation.isLoading || addPostMutation.isLoading}
-                                        onChange={(event) => setImages([{url: event.target.value, source: "manual"}])}
-                                    />
+                                    <Giphy setImage={(image: Image) => { setImages([image]) }} />
                                 </div>
                                 {!currentPostId &&
                                     <div className={'post-creator-item'}>
@@ -139,11 +131,33 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
                                         <div className={'post-creator-item delete-button-container'}>
                                             <Button
                                                 variant={'contained'}
-                                                onClick={() => deletePostMutation.mutate({postId: currentPostId})}
+                                                onClick={() => setShowDeleteDialog(true)}
                                                 disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
                                             >
                                                 Delete Message
                                             </Button>
+                                            <Dialog open={showDeleteDialog}>
+                                                <DialogTitle>Delete Post?</DialogTitle>
+                                                <List>
+                                                    <ListItem
+                                                        button
+                                                        onClick={() => {
+                                                            setShowDeleteDialog(false);
+                                                            deletePostMutation.mutate({postId: currentPostId});
+                                                        }}
+                                                    >
+                                                        <ListItemText>Confirm</ListItemText>
+                                                    </ListItem>
+                                                    <ListItem
+                                                        button
+                                                        onClick={() => {
+                                                            setShowDeleteDialog(false);
+                                                        }}
+                                                    >
+                                                        <ListItemText>Cancel</ListItemText>
+                                                    </ListItem>
+                                                </List>
+                                            </Dialog>
                                         </div>
                                     </div>
                                 }

@@ -537,6 +537,7 @@ export type FilterCountPostFeed_IdOperatorsInput = {
 export type FilterCountPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -722,6 +723,7 @@ export type FilterFindManyPostFeed_IdOperatorsInput = {
 export type FilterFindManyPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -907,6 +909,7 @@ export type FilterFindOnePostFeed_IdOperatorsInput = {
 export type FilterFindOnePostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -1092,6 +1095,7 @@ export type FilterRemoveManyPostFeed_IdOperatorsInput = {
 export type FilterRemoveManyPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -1277,6 +1281,7 @@ export type FilterUpdateManyPostFeed_IdOperatorsInput = {
 export type FilterUpdateManyPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -1432,6 +1437,7 @@ export type FilterUpdateOneFamily_IdOperatorsInput = {
 export type FilterUpdateOnePostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -1960,12 +1966,14 @@ export type PostModelImages = {
   __typename?: 'PostModelImages';
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
 export type PostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -2672,6 +2680,7 @@ export type UpdateByIdPostFeedPayload = {
 export type UpdateByIdPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -2783,6 +2792,7 @@ export type UpdateManyPostFeedPayload = {
 export type UpdateManyPostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
@@ -2879,6 +2889,7 @@ export type UpdateOneFamilyPayload = {
 export type UpdateOnePostModelImagesInput = {
   url?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
+  sourceId?: Maybe<Scalars['String']>;
   _id?: Maybe<Scalars['MongoID']>;
 };
 
