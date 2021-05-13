@@ -71,23 +71,6 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
         }
     });
 
-    const handleSubmit = () => {
-        if(currentPostId) {
-            updatePostMutation.mutate({
-                postId: currentPostId,
-                message: message,
-                images: images
-            });
-        } else {
-            addPostMutation.mutate({
-                postFeedId: postFeedId,
-                authorUserId: authorUserId,
-                message: message,
-                images: images
-            });
-        }
-    }
-
     return (
         <div className={"PostCreator"}>
             <Modal open={open} onClose={onClose}>
@@ -115,22 +98,53 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
                                         onChange={(event) => setImages([{url: event.target.value, source: "manual"}])}
                                     />
                                 </div>
-                                <div className={"post-creator-item submit-button-container"}>
-                                    <Button
-                                        variant={"contained"}
-                                        onClick={handleSubmit}
-                                        disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
-                                    >Submit Message</Button>
-                                </div>
-                                {currentPostId &&
-                                    <div className={'post-creator-item delete-button-container'}>
+                                {!currentPostId &&
+                                    <div className={'post-creator-item'}>
                                         <Button
                                             variant={'contained'}
-                                            onClick={() => deletePostMutation.mutate({postId: currentPostId})}
-                                            disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
-                                        >
-                                            Delete Message
-                                        </Button>
+                                            onClick={() => {
+                                                addPostMutation.mutate({
+                                                    postFeedId: postFeedId,
+                                                    authorUserId: authorUserId,
+                                                    message: message,
+                                                    images: images
+                                                });
+                                            }}
+                                            disabled={
+                                                addPostMutation.isLoading ||
+                                                (!message && images.length === 0)
+                                            }
+                                        >Submit Message</Button>
+                                    </div>
+                                }
+                                {currentPostId &&
+                                    <div>
+                                        <div className={"post-creator-item"}>
+                                            <Button
+                                                variant={"contained"}
+                                                onClick={() =>
+                                                    updatePostMutation.mutate({
+                                                        postId: currentPostId,
+                                                        message: message,
+                                                        images: images
+                                                    })
+                                                }
+                                                disabled={
+                                                    updatePostMutation.isLoading ||
+                                                    deletePostMutation.isLoading ||
+                                                    (!message && images.length === 0)
+                                                }
+                                            >Update Message</Button>
+                                        </div>
+                                        <div className={'post-creator-item delete-button-container'}>
+                                            <Button
+                                                variant={'contained'}
+                                                onClick={() => deletePostMutation.mutate({postId: currentPostId})}
+                                                disabled={updatePostMutation.isLoading || addPostMutation.isLoading || deletePostMutation.isLoading}
+                                            >
+                                                Delete Message
+                                            </Button>
+                                        </div>
                                     </div>
                                 }
                                 {(addPostMutation.isLoading || updatePostMutation.isLoading || deletePostMutation.isLoading) &&
