@@ -4,7 +4,7 @@ import {useGetPostFeedQuery} from '../../../../../../graphql/generated/types';
 import {PostCreator} from '../PostCreator/PostCreator';
 import {Card, CardContent, CardHeader, CardMedia, Grid, IconButton, Paper, Typography} from '@material-ui/core';
 import {DateTime} from 'luxon';
-import {MoreHoriz} from '@material-ui/icons';
+import {AddCircle, MoreHoriz} from '@material-ui/icons';
 import { Image } from '../PostCreator/PostCreator';
 
 export type PostFeedHorizontalProps = {
@@ -41,6 +41,14 @@ export const PostFeedHorizontal: React.FunctionComponent<PostFeedHorizontalProps
             {isSuccess && data &&
                 <div>
                     <Paper>
+                        <div id={"add-post-button"}>
+                            <IconButton
+                                size={"medium"}
+                                onClick={() => setOpenPostCreator(!openPostCreator)}
+                            >
+                                <AddCircle />
+                            </IconButton>
+                        </div>
                         {data.postFeedById?.postConnections &&
                             <div id={"post-list"}>
                                 {data?.postFeedById.postConnections
