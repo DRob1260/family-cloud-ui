@@ -1,6 +1,6 @@
 {
   "overwrite":  true,
-  "schema": "http://localhost:5000/graphql",
+  "schema": "http://localhost:5000/schema",
   "documents": "src/**/*.graphql",
   "generates": {
     "src/graphql/generated/types.ts": {
