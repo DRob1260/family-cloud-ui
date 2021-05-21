@@ -17,6 +17,7 @@ import {
 import {DateTime} from 'luxon';
 import {AddCircle} from '@material-ui/icons';
 import {PostCreator} from './PostCreator/PostCreator';
+import {graphqlClient} from '../../../../../GraphqlClient';
 
 SwiperCore.use([Navigation, Pagination, A11y, Autoplay]);
 
@@ -25,7 +26,7 @@ export type PostFeedProps = {
 }
 
 export const PostFeed: React.FunctionComponent<PostFeedProps> = ({postFeedId}) => {
-    const { data, isLoading, isSuccess, isError, refetch } = useGetPostFeedQuery({ postFeedId });
+    const { data, isLoading, isSuccess, isError, refetch } = useGetPostFeedQuery(graphqlClient(), { postFeedId });
     const [openPostCreator, setOpenPostCreator] = useState(true);
 
     return (

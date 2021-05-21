@@ -1,27 +1,12 @@
+import { GraphQLClient } from 'graphql-request';
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch("http://localhost:5000/graphql", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ query, variables }),
-    });
-    
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
+function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables) {
+  return async (): Promise<TData> => client.request<TData, TVariables>(query, variables);
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -3238,9 +3223,12 @@ export const AddPostDocument = `
 export const useAddPostMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<AddPostMutation, TError, AddPostMutationVariables, TContext>) => 
+    >(
+      client: GraphQLClient, 
+      options?: UseMutationOptions<AddPostMutation, TError, AddPostMutationVariables, TContext>
+    ) => 
     useMutation<AddPostMutation, TError, AddPostMutationVariables, TContext>(
-      (variables?: AddPostMutationVariables) => fetcher<AddPostMutation, AddPostMutationVariables>(AddPostDocument, variables)(),
+      (variables?: AddPostMutationVariables) => fetcher<AddPostMutation, AddPostMutationVariables>(client, AddPostDocument, variables)(),
       options
     );
 export const DeletePostDocument = `
@@ -3253,9 +3241,12 @@ export const DeletePostDocument = `
 export const useDeletePostMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<DeletePostMutation, TError, DeletePostMutationVariables, TContext>) => 
+    >(
+      client: GraphQLClient, 
+      options?: UseMutationOptions<DeletePostMutation, TError, DeletePostMutationVariables, TContext>
+    ) => 
     useMutation<DeletePostMutation, TError, DeletePostMutationVariables, TContext>(
-      (variables?: DeletePostMutationVariables) => fetcher<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument, variables)(),
+      (variables?: DeletePostMutationVariables) => fetcher<DeletePostMutation, DeletePostMutationVariables>(client, DeletePostDocument, variables)(),
       options
     );
 export const UpdatePostDocument = `
@@ -3275,9 +3266,12 @@ export const UpdatePostDocument = `
 export const useUpdatePostMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdatePostMutation, TError, UpdatePostMutationVariables, TContext>) => 
+    >(
+      client: GraphQLClient, 
+      options?: UseMutationOptions<UpdatePostMutation, TError, UpdatePostMutationVariables, TContext>
+    ) => 
     useMutation<UpdatePostMutation, TError, UpdatePostMutationVariables, TContext>(
-      (variables?: UpdatePostMutationVariables) => fetcher<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument, variables)(),
+      (variables?: UpdatePostMutationVariables) => fetcher<UpdatePostMutation, UpdatePostMutationVariables>(client, UpdatePostDocument, variables)(),
       options
     );
 export const GetCurrentUserDocument = `
@@ -3294,12 +3288,13 @@ export const useGetCurrentUserQuery = <
       TData = GetCurrentUserQuery,
       TError = unknown
     >(
+      client: GraphQLClient, 
       variables?: GetCurrentUserQueryVariables, 
       options?: UseQueryOptions<GetCurrentUserQuery, TError, TData>
     ) => 
     useQuery<GetCurrentUserQuery, TError, TData>(
       ['getCurrentUser', variables],
-      fetcher<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, variables),
+      fetcher<GetCurrentUserQuery, GetCurrentUserQueryVariables>(client, GetCurrentUserDocument, variables),
       options
     );
 export const GetFamilyDocument = `
@@ -3317,12 +3312,13 @@ export const useGetFamilyQuery = <
       TData = GetFamilyQuery,
       TError = unknown
     >(
+      client: GraphQLClient, 
       variables: GetFamilyQueryVariables, 
       options?: UseQueryOptions<GetFamilyQuery, TError, TData>
     ) => 
     useQuery<GetFamilyQuery, TError, TData>(
       ['getFamily', variables],
-      fetcher<GetFamilyQuery, GetFamilyQueryVariables>(GetFamilyDocument, variables),
+      fetcher<GetFamilyQuery, GetFamilyQueryVariables>(client, GetFamilyDocument, variables),
       options
     );
 export const GetFamilyEventDocument = `
@@ -3343,12 +3339,13 @@ export const useGetFamilyEventQuery = <
       TData = GetFamilyEventQuery,
       TError = unknown
     >(
+      client: GraphQLClient, 
       variables: GetFamilyEventQueryVariables, 
       options?: UseQueryOptions<GetFamilyEventQuery, TError, TData>
     ) => 
     useQuery<GetFamilyEventQuery, TError, TData>(
       ['getFamilyEvent', variables],
-      fetcher<GetFamilyEventQuery, GetFamilyEventQueryVariables>(GetFamilyEventDocument, variables),
+      fetcher<GetFamilyEventQuery, GetFamilyEventQueryVariables>(client, GetFamilyEventDocument, variables),
       options
     );
 export const GetPostFeedDocument = `
@@ -3377,12 +3374,13 @@ export const useGetPostFeedQuery = <
       TData = GetPostFeedQuery,
       TError = unknown
     >(
+      client: GraphQLClient, 
       variables: GetPostFeedQueryVariables, 
       options?: UseQueryOptions<GetPostFeedQuery, TError, TData>
     ) => 
     useQuery<GetPostFeedQuery, TError, TData>(
       ['getPostFeed', variables],
-      fetcher<GetPostFeedQuery, GetPostFeedQueryVariables>(GetPostFeedDocument, variables),
+      fetcher<GetPostFeedQuery, GetPostFeedQueryVariables>(client, GetPostFeedDocument, variables),
       options
     );
 export const GetUserDocument = `
@@ -3397,11 +3395,12 @@ export const useGetUserQuery = <
       TData = GetUserQuery,
       TError = unknown
     >(
+      client: GraphQLClient, 
       variables: GetUserQueryVariables, 
       options?: UseQueryOptions<GetUserQuery, TError, TData>
     ) => 
     useQuery<GetUserQuery, TError, TData>(
       ['getUser', variables],
-      fetcher<GetUserQuery, GetUserQueryVariables>(GetUserDocument, variables),
+      fetcher<GetUserQuery, GetUserQueryVariables>(client, GetUserDocument, variables),
       options
     );

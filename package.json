@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.5.0",
     "@giphy/js-fetch-api": "^3.0.1-alpha.0",
     "@giphy/react-components": "^2.4.1-alpha.0",
     "@material-ui/core": "^4.11.3",
@@ -19,6 +20,8 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
     "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
+    "history": "^4.10.1",
     "luxon": "^1.26.0",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
@@ -30,7 +33,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_LOCAL=true react-scripts start",
     "build": "react-scripts build",
     "codegen": "graphql-codegen",
     "test": "react-scripts test",
