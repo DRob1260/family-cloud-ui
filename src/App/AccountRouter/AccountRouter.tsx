@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Route, Switch, useRouteMatch} from 'react-router-dom';
-import {LoginModal} from './LoginModal/LoginModal';
+import {AuthModal} from './AuthModal/AuthModal';
 import {firebase} from '../../firebase';
 
 export const AccountRouter: React.FunctionComponent = () => {
@@ -16,7 +16,7 @@ export const AccountRouter: React.FunctionComponent = () => {
         <div className={"AccountRouter"} id={"AccountRouter"}>
             <Switch>
                 <Route path={`${path}/login`}>
-                    <LoginModal open={true} />
+                    <AuthModal open={true} />
                 </Route>
             </Switch>
         </div>
