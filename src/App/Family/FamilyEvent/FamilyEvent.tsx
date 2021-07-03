@@ -2,7 +2,7 @@ import React from 'react';
 import "./FamilyEvent.scss";
 import {useParams} from 'react-router-dom';
 import {CircularProgress, Grid, Typography} from '@material-ui/core';
-import {useGetFamilyEventQuery} from '../../../../graphql/generated/types';
+import {useGetFamilyEventQuery} from '../../../graphql/generated/types';
 import {Alert} from '@material-ui/lab';
 import {PostFeedHorizontal} from './PostFeed/PostFeedHorizontal/PostFeedHorizontal';
 

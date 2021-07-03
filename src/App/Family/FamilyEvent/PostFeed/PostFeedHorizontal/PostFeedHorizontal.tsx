@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./PostFeedHorizontal.scss";
-import {useGetPostFeedQuery} from '../../../../../../graphql/generated/types';
+import {useGetPostFeedQuery} from '../../../../../graphql/generated/types';
 import {PostCreator} from '../PostCreator/PostCreator';
 import {
     Card,
@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import {DateTime} from 'luxon';
 import {AddCircle, MoreHoriz} from '@material-ui/icons';
-import { Image } from '../../../../../../models/Image';
+import { Image } from '../../../../../models/Image';
 import {Alert} from '@material-ui/lab';
 
 export type PostFeedHorizontalProps = {

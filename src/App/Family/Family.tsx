@@ -1,6 +1,6 @@
 import React from "react";
 import {useParams} from "react-router-dom";
-import {useGetFamilyQuery} from '../../../graphql/generated/types';
+import {useGetFamilyQuery} from '../../graphql/generated/types';
 import {CircularProgress, Link} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 

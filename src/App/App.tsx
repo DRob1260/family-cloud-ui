@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import './App.scss';
 import {AppBar, Link, Toolbar} from '@material-ui/core';
 import {BrowserRouter, Switch, Route, Link as RouterLink} from 'react-router-dom';
-import {FamilyRouter} from './FamilyRouter/FamilyRouter';
+import {FamilyRouter} from './Family/FamilyRouter';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {AccountRouter} from './AccountRouter/AccountRouter';
+import {Account} from './Account/Account';
 import {AuthContext} from "../context/AuthContext";
 import firebase from "firebase/app";
-import {AuthModal} from './AccountRouter/AuthModal/AuthModal';
+import {AuthModal} from './Account/AuthModal/AuthModal';
 
 const App: React.FunctionComponent = () => {
     const [user, setUser] = useState<firebase.User | undefined>();
@@ -35,7 +35,7 @@ const App: React.FunctionComponent = () => {
                     </header>
                     <Switch>
                         <Route path={"/account"}>
-                            <div><AccountRouter /></div>
+                            <div><Account /></div>
                         </Route>
                         <Route path={"/family"}>
                             <div><FamilyRouter /></div>

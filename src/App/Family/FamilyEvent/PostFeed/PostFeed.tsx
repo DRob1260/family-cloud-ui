@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import "./PostFeed.scss";
 import SwiperCore, {Navigation, Pagination, A11y, Autoplay} from "swiper";
-import {useGetPostFeedQuery} from '../../../../../graphql/generated/types';
+import {useGetPostFeedQuery} from '../../../../graphql/generated/types';
 import {Alert} from '@material-ui/lab';
 import {
     Card,

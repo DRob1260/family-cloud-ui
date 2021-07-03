@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import "./Giphy.scss";
 import {Carousel, SearchBar, SearchContext, SearchContextManager} from '@giphy/react-components';
-import {Image} from '../../../../../../../models/Image';
+import {Image} from '../../../../../../models/Image';
 
 export type GiphyProps = {
     setImage: (image: Image) => void

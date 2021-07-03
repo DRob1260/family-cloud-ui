@@ -17,11 +17,11 @@ import {
     useDeletePostMutation,
     useGetUserQuery,
     useUpdatePostMutation
-} from '../../../../../../graphql/generated/types';
+} from '../../../../../graphql/generated/types';
 import {DateTime} from 'luxon';
 import {Alert} from '@material-ui/lab';
 import {Giphy} from './Giphy/Giphy';
-import { Image } from "../../../../../../models/Image";
+import { Image } from "../../../../../models/Image";
 
 export type PostCreatorProps = {
     postFeedId: string;
