@@ -1,24 +1,17 @@
 import React, {useState} from 'react';
-import {Route, Switch, useRouteMatch} from 'react-router-dom';
-import {AuthModal} from './AuthModal/AuthModal';
-import {firebase} from '../../firebase';
+import { AuthContext } from "../../context/AuthContext";
 
 export const Account: React.FunctionComponent = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    const {path} = useRouteMatch();
-
-    firebase.auth().onAuthStateChanged((user) => {
-        return user ? setIsLoggedIn(true) : setIsLoggedIn(false);
-    });
-
     return (
-        <div className={"Account"}>
-            <Switch>
-                <Route path={`${path}/login`}>
-                    <AuthModal open={true} />
-                </Route>
-            </Switch>
-        </div>
+        <AuthContext.Consumer>
+            {authContext => (
+                <div className={"Account"}>
+                    {authContext.user &&
+                        <div>Welcome, {authContext.user.email}</div>
+                    }
+                    {!authContext.user && authContext.setShowAuthModal(true)}
+                </div>
+            )}
+        </AuthContext.Consumer>
     )
 }

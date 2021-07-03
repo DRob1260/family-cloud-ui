@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 import {AuthModal} from './Account/AuthModal/AuthModal';
 
 const App: React.FunctionComponent = () => {
-    const [user, setUser] = useState<firebase.User | undefined>();
+    const [user, setUser] = useState<firebase.User | null>(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const queryClient = new QueryClient();
 

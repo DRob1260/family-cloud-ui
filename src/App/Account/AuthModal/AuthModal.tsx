@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import "./AuthModal.scss";
 import {AppBar, Tab, Tabs, Box, Typography, Paper, } from '@material-ui/core';
 import Modal from "react-modal";
 import {AuthForm} from './AuthForm/AuthForm';
 import { firebase } from "../../../firebase";
+import { AuthContext } from "../../../context/AuthContext";
 
 type LoginType = {
     open: boolean;
@@ -14,6 +15,9 @@ export const AuthModal: React.FunctionComponent<LoginType> = ({ open, setOpen })
     const [selectedTab, setSelectedTab] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
+
+    const authContext = useContext(AuthContext);
 
     const handleTabChange = (event: React.ChangeEvent<any>, newValue: number) => {
         setSelectedTab(newValue);
@@ -23,18 +27,23 @@ export const AuthModal: React.FunctionComponent<LoginType> = ({ open, setOpen })
 
     const handleSubmit = () => {
         if(selectedTab === 0) {
-            console.log("logging in")
-            firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-                console.log(user);
+            firebase.auth().signInWithEmailAndPassword(email, password).then(userCredential => {
+                setError(false);
+                authContext.setUser(userCredential.user);
+                authContext.setShowAuthModal(false);
             }).catch(error => {
-                console.log("Error loggin in: ", error.message);
+                console.log("Error logging in: ", error.message);
+                setError(true);
             });
         } else {
             console.log("signing up")
-            firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-                console.log(user);
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+                setError(false);
+                authContext.setUser(userCredential.user);
+                authContext.setShowAuthModal(false);
             }).catch(error => {
                 console.log("Error signing up: ", error.message);
+                setError(true);
             });
         }
     }
