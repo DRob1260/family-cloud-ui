@@ -3,6 +3,7 @@ import "./AuthModal.scss";
 import {AppBar, Tab, Tabs, Box, Typography, Paper, } from '@material-ui/core';
 import Modal from "react-modal";
 import {AuthForm} from './AuthForm/AuthForm';
+import { firebase } from "../../../firebase";
 
 type LoginType = {
     open: boolean;
@@ -23,8 +24,18 @@ export const AuthModal: React.FunctionComponent<LoginType> = ({ open, setOpen })
     const handleSubmit = () => {
         if(selectedTab === 0) {
             console.log("logging in")
+            firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
+                console.log(user);
+            }).catch(error => {
+                console.log("Error loggin in: ", error.message);
+            });
         } else {
             console.log("signing up")
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
+                console.log(user);
+            }).catch(error => {
+                console.log("Error signing up: ", error.message);
+            });
         }
     }
 
