@@ -4,12 +4,13 @@ import {AppBar, Link, Toolbar} from '@material-ui/core';
 import {BrowserRouter, Switch, Route, Link as RouterLink} from 'react-router-dom';
 import {FamilyRouter} from './FamilyRouter/FamilyRouter';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import {AccountRouter} from './AccountRouter/AccountRouter';
 
 const App: React.FunctionComponent = () => {
     const queryClient = new QueryClient();
 
   return (
-    <div className={'App'}>
+    <div className={'App'} id={"App"}>
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <header>
@@ -21,10 +22,13 @@ const App: React.FunctionComponent = () => {
                     </AppBar>
                 </header>
                 <Switch>
+                    <Route path={"/account"}>
+                        <div><AccountRouter /></div>
+                    </Route>
                     <Route path={"/family"}>
                         <div><FamilyRouter /></div>
                     </Route>
-                    <Route path={"/"}>
+                    <Route path={"/"} exact={true}>
                         <div>Home page.</div>
                     </Route>
                 </Switch>

@@ -1,0 +1,17 @@
+.LoginModal {
+
+}
+
+.LoginModal-content {
+  width: 500px;
+  .MuiPaper-root {
+    padding: 10px;
+  }
+  .MuiFormControl-root {
+    width: 100%;
+  }
+  .MuiButton-root {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
