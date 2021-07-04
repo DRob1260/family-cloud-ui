@@ -12,6 +12,7 @@ import {AuthModal} from './Account/AuthModal/AuthModal';
 const App: React.FunctionComponent = () => {
     const [user, setUser] = useState<firebase.User | null>(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
     const queryClient = new QueryClient();
 
   return (
@@ -20,7 +21,9 @@ const App: React.FunctionComponent = () => {
             user: user,
             setUser: setUser,
             showAuthModal: showAuthModal,
-            setShowAuthModal: setShowAuthModal
+            setShowAuthModal: setShowAuthModal,
+            token: token,
+            setToken: setToken
         }}>
             <AuthModal open={showAuthModal} setOpen={setShowAuthModal} />
             <BrowserRouter>

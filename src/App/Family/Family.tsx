@@ -3,11 +3,12 @@ import {useParams} from "react-router-dom";
 import {useGetFamilyQuery} from '../../graphql/generated/types';
 import {CircularProgress, Link} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
+import {graphqlClient} from '../../graphql/GraphqlClient';
 
 export const Family: React.FunctionComponent = () => {
     const { familyId } = useParams<{familyId: string}>();
 
-    const { data, isLoading, isSuccess, isError } = useGetFamilyQuery({familyId: familyId});
+    const { data, isLoading, isSuccess, isError } = useGetFamilyQuery(graphqlClient(), {familyId: familyId});
 
     return (
         <div className={"Family"}>

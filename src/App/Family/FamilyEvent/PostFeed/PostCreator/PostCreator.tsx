@@ -22,6 +22,7 @@ import {DateTime} from 'luxon';
 import {Alert} from '@material-ui/lab';
 import {Giphy} from './Giphy/Giphy';
 import { Image } from "../../../../../models/Image";
+import {graphqlClient} from '../../../../../graphql/GraphqlClient';
 
 export type PostCreatorProps = {
     postFeedId: string;
@@ -42,27 +43,27 @@ export const PostCreator: React.FunctionComponent<PostCreatorProps> = ({
      currentMessage,
      currentImages
 }) => {
-    const { data, isLoading, isSuccess, isError } = useGetUserQuery({ userId: authorUserId });
+    const { data, isLoading, isSuccess, isError } = useGetUserQuery(graphqlClient(), { userId: authorUserId });
     const [message, setMessage] = useState(currentMessage);
     const [images, setImages] = useState<Image[]>(currentImages || []);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-    const addPostMutation = useAddPostMutation({
+    const addPostMutation = useAddPostMutation(graphqlClient(), {
         onSuccess: () => {
             setShowSuccessMessage(true);
             onClose();
         }
     });
 
-    const updatePostMutation = useUpdatePostMutation({
+    const updatePostMutation = useUpdatePostMutation(graphqlClient(), {
         onSuccess: () => {
             setShowSuccessMessage(true);
             onClose();
         }
     });
 
-    const deletePostMutation = useDeletePostMutation({
+    const deletePostMutation = useDeletePostMutation(graphqlClient(), {
         onSuccess: () => {
             setShowSuccessMessage(true);
             onClose();

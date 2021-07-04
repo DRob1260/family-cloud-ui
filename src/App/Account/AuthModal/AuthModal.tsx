@@ -30,6 +30,7 @@ export const AuthModal: React.FunctionComponent<LoginType> = ({ open, setOpen })
             firebase.auth().signInWithEmailAndPassword(email, password).then(userCredential => {
                 setError(false);
                 authContext.setUser(userCredential.user);
+                userCredential.user?.getIdToken().then(token => authContext.setToken(token));
                 authContext.setShowAuthModal(false);
             }).catch(error => {
                 console.log("Error logging in: ", error.message);
@@ -40,6 +41,7 @@ export const AuthModal: React.FunctionComponent<LoginType> = ({ open, setOpen })
             firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
                 setError(false);
                 authContext.setUser(userCredential.user);
+                userCredential.user?.getIdToken().then(token => authContext.setToken(token));
                 authContext.setShowAuthModal(false);
             }).catch(error => {
                 console.log("Error signing up: ", error.message);

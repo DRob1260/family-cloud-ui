@@ -16,13 +16,14 @@ import {DateTime} from 'luxon';
 import {AddCircle, MoreHoriz} from '@material-ui/icons';
 import { Image } from '../../../../../models/Image';
 import {Alert} from '@material-ui/lab';
+import {graphqlClient} from '../../../../../graphql/GraphqlClient';
 
 export type PostFeedHorizontalProps = {
     postFeedId: string;
 }
 
 export const PostFeedHorizontal: React.FunctionComponent<PostFeedHorizontalProps> = ({ postFeedId }) => {
-    const { data, isLoading, isSuccess, isError, refetch } = useGetPostFeedQuery({ postFeedId });
+    const { data, isLoading, isSuccess, isError, refetch } = useGetPostFeedQuery(graphqlClient(), { postFeedId });
     const [openPostCreator, setOpenPostCreator] = useState(false);
     const [currentPostId, setCurrentPostId] = useState<string | undefined>();
     const [currentPostMessage, setCurrentPostMessage] = useState<string | undefined>();

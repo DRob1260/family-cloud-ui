@@ -6,9 +6,13 @@ export const AuthContext = createContext<{
     setUser: (user: firebase.User | null) => void;
     showAuthModal: boolean;
     setShowAuthModal: (show: boolean) => void;
+    token: string | null;
+    setToken: (token: string | null) => void;
 }>({
     user: null,
     setUser: (user) => { /* do nothing */ },
     showAuthModal: false,
-    setShowAuthModal: (show) => { /* do nothing */ }
+    setShowAuthModal: (show) => { /* do nothing */ },
+    token: null,
+    setToken: (token) => { /* do nothing */ }
 });

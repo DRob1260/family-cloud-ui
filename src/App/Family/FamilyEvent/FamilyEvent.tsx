@@ -5,13 +5,14 @@ import {CircularProgress, Grid, Typography} from '@material-ui/core';
 import {useGetFamilyEventQuery} from '../../../graphql/generated/types';
 import {Alert} from '@material-ui/lab';
 import {PostFeedHorizontal} from './PostFeed/PostFeedHorizontal/PostFeedHorizontal';
+import {graphqlClient} from '../../../graphql/GraphqlClient';
 
 export const FamilyEvent: React.FunctionComponent = () => {
     const {familyEventId} = useParams<{
         familyEventId: string;
     }>();
 
-    const { data, isLoading, isSuccess, isError } = useGetFamilyEventQuery({ familyEventId: familyEventId });
+    const { data, isLoading, isSuccess, isError } = useGetFamilyEventQuery(graphqlClient(), { familyEventId: familyEventId });
 
     return (
         <div className={"FamilyEvent"}>

@@ -10,14 +10,7 @@
         "typescript-react-query"
       ],
       "config": {
-        "fetcher": {
-          "endpoint": "http://localhost:5000/graphql",
-          "fetchParams": {
-            "headers": {
-              "Content-Type": "application/json"
-            }
-          }
-        }
+        "fetcher": "graphql-request"
       }
     }
   }
