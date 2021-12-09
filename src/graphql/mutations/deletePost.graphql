@@ -1,7 +1,0 @@
-mutation deletePost($postId: MongoID!) {
-    postRemoveById(
-        _id: $postId
-    ) {
-        recordId
-    }
-}
