@@ -11,7 +11,6 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <Router />
             </QueryClientProvider>
-            npm install --save graphql
         </div>
     );
 }
