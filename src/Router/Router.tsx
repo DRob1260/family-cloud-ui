@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { Navigator } from '../Navigator/Navigator';
 import { Home } from '../Home/Home';
 
@@ -8,9 +8,11 @@ export const Router: React.FunctionComponent = () => {
         <div className={'Router'}>
             <BrowserRouter>
                 <Navigator />
-                <Routes>
-                    <Route path={'/family-cloud'} element={<Home />} />
-                </Routes>
+                <Switch>
+                    <Route path={'/family-cloud'}>
+                        <Home />
+                    </Route>
+                </Switch>
             </BrowserRouter>
         </div>
     );
