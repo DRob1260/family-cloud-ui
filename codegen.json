@@ -1,0 +1,31 @@
+{
+  "overwrite": true,
+  "schema": {
+    "https://liked-malamute-74.hasura.app/v1/graphql": {
+      "headers": {
+        "x-hasura-role": "user",
+        "x-hasura-admin-secret": "${HASURA_SECRET}"
+      }
+    }
+  },
+  "documents": "src/**/*.graphql",
+  "generates": {
+    "src/types/hasura.ts": {
+      "plugins": [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-query"
+      ],
+      "config": {
+        "fetcher": {
+          "endpoint": "https://liked-malamute-74.hasura.app/v1/graphql",
+          "fetchParams": {
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

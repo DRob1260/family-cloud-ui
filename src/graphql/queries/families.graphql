@@ -1,0 +1,6 @@
+query Families {
+    family {
+        surname
+        id
+    }
+}

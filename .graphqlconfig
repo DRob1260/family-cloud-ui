@@ -1,0 +1,17 @@
+{
+  "name": "hasura",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "https://liked-malamute-74.hasura.app/v1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "x-hasura-role": "user",
+          "x-hasura-admin-secret": "${env:HASURA_SECRET}"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
