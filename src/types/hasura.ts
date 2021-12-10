@@ -1614,6 +1614,13 @@ export type InsertWishListMutationVariables = Exact<{
 
 export type InsertWishListMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_one?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string } | null | undefined };
 
+export type GetWishListByIdQueryVariables = Exact<{
+  wishListId: Scalars['Int'];
+}>;
+
+
+export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', description?: string | null | undefined, title: string, author: { __typename?: 'familycloud_person', nickname: string }, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, id: number, title: string, created_at: any, updated_at: any, url?: string | null | undefined }> } | null | undefined };
+
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1642,6 +1649,39 @@ export const useInsertWishListMutation = <
     useMutation<InsertWishListMutation, TError, InsertWishListMutationVariables, TContext>(
       'InsertWishList',
       (variables?: InsertWishListMutationVariables) => fetcher<InsertWishListMutation, InsertWishListMutationVariables>(client, InsertWishListDocument, variables, headers)(),
+      options
+    );
+export const GetWishListByIdDocument = `
+    query GetWishListById($wishListId: Int!) {
+  familycloud_wish_list_by_pk(id: $wishListId) {
+    author: person {
+      nickname
+    }
+    description
+    title
+    wish_list_items {
+      description
+      id
+      title
+      created_at
+      updated_at
+      url
+    }
+  }
+}
+    `;
+export const useGetWishListByIdQuery = <
+      TData = GetWishListByIdQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetWishListByIdQueryVariables,
+      options?: UseQueryOptions<GetWishListByIdQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetWishListByIdQuery, TError, TData>(
+      ['GetWishListById', variables],
+      fetcher<GetWishListByIdQuery, GetWishListByIdQueryVariables>(client, GetWishListByIdDocument, variables, headers),
       options
     );
 export const WishListsDocument = `

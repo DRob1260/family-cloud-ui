@@ -1,0 +1,17 @@
+query GetWishListById($wishListId: Int!) {
+    familycloud_wish_list_by_pk(id: $wishListId) {
+        author: person {
+            nickname
+        }
+        description
+        title
+        wish_list_items {
+            description
+            id
+            title
+            created_at
+            updated_at
+            url
+        }
+    }
+}
