@@ -1614,12 +1614,22 @@ export type InsertWishListMutationVariables = Exact<{
 
 export type InsertWishListMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_one?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string } | null | undefined };
 
+export type InsertWishListItemMutationVariables = Exact<{
+  wishListId: Scalars['Int'];
+  title: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type InsertWishListItemMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item?: { __typename?: 'familycloud_wish_list_item_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item', id: number }> } | null | undefined };
+
 export type GetWishListByIdQueryVariables = Exact<{
   wishListId: Scalars['Int'];
 }>;
 
 
-export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', description?: string | null | undefined, title: string, author: { __typename?: 'familycloud_person', nickname: string }, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, id: number, title: string, created_at: any, updated_at: any, url?: string | null | undefined }> } | null | undefined };
+export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string, author: { __typename?: 'familycloud_person', nickname: string }, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, id: number, title: string, created_at: any, updated_at: any, url?: string | null | undefined }> } | null | undefined };
 
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1651,9 +1661,34 @@ export const useInsertWishListMutation = <
       (variables?: InsertWishListMutationVariables) => fetcher<InsertWishListMutation, InsertWishListMutationVariables>(client, InsertWishListDocument, variables, headers)(),
       options
     );
+export const InsertWishListItemDocument = `
+    mutation insertWishListItem($wishListId: Int!, $title: String!, $description: String, $url: String) {
+  insert_familycloud_wish_list_item(
+    objects: {wish_list_id: $wishListId, title: $title, description: $description, url: $url}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export const useInsertWishListItemMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InsertWishListItemMutation, TError, InsertWishListItemMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InsertWishListItemMutation, TError, InsertWishListItemMutationVariables, TContext>(
+      'insertWishListItem',
+      (variables?: InsertWishListItemMutationVariables) => fetcher<InsertWishListItemMutation, InsertWishListItemMutationVariables>(client, InsertWishListItemDocument, variables, headers)(),
+      options
+    );
 export const GetWishListByIdDocument = `
     query GetWishListById($wishListId: Int!) {
   familycloud_wish_list_by_pk(id: $wishListId) {
+    id
     author: person {
       nickname
     }

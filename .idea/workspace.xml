@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="able to create a new wish list">
-      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/queries/WishListById.graphql" afterDir="false" />
+    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="started on ability to edit a wish list">
+      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/InsertWishListItem.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/codegen.js" beforeDir="false" afterPath="$PROJECT_DIR$/codegen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/queries/WishListById.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/queries/WishListById.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/hasura.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/hasura.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +21,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="2256N0nYEAEeE7H5tMgCsajdjnu" />
   <component name="ProjectViewState">
@@ -57,7 +67,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1639115057002</updated>
-      <workItem from="1639115060158" duration="7770000" />
+      <workItem from="1639115060158" duration="14048000" />
     </task>
     <task id="LOCAL-00001" summary="can successfully query hasura api">
       <created>1639119470233</created>
@@ -73,7 +83,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639121721848</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="started on ability to edit a wish list">
+      <created>1639144990569</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639144990569</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,7 +110,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="can successfully query hasura api" />
     <MESSAGE value="able to create a new wish list" />
-    <option name="LAST_COMMIT_MESSAGE" value="able to create a new wish list" />
+    <MESSAGE value="started on ability to edit a wish list" />
+    <option name="LAST_COMMIT_MESSAGE" value="started on ability to edit a wish list" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

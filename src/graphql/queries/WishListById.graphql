@@ -1,5 +1,6 @@
 query GetWishListById($wishListId: Int!) {
     familycloud_wish_list_by_pk(id: $wishListId) {
+        id
         author: person {
             nickname
         }
