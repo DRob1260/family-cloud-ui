@@ -2,6 +2,7 @@ import React from 'react';
 import './Navigator.scss';
 import { AppBar, Button, Toolbar } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
+import { AuthButton } from './AuthButton/AuthButton';
 
 export const Navigator: React.FunctionComponent = () => {
     const { loginWithRedirect } = useAuth0();
@@ -14,12 +15,7 @@ export const Navigator: React.FunctionComponent = () => {
                     <Button variant={'text'} href={'/family-cloud'}>
                         Family Cloud 🌥
                     </Button>
-                    <Button
-                        variant={'outlined'}
-                        onClick={() => loginWithRedirect()}
-                    >
-                        Login
-                    </Button>
+                    <AuthButton />
                 </Toolbar>
             </AppBar>
         </div>

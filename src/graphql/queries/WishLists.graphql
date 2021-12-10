@@ -1,0 +1,7 @@
+query WishLists {
+    familycloud_wish_list {
+        title
+        description
+        id
+    }
+}

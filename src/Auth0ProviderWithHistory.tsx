@@ -6,6 +6,7 @@ export const Auth0ProviderWithHistory: React.FunctionComponent = ({
     children,
 }) => {
     const history = useHistory();
+
     const domain = process.env.REACT_APP_AUTH0_DOMAIN || '';
     const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || '';
 
@@ -17,7 +18,10 @@ export const Auth0ProviderWithHistory: React.FunctionComponent = ({
         <Auth0Provider
             domain={domain}
             clientId={clientId}
-            redirectUri={window.location.origin}
+            redirectUri={`${window.location.origin}/family-cloud`}
+            audience={"family-cloud"}
+            responseType={"token id_token"}
+            scope={"openid profile update:user"}
             onRedirectCallback={onRedirectCallback}
         >
             {children}

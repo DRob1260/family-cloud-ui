@@ -1,19 +1,31 @@
 import React from 'react';
 import './App.scss';
-import { Router } from '../Router/Router';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Auth0ProviderWithHistory } from '../Auth0ProviderWithHistory';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Home } from '../Home/Home';
+import { Navigator } from '../Navigator/Navigator';
+import { Auth0TokenWrapper } from '../Auth0TokenWrapper';
 
 const queryClient = new QueryClient();
 
 function App() {
     return (
         <div className="App">
-            <Auth0ProviderWithHistory>
-                <QueryClientProvider client={queryClient}>
-                    <Router />
-                </QueryClientProvider>
-            </Auth0ProviderWithHistory>
+            <BrowserRouter>
+                <Auth0ProviderWithHistory>
+                    <QueryClientProvider client={queryClient}>
+                        <Navigator />
+                        <Switch>
+                            <Route path={'/family-cloud'}>
+                                <Auth0TokenWrapper>
+                                    <Home />
+                                </Auth0TokenWrapper>
+                            </Route>
+                        </Switch>
+                    </QueryClientProvider>
+                </Auth0ProviderWithHistory>
+            </BrowserRouter>
         </div>
     );
 }

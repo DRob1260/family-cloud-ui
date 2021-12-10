@@ -1,3 +1,5 @@
+import { GraphQLClient } from 'graphql-request';
+import { RequestInit } from 'graphql-request/dist/types.dom';
 import { useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -5,24 +7,8 @@ export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K]
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch("https://liked-malamute-74.hasura.app/v1/graphql", {
-    method: "POST",
-    ...({"headers":{"Content-Type":"application/json"}}),
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
+function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
+  return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -46,6 +32,19 @@ export type Boolean_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['Boolean']>;
   _neq?: InputMaybe<Scalars['Boolean']>;
   _nin?: InputMaybe<Array<Scalars['Boolean']>>;
+};
+
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type Int_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Int']>;
+  _gt?: InputMaybe<Scalars['Int']>;
+  _gte?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Int']>;
+  _lte?: InputMaybe<Scalars['Int']>;
+  _neq?: InputMaybe<Scalars['Int']>;
+  _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -81,580 +80,1248 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']>;
 };
 
-/** columns and relationships of "family" */
-export type Family = {
-  __typename?: 'family';
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_Person = {
+  __typename?: 'familycloud_person';
   created_at: Scalars['timestamptz'];
+  id: Scalars['String'];
+  nickname: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
   /** An array relationship */
-  family_members: Array<Family_Member>;
+  wish_list_invites: Array<Familycloud_Wish_List_Invite>;
   /** An aggregate relationship */
-  family_members_aggregate: Family_Member_Aggregate;
-  id: Scalars['uuid'];
-  surname: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
+  wish_list_invites_aggregate: Familycloud_Wish_List_Invite_Aggregate;
+  /** An array relationship */
+  wish_lists: Array<Familycloud_Wish_List>;
+  /** An aggregate relationship */
+  wish_lists_aggregate: Familycloud_Wish_List_Aggregate;
 };
 
 
-/** columns and relationships of "family" */
-export type FamilyFamily_MembersArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_List_InvitesArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
 };
 
 
-/** columns and relationships of "family" */
-export type FamilyFamily_Members_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_List_Invites_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
 };
 
-/** aggregated selection of "family" */
-export type Family_Aggregate = {
-  __typename?: 'family_aggregate';
-  aggregate?: Maybe<Family_Aggregate_Fields>;
-  nodes: Array<Family>;
+
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_ListsArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
 };
 
-/** aggregate fields of "family" */
-export type Family_Aggregate_Fields = {
-  __typename?: 'family_aggregate_fields';
+
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_Lists_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+/** aggregated selection of "familycloud.person" */
+export type Familycloud_Person_Aggregate = {
+  __typename?: 'familycloud_person_aggregate';
+  aggregate?: Maybe<Familycloud_Person_Aggregate_Fields>;
+  nodes: Array<Familycloud_Person>;
+};
+
+/** aggregate fields of "familycloud.person" */
+export type Familycloud_Person_Aggregate_Fields = {
+  __typename?: 'familycloud_person_aggregate_fields';
   count: Scalars['Int'];
-  max?: Maybe<Family_Max_Fields>;
-  min?: Maybe<Family_Min_Fields>;
+  max?: Maybe<Familycloud_Person_Max_Fields>;
+  min?: Maybe<Familycloud_Person_Min_Fields>;
 };
 
 
-/** aggregate fields of "family" */
-export type Family_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Family_Select_Column>>;
+/** aggregate fields of "familycloud.person" */
+export type Familycloud_Person_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Familycloud_Person_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
-/** Boolean expression to filter rows from the table "family". All fields are combined with a logical 'AND'. */
-export type Family_Bool_Exp = {
-  _and?: InputMaybe<Array<Family_Bool_Exp>>;
-  _not?: InputMaybe<Family_Bool_Exp>;
-  _or?: InputMaybe<Array<Family_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "familycloud.person". All fields are combined with a logical 'AND'. */
+export type Familycloud_Person_Bool_Exp = {
+  _and?: InputMaybe<Array<Familycloud_Person_Bool_Exp>>;
+  _not?: InputMaybe<Familycloud_Person_Bool_Exp>;
+  _or?: InputMaybe<Array<Familycloud_Person_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  family_members?: InputMaybe<Family_Member_Bool_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  surname?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "family" */
-export enum Family_Constraint {
-  /** unique or primary key constraint */
-  FamilyPkey = 'family_pkey'
-}
-
-/** input type for inserting data into table "family" */
-export type Family_Insert_Input = {
-  family_members?: InputMaybe<Family_Member_Arr_Rel_Insert_Input>;
-  surname?: InputMaybe<Scalars['String']>;
+  wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+  wish_lists?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
 };
 
 /** aggregate max on columns */
-export type Family_Max_Fields = {
-  __typename?: 'family_max_fields';
+export type Familycloud_Person_Max_Fields = {
+  __typename?: 'familycloud_person_max_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  surname?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** columns and relationships of "family_member" */
-export type Family_Member = {
-  __typename?: 'family_member';
-  admin: Scalars['Boolean'];
-  created_at: Scalars['timestamptz'];
-  /** An object relationship */
-  family: Family;
-  family_id: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: User;
-  user_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "family_member" */
-export type Family_Member_Aggregate = {
-  __typename?: 'family_member_aggregate';
-  aggregate?: Maybe<Family_Member_Aggregate_Fields>;
-  nodes: Array<Family_Member>;
-};
-
-/** aggregate fields of "family_member" */
-export type Family_Member_Aggregate_Fields = {
-  __typename?: 'family_member_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Family_Member_Max_Fields>;
-  min?: Maybe<Family_Member_Min_Fields>;
-};
-
-
-/** aggregate fields of "family_member" */
-export type Family_Member_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Family_Member_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "family_member" */
-export type Family_Member_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Family_Member_Max_Order_By>;
-  min?: InputMaybe<Family_Member_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "family_member" */
-export type Family_Member_Arr_Rel_Insert_Input = {
-  data: Array<Family_Member_Insert_Input>;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Family_Member_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "family_member". All fields are combined with a logical 'AND'. */
-export type Family_Member_Bool_Exp = {
-  _and?: InputMaybe<Array<Family_Member_Bool_Exp>>;
-  _not?: InputMaybe<Family_Member_Bool_Exp>;
-  _or?: InputMaybe<Array<Family_Member_Bool_Exp>>;
-  admin?: InputMaybe<Boolean_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  family?: InputMaybe<Family_Bool_Exp>;
-  family_id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "family_member" */
-export enum Family_Member_Constraint {
-  /** unique or primary key constraint */
-  FamilyMemberPkey = 'family_member_pkey'
-}
-
-/** input type for inserting data into table "family_member" */
-export type Family_Member_Insert_Input = {
-  admin?: InputMaybe<Scalars['Boolean']>;
-  family?: InputMaybe<Family_Obj_Rel_Insert_Input>;
-  family_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type Family_Member_Max_Fields = {
-  __typename?: 'family_member_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  family_id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "family_member" */
-export type Family_Member_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  family_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
-export type Family_Member_Min_Fields = {
-  __typename?: 'family_member_min_fields';
+export type Familycloud_Person_Min_Fields = {
+  __typename?: 'familycloud_person_min_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
-  family_id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "family_member" */
-export type Family_Member_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  family_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "family_member" */
-export type Family_Member_Mutation_Response = {
-  __typename?: 'family_member_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Family_Member>;
-};
-
-/** on conflict condition type for table "family_member" */
-export type Family_Member_On_Conflict = {
-  constraint: Family_Member_Constraint;
-  update_columns?: Array<Family_Member_Update_Column>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "family_member". */
-export type Family_Member_Order_By = {
-  admin?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  family?: InputMaybe<Family_Order_By>;
-  family_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: family_member */
-export type Family_Member_Pk_Columns_Input = {
-  family_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-/** select columns of table "family_member" */
-export enum Family_Member_Select_Column {
-  /** column name */
-  Admin = 'admin',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  FamilyId = 'family_id',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id'
-}
-
-/** input type for updating data in table "family_member" */
-export type Family_Member_Set_Input = {
-  admin?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** update columns of table "family_member" */
-export enum Family_Member_Update_Column {
-  /** column name */
-  Admin = 'admin'
-}
-
-/** aggregate min on columns */
-export type Family_Min_Fields = {
-  __typename?: 'family_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  surname?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
-/** response of any mutation on the table "family" */
-export type Family_Mutation_Response = {
-  __typename?: 'family_mutation_response';
+/** response of any mutation on the table "familycloud.person" */
+export type Familycloud_Person_Mutation_Response = {
+  __typename?: 'familycloud_person_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<Family>;
+  returning: Array<Familycloud_Person>;
 };
 
-/** input type for inserting object relation for remote table "family" */
-export type Family_Obj_Rel_Insert_Input = {
-  data: Family_Insert_Input;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Family_On_Conflict>;
-};
-
-/** on conflict condition type for table "family" */
-export type Family_On_Conflict = {
-  constraint: Family_Constraint;
-  update_columns?: Array<Family_Update_Column>;
-  where?: InputMaybe<Family_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "family". */
-export type Family_Order_By = {
+/** Ordering options when selecting data from "familycloud.person". */
+export type Familycloud_Person_Order_By = {
   created_at?: InputMaybe<Order_By>;
-  family_members_aggregate?: InputMaybe<Family_Member_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
-  surname?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  wish_list_invites_aggregate?: InputMaybe<Familycloud_Wish_List_Invite_Aggregate_Order_By>;
+  wish_lists_aggregate?: InputMaybe<Familycloud_Wish_List_Aggregate_Order_By>;
 };
 
-/** primary key columns input for table: family */
-export type Family_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+/** primary key columns input for table: familycloud_person */
+export type Familycloud_Person_Pk_Columns_Input = {
+  id: Scalars['String'];
 };
 
-/** select columns of table "family" */
-export enum Family_Select_Column {
+/** select columns of table "familycloud.person" */
+export enum Familycloud_Person_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
   /** column name */
-  Surname = 'surname',
+  Nickname = 'nickname',
   /** column name */
   UpdatedAt = 'updated_at'
 }
 
-/** input type for updating data in table "family" */
-export type Family_Set_Input = {
-  surname?: InputMaybe<Scalars['String']>;
+/** input type for updating data in table "familycloud.person" */
+export type Familycloud_Person_Set_Input = {
+  nickname?: InputMaybe<Scalars['String']>;
 };
 
-/** update columns of table "family" */
-export enum Family_Update_Column {
-  /** column name */
-  Surname = 'surname'
+/** columns and relationships of "familycloud.wish_list" */
+export type Familycloud_Wish_List = {
+  __typename?: 'familycloud_wish_list';
+  author_id: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  /** An object relationship */
+  person: Familycloud_Person;
+  title: Scalars['String'];
+  /** An array relationship */
+  wish_list_invites: Array<Familycloud_Wish_List_Invite>;
+  /** An aggregate relationship */
+  wish_list_invites_aggregate: Familycloud_Wish_List_Invite_Aggregate;
+  /** An array relationship */
+  wish_list_items: Array<Familycloud_Wish_List_Item>;
+  /** An aggregate relationship */
+  wish_list_items_aggregate: Familycloud_Wish_List_Item_Aggregate;
+};
+
+
+/** columns and relationships of "familycloud.wish_list" */
+export type Familycloud_Wish_ListWish_List_InvitesArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.wish_list" */
+export type Familycloud_Wish_ListWish_List_Invites_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.wish_list" */
+export type Familycloud_Wish_ListWish_List_ItemsArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.wish_list" */
+export type Familycloud_Wish_ListWish_List_Items_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+};
+
+/** aggregated selection of "familycloud.wish_list" */
+export type Familycloud_Wish_List_Aggregate = {
+  __typename?: 'familycloud_wish_list_aggregate';
+  aggregate?: Maybe<Familycloud_Wish_List_Aggregate_Fields>;
+  nodes: Array<Familycloud_Wish_List>;
+};
+
+/** aggregate fields of "familycloud.wish_list" */
+export type Familycloud_Wish_List_Aggregate_Fields = {
+  __typename?: 'familycloud_wish_list_aggregate_fields';
+  avg?: Maybe<Familycloud_Wish_List_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Familycloud_Wish_List_Max_Fields>;
+  min?: Maybe<Familycloud_Wish_List_Min_Fields>;
+  stddev?: Maybe<Familycloud_Wish_List_Stddev_Fields>;
+  stddev_pop?: Maybe<Familycloud_Wish_List_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Familycloud_Wish_List_Stddev_Samp_Fields>;
+  sum?: Maybe<Familycloud_Wish_List_Sum_Fields>;
+  var_pop?: Maybe<Familycloud_Wish_List_Var_Pop_Fields>;
+  var_samp?: Maybe<Familycloud_Wish_List_Var_Samp_Fields>;
+  variance?: Maybe<Familycloud_Wish_List_Variance_Fields>;
+};
+
+
+/** aggregate fields of "familycloud.wish_list" */
+export type Familycloud_Wish_List_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Aggregate_Order_By = {
+  avg?: InputMaybe<Familycloud_Wish_List_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Familycloud_Wish_List_Max_Order_By>;
+  min?: InputMaybe<Familycloud_Wish_List_Min_Order_By>;
+  stddev?: InputMaybe<Familycloud_Wish_List_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Familycloud_Wish_List_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Familycloud_Wish_List_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Familycloud_Wish_List_Sum_Order_By>;
+  var_pop?: InputMaybe<Familycloud_Wish_List_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Familycloud_Wish_List_Var_Samp_Order_By>;
+  variance?: InputMaybe<Familycloud_Wish_List_Variance_Order_By>;
+};
+
+/** aggregate avg on columns */
+export type Familycloud_Wish_List_Avg_Fields = {
+  __typename?: 'familycloud_wish_list_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "familycloud.wish_list". All fields are combined with a logical 'AND'. */
+export type Familycloud_Wish_List_Bool_Exp = {
+  _and?: InputMaybe<Array<Familycloud_Wish_List_Bool_Exp>>;
+  _not?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+  _or?: InputMaybe<Array<Familycloud_Wish_List_Bool_Exp>>;
+  author_id?: InputMaybe<String_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  person?: InputMaybe<Familycloud_Person_Bool_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+  wish_list_items?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "familycloud.wish_list" */
+export enum Familycloud_Wish_List_Constraint {
+  /** unique or primary key constraint */
+  WishListPkey = 'wish_list_pkey'
 }
+
+/** input type for inserting data into table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Arr_Rel_Insert_Input>;
+  wish_list_items?: InputMaybe<Familycloud_Wish_List_Item_Arr_Rel_Insert_Input>;
+};
+
+/** columns and relationships of "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite = {
+  __typename?: 'familycloud_wish_list_invite';
+  admin: Scalars['Boolean'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  person: Familycloud_Person;
+  person_id: Scalars['String'];
+  status: Scalars['String'];
+  /** An object relationship */
+  wish_list: Familycloud_Wish_List;
+  wish_list_id: Scalars['Int'];
+};
+
+/** aggregated selection of "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Aggregate = {
+  __typename?: 'familycloud_wish_list_invite_aggregate';
+  aggregate?: Maybe<Familycloud_Wish_List_Invite_Aggregate_Fields>;
+  nodes: Array<Familycloud_Wish_List_Invite>;
+};
+
+/** aggregate fields of "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Aggregate_Fields = {
+  __typename?: 'familycloud_wish_list_invite_aggregate_fields';
+  avg?: Maybe<Familycloud_Wish_List_Invite_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Familycloud_Wish_List_Invite_Max_Fields>;
+  min?: Maybe<Familycloud_Wish_List_Invite_Min_Fields>;
+  stddev?: Maybe<Familycloud_Wish_List_Invite_Stddev_Fields>;
+  stddev_pop?: Maybe<Familycloud_Wish_List_Invite_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Familycloud_Wish_List_Invite_Stddev_Samp_Fields>;
+  sum?: Maybe<Familycloud_Wish_List_Invite_Sum_Fields>;
+  var_pop?: Maybe<Familycloud_Wish_List_Invite_Var_Pop_Fields>;
+  var_samp?: Maybe<Familycloud_Wish_List_Invite_Var_Samp_Fields>;
+  variance?: Maybe<Familycloud_Wish_List_Invite_Variance_Fields>;
+};
+
+
+/** aggregate fields of "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Aggregate_Order_By = {
+  avg?: InputMaybe<Familycloud_Wish_List_Invite_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Familycloud_Wish_List_Invite_Max_Order_By>;
+  min?: InputMaybe<Familycloud_Wish_List_Invite_Min_Order_By>;
+  stddev?: InputMaybe<Familycloud_Wish_List_Invite_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Familycloud_Wish_List_Invite_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Familycloud_Wish_List_Invite_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Familycloud_Wish_List_Invite_Sum_Order_By>;
+  var_pop?: InputMaybe<Familycloud_Wish_List_Invite_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Familycloud_Wish_List_Invite_Var_Samp_Order_By>;
+  variance?: InputMaybe<Familycloud_Wish_List_Invite_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Arr_Rel_Insert_Input = {
+  data: Array<Familycloud_Wish_List_Invite_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Invite_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Familycloud_Wish_List_Invite_Avg_Fields = {
+  __typename?: 'familycloud_wish_list_invite_avg_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Avg_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "familycloud.wish_list_invite". All fields are combined with a logical 'AND'. */
+export type Familycloud_Wish_List_Invite_Bool_Exp = {
+  _and?: InputMaybe<Array<Familycloud_Wish_List_Invite_Bool_Exp>>;
+  _not?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+  _or?: InputMaybe<Array<Familycloud_Wish_List_Invite_Bool_Exp>>;
+  admin?: InputMaybe<Boolean_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  person?: InputMaybe<Familycloud_Person_Bool_Exp>;
+  person_id?: InputMaybe<String_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+  wish_list_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "familycloud.wish_list_invite" */
+export enum Familycloud_Wish_List_Invite_Constraint {
+  /** unique or primary key constraint */
+  WishListInviteIdKey = 'wish_list_invite_id_key',
+  /** unique or primary key constraint */
+  WishListInvitePkey = 'wish_list_invite_pkey'
+}
+
+/** input type for inserting data into table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Insert_Input = {
+  admin?: InputMaybe<Scalars['Boolean']>;
+  person_id?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Obj_Rel_Insert_Input>;
+  wish_list_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Familycloud_Wish_List_Invite_Max_Fields = {
+  __typename?: 'familycloud_wish_list_invite_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  person_id?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  person_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Familycloud_Wish_List_Invite_Min_Fields = {
+  __typename?: 'familycloud_wish_list_invite_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  person_id?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  person_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Mutation_Response = {
+  __typename?: 'familycloud_wish_list_invite_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Familycloud_Wish_List_Invite>;
+};
+
+/** on conflict condition type for table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_On_Conflict = {
+  constraint: Familycloud_Wish_List_Invite_Constraint;
+  update_columns?: Array<Familycloud_Wish_List_Invite_Update_Column>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "familycloud.wish_list_invite". */
+export type Familycloud_Wish_List_Invite_Order_By = {
+  admin?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Familycloud_Person_Order_By>;
+  person_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: familycloud_wish_list_invite */
+export type Familycloud_Wish_List_Invite_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "familycloud.wish_list_invite" */
+export enum Familycloud_Wish_List_Invite_Select_Column {
+  /** column name */
+  Admin = 'admin',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PersonId = 'person_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  WishListId = 'wish_list_id'
+}
+
+/** input type for updating data in table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Set_Input = {
+  admin?: InputMaybe<Scalars['Boolean']>;
+  status?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Familycloud_Wish_List_Invite_Stddev_Fields = {
+  __typename?: 'familycloud_wish_list_invite_stddev_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Stddev_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Familycloud_Wish_List_Invite_Stddev_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_invite_stddev_pop_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Stddev_Pop_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Familycloud_Wish_List_Invite_Stddev_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_invite_stddev_samp_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Stddev_Samp_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Familycloud_Wish_List_Invite_Sum_Fields = {
+  __typename?: 'familycloud_wish_list_invite_sum_fields';
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Sum_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "familycloud.wish_list_invite" */
+export enum Familycloud_Wish_List_Invite_Update_Column {
+  /** column name */
+  Admin = 'admin',
+  /** column name */
+  Status = 'status'
+}
+
+/** aggregate var_pop on columns */
+export type Familycloud_Wish_List_Invite_Var_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_invite_var_pop_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Var_Pop_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Familycloud_Wish_List_Invite_Var_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_invite_var_samp_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Var_Samp_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Familycloud_Wish_List_Invite_Variance_Fields = {
+  __typename?: 'familycloud_wish_list_invite_variance_fields';
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "familycloud.wish_list_invite" */
+export type Familycloud_Wish_List_Invite_Variance_Order_By = {
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item = {
+  __typename?: 'familycloud_wish_list_item';
+  created_at: Scalars['timestamptz'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+  url?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  wish_list: Familycloud_Wish_List;
+  wish_list_id: Scalars['Int'];
+};
+
+/** aggregated selection of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Aggregate = {
+  __typename?: 'familycloud_wish_list_item_aggregate';
+  aggregate?: Maybe<Familycloud_Wish_List_Item_Aggregate_Fields>;
+  nodes: Array<Familycloud_Wish_List_Item>;
+};
+
+/** aggregate fields of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Aggregate_Fields = {
+  __typename?: 'familycloud_wish_list_item_aggregate_fields';
+  avg?: Maybe<Familycloud_Wish_List_Item_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Familycloud_Wish_List_Item_Max_Fields>;
+  min?: Maybe<Familycloud_Wish_List_Item_Min_Fields>;
+  stddev?: Maybe<Familycloud_Wish_List_Item_Stddev_Fields>;
+  stddev_pop?: Maybe<Familycloud_Wish_List_Item_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Familycloud_Wish_List_Item_Stddev_Samp_Fields>;
+  sum?: Maybe<Familycloud_Wish_List_Item_Sum_Fields>;
+  var_pop?: Maybe<Familycloud_Wish_List_Item_Var_Pop_Fields>;
+  var_samp?: Maybe<Familycloud_Wish_List_Item_Var_Samp_Fields>;
+  variance?: Maybe<Familycloud_Wish_List_Item_Variance_Fields>;
+};
+
+
+/** aggregate fields of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Aggregate_Order_By = {
+  avg?: InputMaybe<Familycloud_Wish_List_Item_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Familycloud_Wish_List_Item_Max_Order_By>;
+  min?: InputMaybe<Familycloud_Wish_List_Item_Min_Order_By>;
+  stddev?: InputMaybe<Familycloud_Wish_List_Item_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Familycloud_Wish_List_Item_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Familycloud_Wish_List_Item_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Familycloud_Wish_List_Item_Sum_Order_By>;
+  var_pop?: InputMaybe<Familycloud_Wish_List_Item_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Familycloud_Wish_List_Item_Var_Samp_Order_By>;
+  variance?: InputMaybe<Familycloud_Wish_List_Item_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Arr_Rel_Insert_Input = {
+  data: Array<Familycloud_Wish_List_Item_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Familycloud_Wish_List_Item_Avg_Fields = {
+  __typename?: 'familycloud_wish_list_item_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "familycloud.wish_list_item". All fields are combined with a logical 'AND'. */
+export type Familycloud_Wish_List_Item_Bool_Exp = {
+  _and?: InputMaybe<Array<Familycloud_Wish_List_Item_Bool_Exp>>;
+  _not?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+  _or?: InputMaybe<Array<Familycloud_Wish_List_Item_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+  wish_list_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "familycloud.wish_list_item" */
+export enum Familycloud_Wish_List_Item_Constraint {
+  /** unique or primary key constraint */
+  WishListItemIdKey = 'wish_list_item_id_key',
+  /** unique or primary key constraint */
+  WishListItemPkey = 'wish_list_item_pkey'
+}
+
+/** input type for inserting data into table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Obj_Rel_Insert_Input>;
+  wish_list_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Familycloud_Wish_List_Item_Max_Fields = {
+  __typename?: 'familycloud_wish_list_item_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  url?: Maybe<Scalars['String']>;
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Familycloud_Wish_List_Item_Min_Fields = {
+  __typename?: 'familycloud_wish_list_item_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  url?: Maybe<Scalars['String']>;
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Mutation_Response = {
+  __typename?: 'familycloud_wish_list_item_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Familycloud_Wish_List_Item>;
+};
+
+/** on conflict condition type for table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_On_Conflict = {
+  constraint: Familycloud_Wish_List_Item_Constraint;
+  update_columns?: Array<Familycloud_Wish_List_Item_Update_Column>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "familycloud.wish_list_item". */
+export type Familycloud_Wish_List_Item_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: familycloud_wish_list_item */
+export type Familycloud_Wish_List_Item_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "familycloud.wish_list_item" */
+export enum Familycloud_Wish_List_Item_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Url = 'url',
+  /** column name */
+  WishListId = 'wish_list_id'
+}
+
+/** input type for updating data in table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Familycloud_Wish_List_Item_Stddev_Fields = {
+  __typename?: 'familycloud_wish_list_item_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Familycloud_Wish_List_Item_Stddev_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_item_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Familycloud_Wish_List_Item_Stddev_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_item_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Familycloud_Wish_List_Item_Sum_Fields = {
+  __typename?: 'familycloud_wish_list_item_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  wish_list_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "familycloud.wish_list_item" */
+export enum Familycloud_Wish_List_Item_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  Url = 'url'
+}
+
+/** aggregate var_pop on columns */
+export type Familycloud_Wish_List_Item_Var_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_item_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Familycloud_Wish_List_Item_Var_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_item_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Familycloud_Wish_List_Item_Variance_Fields = {
+  __typename?: 'familycloud_wish_list_item_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate max on columns */
+export type Familycloud_Wish_List_Max_Fields = {
+  __typename?: 'familycloud_wish_list_max_fields';
+  author_id?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Max_Order_By = {
+  author_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Familycloud_Wish_List_Min_Fields = {
+  __typename?: 'familycloud_wish_list_min_fields';
+  author_id?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Min_Order_By = {
+  author_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Mutation_Response = {
+  __typename?: 'familycloud_wish_list_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Familycloud_Wish_List>;
+};
+
+/** input type for inserting object relation for remote table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Obj_Rel_Insert_Input = {
+  data: Familycloud_Wish_List_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Familycloud_Wish_List_On_Conflict>;
+};
+
+/** on conflict condition type for table "familycloud.wish_list" */
+export type Familycloud_Wish_List_On_Conflict = {
+  constraint: Familycloud_Wish_List_Constraint;
+  update_columns?: Array<Familycloud_Wish_List_Update_Column>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "familycloud.wish_list". */
+export type Familycloud_Wish_List_Order_By = {
+  author_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Familycloud_Person_Order_By>;
+  title?: InputMaybe<Order_By>;
+  wish_list_invites_aggregate?: InputMaybe<Familycloud_Wish_List_Invite_Aggregate_Order_By>;
+  wish_list_items_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: familycloud_wish_list */
+export type Familycloud_Wish_List_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "familycloud.wish_list" */
+export enum Familycloud_Wish_List_Select_Column {
+  /** column name */
+  AuthorId = 'author_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title'
+}
+
+/** input type for updating data in table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Familycloud_Wish_List_Stddev_Fields = {
+  __typename?: 'familycloud_wish_list_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Familycloud_Wish_List_Stddev_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Familycloud_Wish_List_Stddev_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Familycloud_Wish_List_Sum_Fields = {
+  __typename?: 'familycloud_wish_list_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "familycloud.wish_list" */
+export enum Familycloud_Wish_List_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Title = 'title'
+}
+
+/** aggregate var_pop on columns */
+export type Familycloud_Wish_List_Var_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Familycloud_Wish_List_Var_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Familycloud_Wish_List_Variance_Fields = {
+  __typename?: 'familycloud_wish_list_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "familycloud.wish_list" */
+export type Familycloud_Wish_List_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
 
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "family_member" */
-  delete_family_member?: Maybe<Family_Member_Mutation_Response>;
-  /** delete single row from the table: "family_member" */
-  delete_family_member_by_pk?: Maybe<Family_Member>;
-  /** delete data from the table: "wift" */
-  delete_wift?: Maybe<Wift_Mutation_Response>;
-  /** delete single row from the table: "wift" */
-  delete_wift_by_pk?: Maybe<Wift>;
-  /** delete data from the table: "wift_list" */
-  delete_wift_list?: Maybe<Wift_List_Mutation_Response>;
-  /** delete single row from the table: "wift_list" */
-  delete_wift_list_by_pk?: Maybe<Wift_List>;
-  /** delete data from the table: "wift_list_member" */
-  delete_wift_list_member?: Maybe<Wift_List_Member_Mutation_Response>;
-  /** delete single row from the table: "wift_list_member" */
-  delete_wift_list_member_by_pk?: Maybe<Wift_List_Member>;
-  /** insert data into the table: "family" */
-  insert_family?: Maybe<Family_Mutation_Response>;
-  /** insert data into the table: "family_member" */
-  insert_family_member?: Maybe<Family_Member_Mutation_Response>;
-  /** insert a single row into the table: "family_member" */
-  insert_family_member_one?: Maybe<Family_Member>;
-  /** insert a single row into the table: "family" */
-  insert_family_one?: Maybe<Family>;
-  /** insert data into the table: "wift" */
-  insert_wift?: Maybe<Wift_Mutation_Response>;
-  /** insert data into the table: "wift_list" */
-  insert_wift_list?: Maybe<Wift_List_Mutation_Response>;
-  /** insert data into the table: "wift_list_member" */
-  insert_wift_list_member?: Maybe<Wift_List_Member_Mutation_Response>;
-  /** insert a single row into the table: "wift_list_member" */
-  insert_wift_list_member_one?: Maybe<Wift_List_Member>;
-  /** insert a single row into the table: "wift_list" */
-  insert_wift_list_one?: Maybe<Wift_List>;
-  /** insert a single row into the table: "wift" */
-  insert_wift_one?: Maybe<Wift>;
-  /** update data of the table: "family" */
-  update_family?: Maybe<Family_Mutation_Response>;
-  /** update single row of the table: "family" */
-  update_family_by_pk?: Maybe<Family>;
-  /** update data of the table: "family_member" */
-  update_family_member?: Maybe<Family_Member_Mutation_Response>;
-  /** update single row of the table: "family_member" */
-  update_family_member_by_pk?: Maybe<Family_Member>;
-  /** update data of the table: "user" */
-  update_user?: Maybe<User_Mutation_Response>;
-  /** update single row of the table: "user" */
-  update_user_by_pk?: Maybe<User>;
-  /** update data of the table: "wift" */
-  update_wift?: Maybe<Wift_Mutation_Response>;
-  /** update single row of the table: "wift" */
-  update_wift_by_pk?: Maybe<Wift>;
-  /** update data of the table: "wift_list" */
-  update_wift_list?: Maybe<Wift_List_Mutation_Response>;
-  /** update single row of the table: "wift_list" */
-  update_wift_list_by_pk?: Maybe<Wift_List>;
+  /** delete data from the table: "familycloud.wish_list" */
+  delete_familycloud_wish_list?: Maybe<Familycloud_Wish_List_Mutation_Response>;
+  /** delete single row from the table: "familycloud.wish_list" */
+  delete_familycloud_wish_list_by_pk?: Maybe<Familycloud_Wish_List>;
+  /** delete data from the table: "familycloud.wish_list_invite" */
+  delete_familycloud_wish_list_invite?: Maybe<Familycloud_Wish_List_Invite_Mutation_Response>;
+  /** delete single row from the table: "familycloud.wish_list_invite" */
+  delete_familycloud_wish_list_invite_by_pk?: Maybe<Familycloud_Wish_List_Invite>;
+  /** delete data from the table: "familycloud.wish_list_item" */
+  delete_familycloud_wish_list_item?: Maybe<Familycloud_Wish_List_Item_Mutation_Response>;
+  /** delete single row from the table: "familycloud.wish_list_item" */
+  delete_familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
+  /** insert data into the table: "familycloud.wish_list" */
+  insert_familycloud_wish_list?: Maybe<Familycloud_Wish_List_Mutation_Response>;
+  /** insert data into the table: "familycloud.wish_list_invite" */
+  insert_familycloud_wish_list_invite?: Maybe<Familycloud_Wish_List_Invite_Mutation_Response>;
+  /** insert a single row into the table: "familycloud.wish_list_invite" */
+  insert_familycloud_wish_list_invite_one?: Maybe<Familycloud_Wish_List_Invite>;
+  /** insert data into the table: "familycloud.wish_list_item" */
+  insert_familycloud_wish_list_item?: Maybe<Familycloud_Wish_List_Item_Mutation_Response>;
+  /** insert a single row into the table: "familycloud.wish_list_item" */
+  insert_familycloud_wish_list_item_one?: Maybe<Familycloud_Wish_List_Item>;
+  /** insert a single row into the table: "familycloud.wish_list" */
+  insert_familycloud_wish_list_one?: Maybe<Familycloud_Wish_List>;
+  /** update data of the table: "familycloud.person" */
+  update_familycloud_person?: Maybe<Familycloud_Person_Mutation_Response>;
+  /** update single row of the table: "familycloud.person" */
+  update_familycloud_person_by_pk?: Maybe<Familycloud_Person>;
+  /** update data of the table: "familycloud.wish_list" */
+  update_familycloud_wish_list?: Maybe<Familycloud_Wish_List_Mutation_Response>;
+  /** update single row of the table: "familycloud.wish_list" */
+  update_familycloud_wish_list_by_pk?: Maybe<Familycloud_Wish_List>;
+  /** update data of the table: "familycloud.wish_list_invite" */
+  update_familycloud_wish_list_invite?: Maybe<Familycloud_Wish_List_Invite_Mutation_Response>;
+  /** update single row of the table: "familycloud.wish_list_invite" */
+  update_familycloud_wish_list_invite_by_pk?: Maybe<Familycloud_Wish_List_Invite>;
+  /** update data of the table: "familycloud.wish_list_item" */
+  update_familycloud_wish_list_item?: Maybe<Familycloud_Wish_List_Item_Mutation_Response>;
+  /** update single row of the table: "familycloud.wish_list_item" */
+  update_familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Family_MemberArgs = {
-  where: Family_Member_Bool_Exp;
+export type Mutation_RootDelete_Familycloud_Wish_ListArgs = {
+  where: Familycloud_Wish_List_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Family_Member_By_PkArgs = {
-  family_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
+export type Mutation_RootDelete_Familycloud_Wish_List_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_WiftArgs = {
-  where: Wift_Bool_Exp;
+export type Mutation_RootDelete_Familycloud_Wish_List_InviteArgs = {
+  where: Familycloud_Wish_List_Invite_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Wift_By_PkArgs = {
+export type Mutation_RootDelete_Familycloud_Wish_List_Invite_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Wift_ListArgs = {
-  where: Wift_List_Bool_Exp;
+export type Mutation_RootDelete_Familycloud_Wish_List_ItemArgs = {
+  where: Familycloud_Wish_List_Item_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Wift_List_By_PkArgs = {
-  id: Scalars['uuid'];
+export type Mutation_RootDelete_Familycloud_Wish_List_Item_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Wift_List_MemberArgs = {
-  where: Wift_List_Member_Bool_Exp;
+export type Mutation_RootInsert_Familycloud_Wish_ListArgs = {
+  objects: Array<Familycloud_Wish_List_Insert_Input>;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Wift_List_Member_By_PkArgs = {
-  user_id: Scalars['uuid'];
-  wift_list_id: Scalars['uuid'];
+export type Mutation_RootInsert_Familycloud_Wish_List_InviteArgs = {
+  objects: Array<Familycloud_Wish_List_Invite_Insert_Input>;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Invite_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_FamilyArgs = {
-  objects: Array<Family_Insert_Input>;
-  on_conflict?: InputMaybe<Family_On_Conflict>;
+export type Mutation_RootInsert_Familycloud_Wish_List_Invite_OneArgs = {
+  object: Familycloud_Wish_List_Invite_Insert_Input;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Invite_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Family_MemberArgs = {
-  objects: Array<Family_Member_Insert_Input>;
-  on_conflict?: InputMaybe<Family_Member_On_Conflict>;
+export type Mutation_RootInsert_Familycloud_Wish_List_ItemArgs = {
+  objects: Array<Familycloud_Wish_List_Item_Insert_Input>;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Family_Member_OneArgs = {
-  object: Family_Member_Insert_Input;
-  on_conflict?: InputMaybe<Family_Member_On_Conflict>;
+export type Mutation_RootInsert_Familycloud_Wish_List_Item_OneArgs = {
+  object: Familycloud_Wish_List_Item_Insert_Input;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Family_OneArgs = {
-  object: Family_Insert_Input;
-  on_conflict?: InputMaybe<Family_On_Conflict>;
+export type Mutation_RootInsert_Familycloud_Wish_List_OneArgs = {
+  object: Familycloud_Wish_List_Insert_Input;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_WiftArgs = {
-  objects: Array<Wift_Insert_Input>;
-  on_conflict?: InputMaybe<Wift_On_Conflict>;
+export type Mutation_RootUpdate_Familycloud_PersonArgs = {
+  _set?: InputMaybe<Familycloud_Person_Set_Input>;
+  where: Familycloud_Person_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Wift_ListArgs = {
-  objects: Array<Wift_List_Insert_Input>;
-  on_conflict?: InputMaybe<Wift_List_On_Conflict>;
+export type Mutation_RootUpdate_Familycloud_Person_By_PkArgs = {
+  _set?: InputMaybe<Familycloud_Person_Set_Input>;
+  pk_columns: Familycloud_Person_Pk_Columns_Input;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Wift_List_MemberArgs = {
-  objects: Array<Wift_List_Member_Insert_Input>;
+export type Mutation_RootUpdate_Familycloud_Wish_ListArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Set_Input>;
+  where: Familycloud_Wish_List_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Wift_List_Member_OneArgs = {
-  object: Wift_List_Member_Insert_Input;
+export type Mutation_RootUpdate_Familycloud_Wish_List_By_PkArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Set_Input>;
+  pk_columns: Familycloud_Wish_List_Pk_Columns_Input;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Wift_List_OneArgs = {
-  object: Wift_List_Insert_Input;
-  on_conflict?: InputMaybe<Wift_List_On_Conflict>;
+export type Mutation_RootUpdate_Familycloud_Wish_List_InviteArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Invite_Set_Input>;
+  where: Familycloud_Wish_List_Invite_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Wift_OneArgs = {
-  object: Wift_Insert_Input;
-  on_conflict?: InputMaybe<Wift_On_Conflict>;
+export type Mutation_RootUpdate_Familycloud_Wish_List_Invite_By_PkArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Invite_Set_Input>;
+  pk_columns: Familycloud_Wish_List_Invite_Pk_Columns_Input;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_FamilyArgs = {
-  _set?: InputMaybe<Family_Set_Input>;
-  where: Family_Bool_Exp;
+export type Mutation_RootUpdate_Familycloud_Wish_List_ItemArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Item_Set_Input>;
+  where: Familycloud_Wish_List_Item_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Family_By_PkArgs = {
-  _set?: InputMaybe<Family_Set_Input>;
-  pk_columns: Family_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Family_MemberArgs = {
-  _set?: InputMaybe<Family_Member_Set_Input>;
-  where: Family_Member_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Family_Member_By_PkArgs = {
-  _set?: InputMaybe<Family_Member_Set_Input>;
-  pk_columns: Family_Member_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_UserArgs = {
-  _set?: InputMaybe<User_Set_Input>;
-  where: User_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_User_By_PkArgs = {
-  _set?: InputMaybe<User_Set_Input>;
-  pk_columns: User_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_WiftArgs = {
-  _set?: InputMaybe<Wift_Set_Input>;
-  where: Wift_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Wift_By_PkArgs = {
-  _set?: InputMaybe<Wift_Set_Input>;
-  pk_columns: Wift_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Wift_ListArgs = {
-  _set?: InputMaybe<Wift_List_Set_Input>;
-  where: Wift_List_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Wift_List_By_PkArgs = {
-  _set?: InputMaybe<Wift_List_Set_Input>;
-  pk_columns: Wift_List_Pk_Columns_Input;
+export type Mutation_RootUpdate_Familycloud_Wish_List_Item_By_PkArgs = {
+  _set?: InputMaybe<Familycloud_Wish_List_Item_Set_Input>;
+  pk_columns: Familycloud_Wish_List_Item_Pk_Columns_Input;
 };
 
 /** column ordering options */
@@ -675,362 +1342,242 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "family" */
-  family: Array<Family>;
-  /** fetch aggregated fields from the table: "family" */
-  family_aggregate: Family_Aggregate;
-  /** fetch data from the table: "family" using primary key columns */
-  family_by_pk?: Maybe<Family>;
-  /** fetch data from the table: "family_member" */
-  family_member: Array<Family_Member>;
-  /** fetch aggregated fields from the table: "family_member" */
-  family_member_aggregate: Family_Member_Aggregate;
-  /** fetch data from the table: "family_member" using primary key columns */
-  family_member_by_pk?: Maybe<Family_Member>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch aggregated fields from the table: "user" */
-  user_aggregate: User_Aggregate;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
-  /** fetch data from the table: "wift" */
-  wift: Array<Wift>;
-  /** fetch aggregated fields from the table: "wift" */
-  wift_aggregate: Wift_Aggregate;
-  /** fetch data from the table: "wift" using primary key columns */
-  wift_by_pk?: Maybe<Wift>;
-  /** fetch data from the table: "wift_list" */
-  wift_list: Array<Wift_List>;
-  /** fetch aggregated fields from the table: "wift_list" */
-  wift_list_aggregate: Wift_List_Aggregate;
-  /** fetch data from the table: "wift_list" using primary key columns */
-  wift_list_by_pk?: Maybe<Wift_List>;
-  /** fetch data from the table: "wift_list_member" */
-  wift_list_member: Array<Wift_List_Member>;
-  /** fetch aggregated fields from the table: "wift_list_member" */
-  wift_list_member_aggregate: Wift_List_Member_Aggregate;
-  /** fetch data from the table: "wift_list_member" using primary key columns */
-  wift_list_member_by_pk?: Maybe<Wift_List_Member>;
+  /** fetch data from the table: "familycloud.person" */
+  familycloud_person: Array<Familycloud_Person>;
+  /** fetch aggregated fields from the table: "familycloud.person" */
+  familycloud_person_aggregate: Familycloud_Person_Aggregate;
+  /** fetch data from the table: "familycloud.person" using primary key columns */
+  familycloud_person_by_pk?: Maybe<Familycloud_Person>;
+  /** fetch data from the table: "familycloud.wish_list" */
+  familycloud_wish_list: Array<Familycloud_Wish_List>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list" */
+  familycloud_wish_list_aggregate: Familycloud_Wish_List_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list" using primary key columns */
+  familycloud_wish_list_by_pk?: Maybe<Familycloud_Wish_List>;
+  /** fetch data from the table: "familycloud.wish_list_invite" */
+  familycloud_wish_list_invite: Array<Familycloud_Wish_List_Invite>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_invite" */
+  familycloud_wish_list_invite_aggregate: Familycloud_Wish_List_Invite_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_invite" using primary key columns */
+  familycloud_wish_list_invite_by_pk?: Maybe<Familycloud_Wish_List_Invite>;
+  /** fetch data from the table: "familycloud.wish_list_item" */
+  familycloud_wish_list_item: Array<Familycloud_Wish_List_Item>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_item" */
+  familycloud_wish_list_item_aggregate: Familycloud_Wish_List_Item_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_item" using primary key columns */
+  familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
 };
 
 
-export type Query_RootFamilyArgs = {
-  distinct_on?: InputMaybe<Array<Family_Select_Column>>;
+export type Query_RootFamilycloud_PersonArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Person_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Order_By>>;
-  where?: InputMaybe<Family_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Person_Order_By>>;
+  where?: InputMaybe<Familycloud_Person_Bool_Exp>;
 };
 
 
-export type Query_RootFamily_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Select_Column>>;
+export type Query_RootFamilycloud_Person_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Person_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Order_By>>;
-  where?: InputMaybe<Family_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Person_Order_By>>;
+  where?: InputMaybe<Familycloud_Person_Bool_Exp>;
 };
 
 
-export type Query_RootFamily_By_PkArgs = {
+export type Query_RootFamilycloud_Person_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootFamilycloud_Wish_ListArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootFamilycloud_Wish_List_InviteArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_Invite_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_Invite_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
 
-export type Query_RootFamily_MemberArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+export type Query_RootFamilycloud_Wish_List_ItemArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
 };
 
 
-export type Query_RootFamily_Member_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+export type Query_RootFamilycloud_Wish_List_Item_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
 };
 
 
-export type Query_RootFamily_Member_By_PkArgs = {
-  family_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-
-export type Query_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Query_RootUser_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Query_RootUser_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Query_RootWiftArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-
-export type Query_RootWift_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-
-export type Query_RootWift_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Query_RootWift_ListArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-
-export type Query_RootWift_List_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-
-export type Query_RootWift_List_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Query_RootWift_List_MemberArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-export type Query_RootWift_List_Member_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-export type Query_RootWift_List_Member_By_PkArgs = {
-  user_id: Scalars['uuid'];
-  wift_list_id: Scalars['uuid'];
+export type Query_RootFamilycloud_Wish_List_Item_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "family" */
-  family: Array<Family>;
-  /** fetch aggregated fields from the table: "family" */
-  family_aggregate: Family_Aggregate;
-  /** fetch data from the table: "family" using primary key columns */
-  family_by_pk?: Maybe<Family>;
-  /** fetch data from the table: "family_member" */
-  family_member: Array<Family_Member>;
-  /** fetch aggregated fields from the table: "family_member" */
-  family_member_aggregate: Family_Member_Aggregate;
-  /** fetch data from the table: "family_member" using primary key columns */
-  family_member_by_pk?: Maybe<Family_Member>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch aggregated fields from the table: "user" */
-  user_aggregate: User_Aggregate;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
-  /** fetch data from the table: "wift" */
-  wift: Array<Wift>;
-  /** fetch aggregated fields from the table: "wift" */
-  wift_aggregate: Wift_Aggregate;
-  /** fetch data from the table: "wift" using primary key columns */
-  wift_by_pk?: Maybe<Wift>;
-  /** fetch data from the table: "wift_list" */
-  wift_list: Array<Wift_List>;
-  /** fetch aggregated fields from the table: "wift_list" */
-  wift_list_aggregate: Wift_List_Aggregate;
-  /** fetch data from the table: "wift_list" using primary key columns */
-  wift_list_by_pk?: Maybe<Wift_List>;
-  /** fetch data from the table: "wift_list_member" */
-  wift_list_member: Array<Wift_List_Member>;
-  /** fetch aggregated fields from the table: "wift_list_member" */
-  wift_list_member_aggregate: Wift_List_Member_Aggregate;
-  /** fetch data from the table: "wift_list_member" using primary key columns */
-  wift_list_member_by_pk?: Maybe<Wift_List_Member>;
+  /** fetch data from the table: "familycloud.person" */
+  familycloud_person: Array<Familycloud_Person>;
+  /** fetch aggregated fields from the table: "familycloud.person" */
+  familycloud_person_aggregate: Familycloud_Person_Aggregate;
+  /** fetch data from the table: "familycloud.person" using primary key columns */
+  familycloud_person_by_pk?: Maybe<Familycloud_Person>;
+  /** fetch data from the table: "familycloud.wish_list" */
+  familycloud_wish_list: Array<Familycloud_Wish_List>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list" */
+  familycloud_wish_list_aggregate: Familycloud_Wish_List_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list" using primary key columns */
+  familycloud_wish_list_by_pk?: Maybe<Familycloud_Wish_List>;
+  /** fetch data from the table: "familycloud.wish_list_invite" */
+  familycloud_wish_list_invite: Array<Familycloud_Wish_List_Invite>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_invite" */
+  familycloud_wish_list_invite_aggregate: Familycloud_Wish_List_Invite_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_invite" using primary key columns */
+  familycloud_wish_list_invite_by_pk?: Maybe<Familycloud_Wish_List_Invite>;
+  /** fetch data from the table: "familycloud.wish_list_item" */
+  familycloud_wish_list_item: Array<Familycloud_Wish_List_Item>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_item" */
+  familycloud_wish_list_item_aggregate: Familycloud_Wish_List_Item_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_item" using primary key columns */
+  familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
 };
 
 
-export type Subscription_RootFamilyArgs = {
-  distinct_on?: InputMaybe<Array<Family_Select_Column>>;
+export type Subscription_RootFamilycloud_PersonArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Person_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Order_By>>;
-  where?: InputMaybe<Family_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Person_Order_By>>;
+  where?: InputMaybe<Familycloud_Person_Bool_Exp>;
 };
 
 
-export type Subscription_RootFamily_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Select_Column>>;
+export type Subscription_RootFamilycloud_Person_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Person_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Order_By>>;
-  where?: InputMaybe<Family_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Person_Order_By>>;
+  where?: InputMaybe<Familycloud_Person_Bool_Exp>;
 };
 
 
-export type Subscription_RootFamily_By_PkArgs = {
+export type Subscription_RootFamilycloud_Person_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootFamilycloud_Wish_ListArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_InviteArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_Invite_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Invite_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_Invite_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
 
-export type Subscription_RootFamily_MemberArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+export type Subscription_RootFamilycloud_Wish_List_ItemArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
 };
 
 
-export type Subscription_RootFamily_Member_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
+export type Subscription_RootFamilycloud_Wish_List_Item_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
 };
 
 
-export type Subscription_RootFamily_Member_By_PkArgs = {
-  family_id: Scalars['uuid'];
-  user_id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootWiftArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootWift_ListArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_List_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_List_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootWift_List_MemberArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_List_Member_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-export type Subscription_RootWift_List_Member_By_PkArgs = {
-  user_id: Scalars['uuid'];
-  wift_list_id: Scalars['uuid'];
+export type Subscription_RootFamilycloud_Wish_List_Item_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -1046,151 +1593,6 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
-/** columns and relationships of "user" */
-export type User = {
-  __typename?: 'user';
-  /** An array relationship */
-  family_members: Array<Family_Member>;
-  /** An aggregate relationship */
-  family_members_aggregate: Family_Member_Aggregate;
-  first_name: Scalars['String'];
-  id: Scalars['uuid'];
-  last_name?: Maybe<Scalars['String']>;
-  /** An array relationship */
-  wift_lists: Array<Wift_List>;
-  /** An aggregate relationship */
-  wift_lists_aggregate: Wift_List_Aggregate;
-};
-
-
-/** columns and relationships of "user" */
-export type UserFamily_MembersArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserFamily_Members_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Family_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Family_Member_Order_By>>;
-  where?: InputMaybe<Family_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserWift_ListsArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserWift_Lists_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Order_By>>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-/** aggregated selection of "user" */
-export type User_Aggregate = {
-  __typename?: 'user_aggregate';
-  aggregate?: Maybe<User_Aggregate_Fields>;
-  nodes: Array<User>;
-};
-
-/** aggregate fields of "user" */
-export type User_Aggregate_Fields = {
-  __typename?: 'user_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<User_Max_Fields>;
-  min?: Maybe<User_Min_Fields>;
-};
-
-
-/** aggregate fields of "user" */
-export type User_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
-export type User_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Bool_Exp>>;
-  _not?: InputMaybe<User_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Bool_Exp>>;
-  family_members?: InputMaybe<Family_Member_Bool_Exp>;
-  first_name?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  last_name?: InputMaybe<String_Comparison_Exp>;
-  wift_lists?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-/** aggregate max on columns */
-export type User_Max_Fields = {
-  __typename?: 'user_max_fields';
-  first_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
-};
-
-/** aggregate min on columns */
-export type User_Min_Fields = {
-  __typename?: 'user_min_fields';
-  first_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
-};
-
-/** response of any mutation on the table "user" */
-export type User_Mutation_Response = {
-  __typename?: 'user_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<User>;
-};
-
-/** Ordering options when selecting data from "user". */
-export type User_Order_By = {
-  family_members_aggregate?: InputMaybe<Family_Member_Aggregate_Order_By>;
-  first_name?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  last_name?: InputMaybe<Order_By>;
-  wift_lists_aggregate?: InputMaybe<Wift_List_Aggregate_Order_By>;
-};
-
-/** primary key columns input for table: user */
-export type User_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "user" */
-export enum User_Select_Column {
-  /** column name */
-  FirstName = 'first_name',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  LastName = 'last_name'
-}
-
-/** input type for updating data in table "user" */
-export type User_Set_Input = {
-  first_name?: InputMaybe<Scalars['String']>;
-  last_name?: InputMaybe<Scalars['String']>;
-};
-
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['uuid']>;
@@ -1204,588 +1606,32 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-/** columns and relationships of "wift" */
-export type Wift = {
-  __typename?: 'wift';
-  created_at: Scalars['timestamptz'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['uuid'];
-  title: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
-  url?: Maybe<Scalars['String']>;
-  /** An object relationship */
-  wift_list: Wift_List;
-  wift_list_id: Scalars['uuid'];
-};
+export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
-/** aggregated selection of "wift" */
-export type Wift_Aggregate = {
-  __typename?: 'wift_aggregate';
-  aggregate?: Maybe<Wift_Aggregate_Fields>;
-  nodes: Array<Wift>;
-};
 
-/** aggregate fields of "wift" */
-export type Wift_Aggregate_Fields = {
-  __typename?: 'wift_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Wift_Max_Fields>;
-  min?: Maybe<Wift_Min_Fields>;
-};
+export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number }> };
 
 
-/** aggregate fields of "wift" */
-export type Wift_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Wift_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "wift" */
-export type Wift_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Wift_Max_Order_By>;
-  min?: InputMaybe<Wift_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "wift" */
-export type Wift_Arr_Rel_Insert_Input = {
-  data: Array<Wift_Insert_Input>;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Wift_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "wift". All fields are combined with a logical 'AND'. */
-export type Wift_Bool_Exp = {
-  _and?: InputMaybe<Array<Wift_Bool_Exp>>;
-  _not?: InputMaybe<Wift_Bool_Exp>;
-  _or?: InputMaybe<Array<Wift_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  url?: InputMaybe<String_Comparison_Exp>;
-  wift_list?: InputMaybe<Wift_List_Bool_Exp>;
-  wift_list_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "wift" */
-export enum Wift_Constraint {
-  /** unique or primary key constraint */
-  WiftPkey = 'wift_pkey'
-}
-
-/** input type for inserting data into table "wift" */
-export type Wift_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
-  wift_list?: InputMaybe<Wift_List_Obj_Rel_Insert_Input>;
-  wift_list_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** columns and relationships of "wift_list" */
-export type Wift_List = {
-  __typename?: 'wift_list';
-  author_id: Scalars['uuid'];
-  created_at: Scalars['timestamptz'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['uuid'];
-  title: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: User;
-  /** An array relationship */
-  wift_list_members: Array<Wift_List_Member>;
-  /** An aggregate relationship */
-  wift_list_members_aggregate: Wift_List_Member_Aggregate;
-  /** An array relationship */
-  wifts: Array<Wift>;
-  /** An aggregate relationship */
-  wifts_aggregate: Wift_Aggregate;
-};
-
-
-/** columns and relationships of "wift_list" */
-export type Wift_ListWift_List_MembersArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "wift_list" */
-export type Wift_ListWift_List_Members_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_List_Member_Order_By>>;
-  where?: InputMaybe<Wift_List_Member_Bool_Exp>;
-};
-
-
-/** columns and relationships of "wift_list" */
-export type Wift_ListWiftsArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-
-/** columns and relationships of "wift_list" */
-export type Wift_ListWifts_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Wift_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Wift_Order_By>>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-/** aggregated selection of "wift_list" */
-export type Wift_List_Aggregate = {
-  __typename?: 'wift_list_aggregate';
-  aggregate?: Maybe<Wift_List_Aggregate_Fields>;
-  nodes: Array<Wift_List>;
-};
-
-/** aggregate fields of "wift_list" */
-export type Wift_List_Aggregate_Fields = {
-  __typename?: 'wift_list_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Wift_List_Max_Fields>;
-  min?: Maybe<Wift_List_Min_Fields>;
-};
-
-
-/** aggregate fields of "wift_list" */
-export type Wift_List_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Wift_List_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "wift_list" */
-export type Wift_List_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Wift_List_Max_Order_By>;
-  min?: InputMaybe<Wift_List_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "wift_list". All fields are combined with a logical 'AND'. */
-export type Wift_List_Bool_Exp = {
-  _and?: InputMaybe<Array<Wift_List_Bool_Exp>>;
-  _not?: InputMaybe<Wift_List_Bool_Exp>;
-  _or?: InputMaybe<Array<Wift_List_Bool_Exp>>;
-  author_id?: InputMaybe<Uuid_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  wift_list_members?: InputMaybe<Wift_List_Member_Bool_Exp>;
-  wifts?: InputMaybe<Wift_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "wift_list" */
-export enum Wift_List_Constraint {
-  /** unique or primary key constraint */
-  WiftListPkey = 'wift_list_pkey'
-}
-
-/** input type for inserting data into table "wift_list" */
-export type Wift_List_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  wift_list_members?: InputMaybe<Wift_List_Member_Arr_Rel_Insert_Input>;
-  wifts?: InputMaybe<Wift_Arr_Rel_Insert_Input>;
-};
-
-/** aggregate max on columns */
-export type Wift_List_Max_Fields = {
-  __typename?: 'wift_list_max_fields';
-  author_id?: Maybe<Scalars['uuid']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  title?: Maybe<Scalars['String']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by max() on columns of table "wift_list" */
-export type Wift_List_Max_Order_By = {
-  author_id?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** columns and relationships of "wift_list_member" */
-export type Wift_List_Member = {
-  __typename?: 'wift_list_member';
-  created_at: Scalars['timestamptz'];
-  updated_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: User;
-  user_id: Scalars['uuid'];
-  /** An object relationship */
-  wift_list: Wift_List;
-  wift_list_id: Scalars['uuid'];
-};
-
-/** aggregated selection of "wift_list_member" */
-export type Wift_List_Member_Aggregate = {
-  __typename?: 'wift_list_member_aggregate';
-  aggregate?: Maybe<Wift_List_Member_Aggregate_Fields>;
-  nodes: Array<Wift_List_Member>;
-};
-
-/** aggregate fields of "wift_list_member" */
-export type Wift_List_Member_Aggregate_Fields = {
-  __typename?: 'wift_list_member_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Wift_List_Member_Max_Fields>;
-  min?: Maybe<Wift_List_Member_Min_Fields>;
-};
-
-
-/** aggregate fields of "wift_list_member" */
-export type Wift_List_Member_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Wift_List_Member_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "wift_list_member" */
-export type Wift_List_Member_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Wift_List_Member_Max_Order_By>;
-  min?: InputMaybe<Wift_List_Member_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "wift_list_member" */
-export type Wift_List_Member_Arr_Rel_Insert_Input = {
-  data: Array<Wift_List_Member_Insert_Input>;
-};
-
-/** Boolean expression to filter rows from the table "wift_list_member". All fields are combined with a logical 'AND'. */
-export type Wift_List_Member_Bool_Exp = {
-  _and?: InputMaybe<Array<Wift_List_Member_Bool_Exp>>;
-  _not?: InputMaybe<Wift_List_Member_Bool_Exp>;
-  _or?: InputMaybe<Array<Wift_List_Member_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_id?: InputMaybe<Uuid_Comparison_Exp>;
-  wift_list?: InputMaybe<Wift_List_Bool_Exp>;
-  wift_list_id?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** input type for inserting data into table "wift_list_member" */
-export type Wift_List_Member_Insert_Input = {
-  user_id?: InputMaybe<Scalars['uuid']>;
-  wift_list?: InputMaybe<Wift_List_Obj_Rel_Insert_Input>;
-  wift_list_id?: InputMaybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type Wift_List_Member_Max_Fields = {
-  __typename?: 'wift_list_member_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-  wift_list_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "wift_list_member" */
-export type Wift_List_Member_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Wift_List_Member_Min_Fields = {
-  __typename?: 'wift_list_member_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_id?: Maybe<Scalars['uuid']>;
-  wift_list_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "wift_list_member" */
-export type Wift_List_Member_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_id?: InputMaybe<Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "wift_list_member" */
-export type Wift_List_Member_Mutation_Response = {
-  __typename?: 'wift_list_member_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Wift_List_Member>;
-};
-
-/** Ordering options when selecting data from "wift_list_member". */
-export type Wift_List_Member_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-  wift_list?: InputMaybe<Wift_List_Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "wift_list_member" */
-export enum Wift_List_Member_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserId = 'user_id',
-  /** column name */
-  WiftListId = 'wift_list_id'
-}
-
-/** aggregate min on columns */
-export type Wift_List_Min_Fields = {
-  __typename?: 'wift_list_min_fields';
-  author_id?: Maybe<Scalars['uuid']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  title?: Maybe<Scalars['String']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** order by min() on columns of table "wift_list" */
-export type Wift_List_Min_Order_By = {
-  author_id?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "wift_list" */
-export type Wift_List_Mutation_Response = {
-  __typename?: 'wift_list_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Wift_List>;
-};
-
-/** input type for inserting object relation for remote table "wift_list" */
-export type Wift_List_Obj_Rel_Insert_Input = {
-  data: Wift_List_Insert_Input;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Wift_List_On_Conflict>;
-};
-
-/** on conflict condition type for table "wift_list" */
-export type Wift_List_On_Conflict = {
-  constraint: Wift_List_Constraint;
-  update_columns?: Array<Wift_List_Update_Column>;
-  where?: InputMaybe<Wift_List_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "wift_list". */
-export type Wift_List_Order_By = {
-  author_id?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  wift_list_members_aggregate?: InputMaybe<Wift_List_Member_Aggregate_Order_By>;
-  wifts_aggregate?: InputMaybe<Wift_Aggregate_Order_By>;
-};
-
-/** primary key columns input for table: wift_list */
-export type Wift_List_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "wift_list" */
-export enum Wift_List_Select_Column {
-  /** column name */
-  AuthorId = 'author_id',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Description = 'description',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "wift_list" */
-export type Wift_List_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-};
-
-/** update columns of table "wift_list" */
-export enum Wift_List_Update_Column {
-  /** column name */
-  Description = 'description',
-  /** column name */
-  Title = 'title'
-}
-
-/** aggregate max on columns */
-export type Wift_Max_Fields = {
-  __typename?: 'wift_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  title?: Maybe<Scalars['String']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  url?: Maybe<Scalars['String']>;
-  wift_list_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by max() on columns of table "wift" */
-export type Wift_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  url?: InputMaybe<Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Wift_Min_Fields = {
-  __typename?: 'wift_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  title?: Maybe<Scalars['String']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  url?: Maybe<Scalars['String']>;
-  wift_list_id?: Maybe<Scalars['uuid']>;
-};
-
-/** order by min() on columns of table "wift" */
-export type Wift_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  url?: InputMaybe<Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "wift" */
-export type Wift_Mutation_Response = {
-  __typename?: 'wift_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Wift>;
-};
-
-/** on conflict condition type for table "wift" */
-export type Wift_On_Conflict = {
-  constraint: Wift_Constraint;
-  update_columns?: Array<Wift_Update_Column>;
-  where?: InputMaybe<Wift_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "wift". */
-export type Wift_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  url?: InputMaybe<Order_By>;
-  wift_list?: InputMaybe<Wift_List_Order_By>;
-  wift_list_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: wift */
-export type Wift_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "wift" */
-export enum Wift_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  Description = 'description',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  Url = 'url',
-  /** column name */
-  WiftListId = 'wift_list_id'
-}
-
-/** input type for updating data in table "wift" */
-export type Wift_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
-};
-
-/** update columns of table "wift" */
-export enum Wift_Update_Column {
-  /** column name */
-  Description = 'description',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  Url = 'url'
-}
-
-export type FamiliesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FamiliesQuery = { __typename?: 'query_root', family: Array<{ __typename?: 'family', surname: string, id: any }> };
-
-
-export const FamiliesDocument = `
-    query Families {
-  family {
-    surname
+export const WishListsDocument = `
+    query WishLists {
+  familycloud_wish_list {
+    title
+    description
     id
   }
 }
     `;
-export const useFamiliesQuery = <
-      TData = FamiliesQuery,
+export const useWishListsQuery = <
+      TData = WishListsQuery,
       TError = unknown
     >(
-      variables?: FamiliesQueryVariables,
-      options?: UseQueryOptions<FamiliesQuery, TError, TData>
+      client: GraphQLClient,
+      variables?: WishListsQueryVariables,
+      options?: UseQueryOptions<WishListsQuery, TError, TData>,
+      headers?: RequestInit['headers']
     ) =>
-    useQuery<FamiliesQuery, TError, TData>(
-      variables === undefined ? ['Families'] : ['Families', variables],
-      fetcher<FamiliesQuery, FamiliesQueryVariables>(FamiliesDocument, variables),
+    useQuery<WishListsQuery, TError, TData>(
+      variables === undefined ? ['WishLists'] : ['WishLists', variables],
+      fetcher<WishListsQuery, WishListsQueryVariables>(client, WishListsDocument, variables, headers),
       options
     );

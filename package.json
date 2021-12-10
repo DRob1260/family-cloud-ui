@@ -22,6 +22,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "graphql": "^16.1.0",
+    "graphql-request": "^3.7.0",
     "node-sass": "^6.0.1",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
@@ -37,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "graphql-codegen --config codegen.json"
+    "codegen": "graphql-codegen --config codegen.js"
   },
   "eslintConfig": {
     "extends": [
