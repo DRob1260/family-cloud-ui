@@ -4,26 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="975ad7b1-6ec0-4d30-8d05-49a299c8c504" name="Changes" comment="starting integration with hasura api">
-      <change afterPath="$PROJECT_DIR$/codegen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Auth0TokenWrapper.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GraphqlClient.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Navigator/AuthButton/AuthButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/contexts/TokenContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/queries/WishLists.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/family-cloud-ui.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/InsertWishList.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/codegen.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Auth0ProviderWithHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auth0ProviderWithHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auth0ProviderWithHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth0/Auth0ProviderWithHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auth0TokenWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth0/Auth0TokenWrapper.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Navigator/Navigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Navigator/Navigator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router/Router.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/queries/families.graphql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/hasura.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/hasura.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,27 +26,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PackageJsonUpdateNotifier">
-    <dismissed value="$PROJECT_DIR$/package.json" />
-  </component>
-  <component name="ProjectId" id="223kvc8EDcfidIdzM7nZ9RTtf2o" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2256N0nYEAEeE7H5tMgCsajdjnu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -63,78 +49,28 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/graphql" />
-      <recent name="$PROJECT_DIR$/src/App" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/auth0" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="975ad7b1-6ec0-4d30-8d05-49a299c8c504" name="Changes" comment="" />
-      <created>1639073889766</created>
+      <changelist id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="" />
+      <created>1639115057002</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1639073889766</updated>
-      <workItem from="1639073892565" duration="13868000" />
-      <workItem from="1639107087807" duration="6986000" />
+      <updated>1639115057002</updated>
+      <workItem from="1639115060158" duration="2487000" />
     </task>
-    <task id="LOCAL-00001" summary="wiping and restarting">
-      <created>1639074557813</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1639074557813</updated>
-    </task>
-    <task id="LOCAL-00002" summary="basic shell is started">
-      <created>1639078788554</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1639078788554</updated>
-    </task>
-    <task id="LOCAL-00003" summary="added code linting/formatting">
-      <created>1639079241465</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1639079241465</updated>
-    </task>
-    <task id="LOCAL-00004" summary="added react-query and graphql-codgen">
-      <created>1639081794554</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1639081794554</updated>
-    </task>
-    <task id="LOCAL-00005" summary="removed accidental text">
-      <created>1639081850179</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1639081850179</updated>
-    </task>
-    <task id="LOCAL-00006" summary="added auth0">
-      <created>1639090234892</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1639090234892</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/src/graphql/generated/types.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -146,17 +82,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="wiping and restarting" />
-    <MESSAGE value="basic shell is started" />
-    <MESSAGE value="added code linting/formatting" />
-    <MESSAGE value="added react-query and graphql-codgen" />
-    <MESSAGE value="removed accidental text" />
-    <MESSAGE value="added auth0" />
-    <MESSAGE value="starting integration with hasura api" />
-    <option name="LAST_COMMIT_MESSAGE" value="starting integration with hasura api" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

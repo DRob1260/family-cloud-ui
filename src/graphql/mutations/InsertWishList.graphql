@@ -1,0 +1,7 @@
+mutation InsertWishList($title: String!, $description: String!) {
+    insert_familycloud_wish_list_one(object: {description: $title, title: $description}) {
+        id
+        description
+        title
+    }
+}

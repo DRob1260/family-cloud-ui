@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.scss';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Auth0ProviderWithHistory } from '../Auth0ProviderWithHistory';
+import { Auth0ProviderWithHistory } from '../auth0/Auth0ProviderWithHistory';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home } from '../Home/Home';
 import { Navigator } from '../Navigator/Navigator';
-import { Auth0TokenWrapper } from '../Auth0TokenWrapper';
 
 const queryClient = new QueryClient();
 
-function App() {
+const App: React.FunctionComponent = () => {
     return (
         <div className="App">
             <BrowserRouter>
@@ -18,9 +17,7 @@ function App() {
                         <Navigator />
                         <Switch>
                             <Route path={'/family-cloud'}>
-                                <Auth0TokenWrapper>
-                                    <Home />
-                                </Auth0TokenWrapper>
+                                <Home />
                             </Route>
                         </Switch>
                     </QueryClientProvider>

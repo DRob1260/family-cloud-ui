@@ -1,4 +1,4 @@
-import {Alert, CircularProgress, Typography} from "@mui/material";
+import { Alert, CircularProgress, Grid, IconButton, Typography } from '@mui/material';
 import React, {useContext} from "react";
 import {TokenContext} from "../../contexts/TokenContext";
 import { GraphqlClientWithAuth } from "../../GraphqlClient";
@@ -11,19 +11,28 @@ export const WishLists: React.FunctionComponent = () => {
 
     return (
         <div className={"WishLists"}>
-            <Typography variant={"h6"} component={"div"}>Wish Lists</Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={"auto"}>
+                    <Typography variant={"h6"} component={"div"}>Wish Lists</Typography>
+                </Grid>
+                <Grid item xs={2}><IconButton>+</IconButton></Grid>
+            </Grid>
             {wishListsQuery.isLoading &&
-                <CircularProgress />
+                <Grid item>
+                    <CircularProgress />
+                </Grid>
             }
             {wishListsQuery.isError &&
-                <Alert severity={"error"}>An error occured while retrieving your Wish Lists.</Alert>
+                <Grid item>
+                    <Alert severity={"error"}>An error occured while retrieving your Wish Lists.</Alert>
+                </Grid>
             }
             {wishListsQuery.isSuccess &&
-            <div>
+            <Grid item>
                 {wishListsQuery.data.familycloud_wish_list.map(wishList => {
                     {wishList.title}
                 })}
-            </div>
+            </Grid>
             }
         </div>
     )

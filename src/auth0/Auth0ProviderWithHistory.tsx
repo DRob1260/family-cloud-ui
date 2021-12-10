@@ -20,8 +20,6 @@ export const Auth0ProviderWithHistory: React.FunctionComponent = ({
             clientId={clientId}
             redirectUri={`${window.location.origin}/family-cloud`}
             audience={"family-cloud"}
-            responseType={"token id_token"}
-            scope={"openid profile update:user"}
             onRedirectCallback={onRedirectCallback}
         >
             {children}
