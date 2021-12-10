@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/family-cloud-ui.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/InsertWishList.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
+    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="can successfully query hasura api">
+      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/CreateWishList/CreateWishList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Auth0ProviderWithHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth0/Auth0ProviderWithHistory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Auth0TokenWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth0/Auth0TokenWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/mutations/InsertWishList.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/mutations/InsertWishList.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/hasura.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/hasura.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +41,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
@@ -65,8 +58,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1639115057002</updated>
-      <workItem from="1639115060158" duration="2487000" />
+      <workItem from="1639115060158" duration="4797000" />
     </task>
+    <task id="LOCAL-00001" summary="can successfully query hasura api">
+      <created>1639119470233</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639119470233</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -82,6 +83,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="can successfully query hasura api" />
+    <option name="LAST_COMMIT_MESSAGE" value="can successfully query hasura api" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

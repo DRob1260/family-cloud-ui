@@ -1,5 +1,5 @@
 mutation InsertWishList($title: String!, $description: String!) {
-    insert_familycloud_wish_list_one(object: {description: $title, title: $description}) {
+    insert_familycloud_wish_list_one(object: {title: $title, description: $description}) {
         id
         description
         title

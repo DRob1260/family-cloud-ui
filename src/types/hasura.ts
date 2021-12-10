@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -1606,12 +1606,44 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type InsertWishListMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+}>;
+
+
+export type InsertWishListMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_one?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string } | null | undefined };
+
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number }> };
 
 
+export const InsertWishListDocument = `
+    mutation InsertWishList($title: String!, $description: String!) {
+  insert_familycloud_wish_list_one(
+    object: {title: $title, description: $description}
+  ) {
+    id
+    description
+    title
+  }
+}
+    `;
+export const useInsertWishListMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InsertWishListMutation, TError, InsertWishListMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InsertWishListMutation, TError, InsertWishListMutationVariables, TContext>(
+      'InsertWishList',
+      (variables?: InsertWishListMutationVariables) => fetcher<InsertWishListMutation, InsertWishListMutationVariables>(client, InsertWishListDocument, variables, headers)(),
+      options
+    );
 export const WishListsDocument = `
     query WishLists {
   familycloud_wish_list {
