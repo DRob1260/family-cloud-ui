@@ -1,6 +1,7 @@
 import {
     Alert,
     CircularProgress,
+    Divider,
     Grid,
     IconButton,
     List,
@@ -90,16 +91,21 @@ export const WishLists: React.FunctionComponent = () => {
                                 <div>
                                     {wishListsQuery.data.familycloud_wish_list.map(
                                         (wishList) => (
-                                            <ListItemButton
-                                                onClick={() => {
-                                                    setEditWishListId(
-                                                        wishList.id,
-                                                    );
-                                                    setEditWishListOpen(true);
-                                                }}
-                                            >
-                                                {wishList.title}
-                                            </ListItemButton>
+                                            <div>
+                                                <Divider />
+                                                <ListItemButton
+                                                    onClick={() => {
+                                                        setEditWishListId(
+                                                            wishList.id,
+                                                        );
+                                                        setEditWishListOpen(
+                                                            true,
+                                                        );
+                                                    }}
+                                                >
+                                                    {wishList.title}
+                                                </ListItemButton>
+                                            </div>
                                         ),
                                     )}
                                 </div>
