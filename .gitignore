@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # intellij
-.idea/workspace.xml`
+/.idea/workspace.xml
