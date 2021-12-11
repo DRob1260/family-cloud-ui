@@ -4,4 +4,10 @@
       background-color: rgba(25, 118, 210, 0.04);
     }
   }
+  .delete-wish-list-item-button {
+    color: red;
+  }
+  .delete-wish-list-item-button:hover {
+    background-color: rgba(255, 0, 0, 0.03)
+  }
 }

@@ -1629,7 +1629,7 @@ export type DeleteWishListItemMutationVariables = Exact<{
 }>;
 
 
-export type DeleteWishListItemMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
+export type DeleteWishListItemMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_item_by_pk?: { __typename?: 'familycloud_wish_list_item', id: number } | null | undefined };
 
 export type InsertWishListMutationVariables = Exact<{
   title: Scalars['String'];
@@ -1674,7 +1674,7 @@ export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list:
 
 export const DeleteWishListItemDocument = `
     mutation DeleteWishListItem($itemId: Int!) {
-  delete_familycloud_wish_list_by_pk(id: $itemId) {
+  delete_familycloud_wish_list_item_by_pk(id: $itemId) {
     id
   }
 }

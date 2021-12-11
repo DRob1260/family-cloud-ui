@@ -1,5 +1,5 @@
 mutation DeleteWishListItem($itemId: Int!) {
-    delete_familycloud_wish_list_by_pk(id: $itemId) {
+    delete_familycloud_wish_list_item_by_pk(id: $itemId) {
         id
     }
 }

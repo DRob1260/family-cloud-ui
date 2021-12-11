@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="started on ability to add/update wish list item">
-      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/DeleteWishListItem.graphql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/UpdateWishListItem.graphql" afterDir="false" />
+    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="added ability to update wish list item">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/codegen.js" beforeDir="false" afterPath="$PROJECT_DIR$/codegen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/queries/WishLists.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/queries/WishLists.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/mutations/DeleteWishListItem.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/mutations/DeleteWishListItem.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/hasura.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/hasura.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1639115057002</updated>
       <workItem from="1639115060158" duration="14805000" />
-      <workItem from="1639191527570" duration="3411000" />
+      <workItem from="1639191527570" duration="6500000" />
     </task>
     <task id="LOCAL-00001" summary="can successfully query hasura api">
       <created>1639119470233</created>
@@ -99,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639178438527</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added ability to update wish list item">
+      <created>1639197605779</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1639197605779</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,7 +128,8 @@
     <MESSAGE value="able to create a new wish list" />
     <MESSAGE value="started on ability to edit a wish list" />
     <MESSAGE value="started on ability to add/update wish list item" />
-    <option name="LAST_COMMIT_MESSAGE" value="started on ability to add/update wish list item" />
+    <MESSAGE value="added ability to update wish list item" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ability to update wish list item" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

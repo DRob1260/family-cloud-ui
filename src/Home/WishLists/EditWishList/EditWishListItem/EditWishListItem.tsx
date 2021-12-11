@@ -5,10 +5,12 @@ import {
     Card,
     CardActions,
     CardContent,
+    CircularProgress,
     TextField,
 } from '@mui/material';
 import { TokenContext } from '../../../../contexts/TokenContext';
 import {
+    useDeleteWishListItemMutation,
     useInsertWishListItemMutation,
     useUpdateWishListItemMutation,
 } from '../../../../types/hasura';
@@ -57,6 +59,15 @@ export const EditWishListItem: React.FunctionComponent<
     );
 
     const updateWishListItem = useUpdateWishListItemMutation(
+        GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
+                refetchWishListItems();
+            },
+        },
+    );
+
+    const deleteWishListItem = useDeleteWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
@@ -126,27 +137,49 @@ export const EditWishListItem: React.FunctionComponent<
                             </Button>
                         )}
                         {!isNewItem && (
-                            <Button
-                                size={'small'}
-                                disabled={
-                                    !title ||
-                                    (initialTitle === title &&
-                                        initialUrl === url &&
-                                        initialDescription === description)
-                                }
-                                onClick={() => {
-                                    if (itemId) {
-                                        updateWishListItem.mutate({
-                                            itemId: itemId,
-                                            title: title,
-                                            description: description,
-                                            url: url,
-                                        });
+                            <div>
+                                <Button
+                                    size={'small'}
+                                    disabled={
+                                        !title ||
+                                        (initialTitle === title &&
+                                            initialUrl === url &&
+                                            initialDescription === description)
                                     }
-                                }}
-                            >
-                                Update
-                            </Button>
+                                    onClick={() => {
+                                        if (itemId) {
+                                            updateWishListItem.mutate({
+                                                itemId: itemId,
+                                                title: title,
+                                                description: description,
+                                                url: url,
+                                            });
+                                        }
+                                    }}
+                                >
+                                    Update
+                                </Button>
+                                {itemId && (
+                                    <Button
+                                        className={
+                                            'delete-wish-list-item-button'
+                                        }
+                                        size={'small'}
+                                        onClick={() => {
+                                            deleteWishListItem.mutate({
+                                                itemId,
+                                            });
+                                        }}
+                                    >
+                                        Delete
+                                    </Button>
+                                )}
+                                {(updateWishListItem.isLoading ||
+                                    deleteWishListItem.isLoading ||
+                                    insertWishListItem.isLoading) && (
+                                    <CircularProgress size={'small'} />
+                                )}
+                            </div>
                         )}
                     </CardActions>
                 </Card>
