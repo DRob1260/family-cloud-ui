@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { useGetWishListItemsQuery } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../GraphqlClient';
+import { TokenContext } from '../../../../../contexts/TokenContext';
+import { useGetWishListItemsQuery } from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 import { Button, CircularProgress, Grid, Typography } from '@mui/material';
 import { EditWishListItem } from '../EditWishListItem/EditWishListItem';
 

@@ -7,9 +7,9 @@ import {
     Typography,
 } from '@mui/material';
 import React, { useContext, useState } from 'react';
-import { TokenContext } from '../../contexts/TokenContext';
-import { GraphqlClientWithAuth } from '../../GraphqlClient';
-import { useWishListsQuery } from '../../types/hasura';
+import { TokenContext } from '../../../contexts/TokenContext';
+import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
+import { useWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
 import { CreateWishList } from './CreateWishList/CreateWishList';
 import { EditWishList } from './EditWishList/EditWishList';

@@ -8,13 +8,13 @@ import {
     CircularProgress,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
+import { TokenContext } from '../../../../../contexts/TokenContext';
 import {
     useDeleteWishListItemMutation,
     useInsertWishListItemMutation,
     useUpdateWishListItemMutation,
-} from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../GraphqlClient';
+} from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 
 export type EditWishListItemProps = {
     isNewItem?: boolean;

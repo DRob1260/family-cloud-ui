@@ -9,9 +9,9 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../contexts/TokenContext';
-import { useInsertWishListMutation } from '../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
+import { useInsertWishListMutation } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 
 export type CreateWishListType = {
     open: boolean;
