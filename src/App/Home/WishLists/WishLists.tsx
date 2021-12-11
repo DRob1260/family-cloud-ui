@@ -20,7 +20,7 @@ import { CreateWishList } from './CreateWishList/CreateWishList';
 
 export type WishListsProps = {
     activeWishListId: number | null;
-    setActiveWishListId: (wishListId: number) => void;
+    setActiveWishListId: (wishListId: number | null) => void;
 };
 
 export const WishLists: React.FunctionComponent<WishListsProps> = ({
@@ -98,9 +98,15 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                                                         wishList.id
                                                     }
                                                     onClick={() => {
-                                                        setActiveWishListId(
-                                                            wishList.id,
-                                                        );
+                                                        if (activeWishListId) {
+                                                            setActiveWishListId(
+                                                                null,
+                                                            );
+                                                        } else {
+                                                            setActiveWishListId(
+                                                                wishList.id,
+                                                            );
+                                                        }
                                                     }}
                                                 >
                                                     {wishList.title}
