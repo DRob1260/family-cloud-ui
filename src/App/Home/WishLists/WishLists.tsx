@@ -17,13 +17,18 @@ import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { useWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
 import { CreateWishList } from './CreateWishList/CreateWishList';
-import { EditWishList } from './EditWishList/EditWishList';
 
-export const WishLists: React.FunctionComponent = () => {
+export type WishListsProps = {
+    activeWishListId: number | null;
+    setActiveWishListId: (wishListId: number) => void;
+};
+
+export const WishLists: React.FunctionComponent<WishListsProps> = ({
+    activeWishListId,
+    setActiveWishListId,
+}) => {
     const { token } = useContext(TokenContext);
     const [createWishListOpen, setCreateWishListOpen] = useState(false);
-    const [editWishListOpen, setEditWishListOpen] = useState(false);
-    const [editWishListId, setEditWishListId] = useState<null | number>(null);
 
     const wishListsQuery = useWishListsQuery(GraphqlClientWithAuth(token));
 
@@ -32,12 +37,6 @@ export const WishLists: React.FunctionComponent = () => {
             <CreateWishList
                 open={createWishListOpen}
                 setOpen={setCreateWishListOpen}
-                refetchWishLists={wishListsQuery.refetch}
-            />
-            <EditWishList
-                open={editWishListOpen}
-                setOpen={setEditWishListOpen}
-                wishListId={editWishListId}
                 refetchWishLists={wishListsQuery.refetch}
             />
             <Grid container spacing={2}>
@@ -53,7 +52,7 @@ export const WishLists: React.FunctionComponent = () => {
                         </Alert>
                     </Grid>
                 )}
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                     <Paper elevation={3}>
                         <List
                             subheader={
@@ -94,12 +93,13 @@ export const WishLists: React.FunctionComponent = () => {
                                             <div>
                                                 <Divider />
                                                 <ListItemButton
+                                                    selected={
+                                                        activeWishListId ===
+                                                        wishList.id
+                                                    }
                                                     onClick={() => {
-                                                        setEditWishListId(
+                                                        setActiveWishListId(
                                                             wishList.id,
-                                                        );
-                                                        setEditWishListOpen(
-                                                            true,
                                                         );
                                                     }}
                                                 >

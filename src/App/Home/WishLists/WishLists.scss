@@ -1,4 +1,8 @@
 .WishLists {
+  .MuiList-root, .MuiListSubheader-root {
+    border-radius: 4px;
+  }
+
   .MuiListSubheader-root {
     color: black;
 
@@ -15,12 +19,5 @@
     .MuiIconButton-root {
       color: #1565c0;
     }
-    //#create-wish-list-button {
-    //  margin-left: .5em;
-    //  #create-wish-list-button-icon {
-    //    height: .75em;
-    //    width: .75em;
-    //  }
-    //}
   }
 }
