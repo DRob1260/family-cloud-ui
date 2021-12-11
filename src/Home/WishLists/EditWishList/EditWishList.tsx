@@ -31,7 +31,7 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [newWishListItem, setNewWishListItem] = useState(true);
+    const [isNewWishListItem, setIsNewWishListItem] = useState(false);
 
     const getWishList = useGetWishListByIdQuery(
         GraphqlClientWithAuth(token),
@@ -99,16 +99,17 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
                         <Grid item xs={12}>
                             <Button
                                 onClick={() =>
-                                    setNewWishListItem(!newWishListItem)
+                                    setIsNewWishListItem(!isNewWishListItem)
                                 }
                             >
-                                {newWishListItem ? 'Cancel' : 'Add item'}
+                                {isNewWishListItem ? 'Cancel' : 'Add item'}
                             </Button>
                         </Grid>
-                        {newWishListItem && (
+                        {isNewWishListItem && (
                             <Grid item xs={4}>
                                 <EditWishListItem
-                                    newItem={true}
+                                    isNewItem={true}
+                                    setIsNewItem={setIsNewWishListItem}
                                     wishListId={
                                         getWishList.data
                                             ?.familycloud_wish_list_by_pk?.id ||
@@ -121,8 +122,15 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
                                 />
                             </Grid>
                         )}
-                        {getWishList.data?.familycloud_wish_list_by_pk?.wish_list_items?.map(
-                            (item) => (
+                        {getWishList.data?.familycloud_wish_list_by_pk?.wish_list_items
+                            ?.sort((item1, item2) => {
+                                const item1Date = new Date(item1.created_at);
+                                const item2Date = new Date(item2.created_at);
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-ignore
+                                return item2Date - item1Date;
+                            })
+                            .map((item) => (
                                 <Grid item xs={4}>
                                     <EditWishListItem
                                         itemId={item.id}
@@ -139,8 +147,7 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
                                         }
                                     />
                                 </Grid>
-                            ),
-                        )}
+                            ))}
                     </Grid>
                 </DialogContent>
                 <DialogActions>

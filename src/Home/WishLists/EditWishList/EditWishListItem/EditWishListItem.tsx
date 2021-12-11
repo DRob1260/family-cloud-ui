@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import './EditWishListItem.scss';
 import {
     Button,
     Card,
@@ -7,11 +8,15 @@ import {
     TextField,
 } from '@mui/material';
 import { TokenContext } from '../../../../contexts/TokenContext';
-import { useInsertWishListItemMutation } from '../../../../types/hasura';
+import {
+    useInsertWishListItemMutation,
+    useUpdateWishListItemMutation,
+} from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../GraphqlClient';
 
 export type EditWishListItemProps = {
-    newItem?: boolean;
+    isNewItem?: boolean;
+    setIsNewItem?: (isNewItem: boolean) => void;
     itemId?: number;
     wishListId: number;
     initialTitle: string;
@@ -23,7 +28,8 @@ export type EditWishListItemProps = {
 export const EditWishListItem: React.FunctionComponent<
     EditWishListItemProps
 > = ({
-    newItem,
+    isNewItem,
+    setIsNewItem,
     itemId,
     wishListId,
     initialTitle,
@@ -42,82 +48,109 @@ export const EditWishListItem: React.FunctionComponent<
         {
             onSuccess: () => {
                 refetchWishListItems();
+                setTitle('');
+                setDescription('');
+                setUrl('');
+                if (setIsNewItem) setIsNewItem(false);
+            },
+        },
+    );
+
+    const updateWishListItem = useUpdateWishListItemMutation(
+        GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
+                refetchWishListItems();
             },
         },
     );
 
     return (
-        <div className={'EditWishListItem'}>
-            <Card>
-                <CardContent>
-                    <TextField
-                        id={`item-${itemId}-title`}
-                        label={'Title'}
-                        variant={'standard'}
-                        fullWidth={true}
-                        size={'small'}
-                        value={title}
-                        onChange={(event) => setTitle(event.target.value)}
-                        required={true}
-                    />
-                    <TextField
-                        id={`item-${itemId}-url`}
-                        label={'Url'}
-                        variant={'standard'}
-                        fullWidth={true}
-                        size={'small'}
-                        value={url}
-                        onChange={(event) => setUrl(event.target.value)}
-                    />
-                    <TextField
-                        id={`item-${itemId}-description`}
-                        label={'Description'}
-                        fullWidth={true}
-                        variant={'standard'}
-                        size={'small'}
-                        value={description}
-                        multiline={true}
-                        rows={3}
-                        onChange={(event) => setDescription(event.target.value)}
-                    />
-                </CardContent>
-                <CardActions>
-                    {newItem && (
-                        <Button
+        <div className={`EditWishListItem`}>
+            <div className={`${isNewItem ? 'new-item' : ''}`}>
+                <Card>
+                    <CardContent>
+                        <TextField
+                            id={`item-${itemId}-title`}
+                            label={'Title'}
+                            variant={'standard'}
+                            fullWidth={true}
                             size={'small'}
-                            disabled={
-                                !title ||
-                                (initialTitle === title &&
-                                    initialDescription === description &&
-                                    initialUrl === url)
-                            }
-                            onClick={() => {
-                                insertWishListItem.mutate({
-                                    wishListId: wishListId,
-                                    title: title,
-                                    description: description,
-                                    url: url,
-                                });
-                            }}
-                        >
-                            Save
-                        </Button>
-                    )}
-                    {!newItem && (
-                        <Button
+                            value={title}
+                            onChange={(event) => setTitle(event.target.value)}
+                            required={true}
+                        />
+                        <TextField
+                            id={`item-${itemId}-url`}
+                            label={'Url'}
+                            variant={'standard'}
+                            fullWidth={true}
                             size={'small'}
-                            disabled={
-                                !title ||
-                                initialTitle === title ||
-                                initialUrl === url ||
-                                initialDescription === description
+                            value={url}
+                            onChange={(event) => setUrl(event.target.value)}
+                        />
+                        <TextField
+                            id={`item-${itemId}-description`}
+                            label={'Description'}
+                            fullWidth={true}
+                            variant={'standard'}
+                            size={'small'}
+                            value={description}
+                            multiline={true}
+                            rows={3}
+                            onChange={(event) =>
+                                setDescription(event.target.value)
                             }
-                        >
-                            Update
-                        </Button>
-                    )}
-                </CardActions>
-            </Card>
+                        />
+                    </CardContent>
+                    <CardActions>
+                        {isNewItem && (
+                            <Button
+                                size={'small'}
+                                disabled={
+                                    !title ||
+                                    (initialTitle === title &&
+                                        initialDescription === description &&
+                                        initialUrl === url)
+                                }
+                                onClick={() => {
+                                    insertWishListItem.mutate({
+                                        wishListId: wishListId,
+                                        title: title,
+                                        description: description,
+                                        url: url,
+                                    });
+                                }}
+                            >
+                                Save
+                            </Button>
+                        )}
+                        {!isNewItem && (
+                            <Button
+                                size={'small'}
+                                disabled={
+                                    !title ||
+                                    (initialTitle === title &&
+                                        initialUrl === url &&
+                                        initialDescription === description)
+                                }
+                                onClick={() => {
+                                    if (itemId) {
+                                        updateWishListItem.mutate({
+                                            itemId: itemId,
+                                            title: title,
+                                            description: description,
+                                            url: url,
+                                        });
+                                    }
+                                }}
+                            >
+                                Update
+                            </Button>
+                        )}
+                    </CardActions>
+                </Card>
+            </div>
         </div>
     );
 };

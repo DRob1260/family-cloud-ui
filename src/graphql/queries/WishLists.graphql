@@ -3,5 +3,6 @@ query WishLists {
         title
         description
         id
+        created_at
     }
 }

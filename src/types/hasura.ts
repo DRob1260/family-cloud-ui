@@ -235,11 +235,13 @@ export type Familycloud_Person_Set_Input = {
 export type Familycloud_Wish_List = {
   __typename?: 'familycloud_wish_list';
   author_id: Scalars['String'];
+  created_at: Scalars['timestamptz'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   /** An object relationship */
   person: Familycloud_Person;
   title: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
   /** An array relationship */
   wish_list_invites: Array<Familycloud_Wish_List_Invite>;
   /** An aggregate relationship */
@@ -352,10 +354,12 @@ export type Familycloud_Wish_List_Bool_Exp = {
   _not?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   _or?: InputMaybe<Array<Familycloud_Wish_List_Bool_Exp>>;
   author_id?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   person?: InputMaybe<Familycloud_Person_Bool_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
   wish_list_items?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
 };
@@ -973,34 +977,42 @@ export type Familycloud_Wish_List_Item_Variance_Order_By = {
 export type Familycloud_Wish_List_Max_Fields = {
   __typename?: 'familycloud_wish_list_max_fields';
   author_id?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "familycloud.wish_list" */
 export type Familycloud_Wish_List_Max_Order_By = {
   author_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Familycloud_Wish_List_Min_Fields = {
   __typename?: 'familycloud_wish_list_min_fields';
   author_id?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "familycloud.wish_list" */
 export type Familycloud_Wish_List_Min_Order_By = {
   author_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "familycloud.wish_list" */
@@ -1029,10 +1041,12 @@ export type Familycloud_Wish_List_On_Conflict = {
 /** Ordering options when selecting data from "familycloud.wish_list". */
 export type Familycloud_Wish_List_Order_By = {
   author_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   person?: InputMaybe<Familycloud_Person_Order_By>;
   title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
   wish_list_invites_aggregate?: InputMaybe<Familycloud_Wish_List_Invite_Aggregate_Order_By>;
   wish_list_items_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Aggregate_Order_By>;
 };
@@ -1047,11 +1061,15 @@ export enum Familycloud_Wish_List_Select_Column {
   /** column name */
   AuthorId = 'author_id',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Description = 'description',
   /** column name */
   Id = 'id',
   /** column name */
-  Title = 'title'
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "familycloud.wish_list" */
@@ -1606,6 +1624,13 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type DeleteWishListItemMutationVariables = Exact<{
+  itemId: Scalars['Int'];
+}>;
+
+
+export type DeleteWishListItemMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
+
 export type InsertWishListMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
@@ -1624,6 +1649,16 @@ export type InsertWishListItemMutationVariables = Exact<{
 
 export type InsertWishListItemMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item?: { __typename?: 'familycloud_wish_list_item_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item', id: number }> } | null | undefined };
 
+export type UpdateWishListItemMutationVariables = Exact<{
+  itemId: Scalars['Int'];
+  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateWishListItemMutation = { __typename?: 'mutation_root', update_familycloud_wish_list_item_by_pk?: { __typename?: 'familycloud_wish_list_item', id: number } | null | undefined };
+
 export type GetWishListByIdQueryVariables = Exact<{
   wishListId: Scalars['Int'];
 }>;
@@ -1634,9 +1669,29 @@ export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number }> };
+export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
 
 
+export const DeleteWishListItemDocument = `
+    mutation DeleteWishListItem($itemId: Int!) {
+  delete_familycloud_wish_list_by_pk(id: $itemId) {
+    id
+  }
+}
+    `;
+export const useDeleteWishListItemMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteWishListItemMutation, TError, DeleteWishListItemMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteWishListItemMutation, TError, DeleteWishListItemMutationVariables, TContext>(
+      'DeleteWishListItem',
+      (variables?: DeleteWishListItemMutationVariables) => fetcher<DeleteWishListItemMutation, DeleteWishListItemMutationVariables>(client, DeleteWishListItemDocument, variables, headers)(),
+      options
+    );
 export const InsertWishListDocument = `
     mutation InsertWishList($title: String!, $description: String!) {
   insert_familycloud_wish_list_one(
@@ -1685,6 +1740,29 @@ export const useInsertWishListItemMutation = <
       (variables?: InsertWishListItemMutationVariables) => fetcher<InsertWishListItemMutation, InsertWishListItemMutationVariables>(client, InsertWishListItemDocument, variables, headers)(),
       options
     );
+export const UpdateWishListItemDocument = `
+    mutation updateWishListItem($itemId: Int!, $title: String, $description: String, $url: String) {
+  update_familycloud_wish_list_item_by_pk(
+    pk_columns: {id: $itemId}
+    _set: {description: $description, title: $title, url: $url}
+  ) {
+    id
+  }
+}
+    `;
+export const useUpdateWishListItemMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateWishListItemMutation, TError, UpdateWishListItemMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateWishListItemMutation, TError, UpdateWishListItemMutationVariables, TContext>(
+      'updateWishListItem',
+      (variables?: UpdateWishListItemMutationVariables) => fetcher<UpdateWishListItemMutation, UpdateWishListItemMutationVariables>(client, UpdateWishListItemDocument, variables, headers)(),
+      options
+    );
 export const GetWishListByIdDocument = `
     query GetWishListById($wishListId: Int!) {
   familycloud_wish_list_by_pk(id: $wishListId) {
@@ -1725,6 +1803,7 @@ export const WishListsDocument = `
     title
     description
     id
+    created_at
   }
 }
     `;
