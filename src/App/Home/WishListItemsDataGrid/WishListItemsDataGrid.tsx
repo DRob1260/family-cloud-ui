@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
-import './WishListDataGrid.scss';
+import React, { useContext, useState } from 'react';
+import './WishListItemsDataGrid.scss';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { useGetWishListItemsQuery } from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
-import { CircularProgress, Paper } from '@mui/material';
+import {
+    CircularProgress,
+    Grid,
+    IconButton,
+    Paper,
+    Typography,
+} from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { AddCircle } from '@mui/icons-material';
+import { CreateItem } from './CreateItem/CreateItem';
 
 export type WishListDataGridProps = {
     wishListId: number;
@@ -28,9 +36,11 @@ const columns: GridColDef[] = [
     },
 ];
 
-export const WishListDataGrid: React.FunctionComponent<
+export const WishListItemsDataGrid: React.FunctionComponent<
     WishListDataGridProps
 > = ({ wishListId }) => {
+    const [open, setOpen] = useState(false);
+
     const { token } = useContext(TokenContext);
 
     const getWishListItems = useGetWishListItemsQuery(
@@ -41,10 +51,34 @@ export const WishListDataGrid: React.FunctionComponent<
     );
 
     return (
-        <div className={'WishListDataGrid'}>
+        <div className={'WishListItemsDataGrid'}>
+            <CreateItem
+                wishListId={wishListId}
+                refetchWishListItems={getWishListItems.refetch}
+                open={open}
+                setOpen={setOpen}
+            />
             {getWishListItems.isLoading && <CircularProgress />}
             {getWishListItems.isSuccess && (
-                <Paper elevation={3} id={'wish-list-data-grid-paper'}>
+                <Paper elevation={3} id={'wish-list-items-data-grid-paper'}>
+                    <Grid
+                        container
+                        id={'wish-lists-items-data-grid-header-grid'}
+                    >
+                        <Grid item xs={11}>
+                            <Typography variant={'h6'}>
+                                Wish List Items
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <IconButton
+                                id={'add-wish-list-item-button'}
+                                onClick={() => setOpen(true)}
+                            >
+                                <AddCircle id={'add-wish-list-item-icon'} />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                     <DataGrid
                         columns={columns}
                         rows={getWishListItems.data?.familycloud_wish_list_item?.map(

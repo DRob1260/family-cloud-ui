@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { WishLists } from './WishLists/WishLists';
 import { Auth0TokenWrapper } from '../../auth0/Auth0TokenWrapper';
 import { Grid, Typography } from '@mui/material';
-import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
+import { WishListItemsDataGrid } from './WishListItemsDataGrid/WishListItemsDataGrid';
 
 export const Home: React.FunctionComponent = () => {
     const { isAuthenticated, user } = useAuth0();
@@ -35,7 +35,7 @@ export const Home: React.FunctionComponent = () => {
                             </Grid>
                             <Grid item xs={9}>
                                 {activeWishListId && (
-                                    <WishListDataGrid
+                                    <WishListItemsDataGrid
                                         wishListId={activeWishListId}
                                     />
                                 )}
