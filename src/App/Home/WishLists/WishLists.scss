@@ -1,0 +1,26 @@
+.WishLists {
+  .MuiListSubheader-root {
+    color: black;
+
+    #wish-lists-header-grid {
+      position: relative;
+
+      .MuiTypography-root {
+        margin: 0;
+        position: absolute;
+        top: 25%;
+      }
+    }
+
+    .MuiIconButton-root {
+      color: #1565c0;
+    }
+    //#create-wish-list-button {
+    //  margin-left: .5em;
+    //  #create-wish-list-button-icon {
+    //    height: .75em;
+    //    width: .75em;
+    //  }
+    //}
+  }
+}
