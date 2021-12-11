@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="added ability to delete wish list item">
-      <change afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/WishListItems/WishListItems.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/graphql/queries/WishListItems.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+    <list default="true" id="4ed99e69-8aeb-4d7e-b8cf-67a4b70d7901" name="Changes" comment="improved action for adding a new item">
+      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/DeleteWishList.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/graphql/mutations/UpdateWishList.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/codegen.js" beforeDir="false" afterPath="$PROJECT_DIR$/codegen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/EditWishList/EditWishListItem/EditWishListItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/queries/WishListById.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/queries/WishListById.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home/WishLists/WishLists.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/hasura.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/hasura.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +69,7 @@
       <option name="presentableId" value="Default" />
       <updated>1639115057002</updated>
       <workItem from="1639115060158" duration="14805000" />
-      <workItem from="1639191527570" duration="17412000" />
+      <workItem from="1639191527570" duration="19629000" />
     </task>
     <task id="LOCAL-00001" summary="can successfully query hasura api">
       <created>1639119470233</created>
@@ -115,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639224456517</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="improved action for adding a new item">
+      <created>1639243815147</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1639243815147</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,7 +145,8 @@
     <MESSAGE value="started on ability to add/update wish list item" />
     <MESSAGE value="added ability to update wish list item" />
     <MESSAGE value="added ability to delete wish list item" />
-    <option name="LAST_COMMIT_MESSAGE" value="added ability to delete wish list item" />
+    <MESSAGE value="improved action for adding a new item" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved action for adding a new item" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

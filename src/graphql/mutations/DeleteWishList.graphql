@@ -1,0 +1,5 @@
+mutation DeleteWishList($wishListId: Int!) {
+    delete_familycloud_wish_list_by_pk(id: $wishListId) {
+        id
+    }
+}

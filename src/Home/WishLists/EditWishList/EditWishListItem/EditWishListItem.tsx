@@ -79,8 +79,6 @@ export const EditWishListItem: React.FunctionComponent<
 
     // todo: logic for disabling update button isn't right
     useEffect(() => {
-        console.log('description', description);
-        console.log('initialDescription', initialDescription);
         if (title && title !== initialTitle) {
             setDisableUpdateButton(false);
         } else if (description !== initialDescription || url !== initialUrl) {
@@ -130,28 +128,8 @@ export const EditWishListItem: React.FunctionComponent<
                         />
                     </CardContent>
                     <CardActions>
-                        {itemId && (
-                            <Button
-                                className={'delete-wish-list-item-button'}
-                                size={'small'}
-                                onClick={() => {
-                                    deleteWishListItem.mutate({
-                                        itemId,
-                                    });
-                                }}
-                            >
-                                Delete
-                            </Button>
-                        )}
                         {isNewItem && (
                             <div>
-                                <Button
-                                    onClick={() => {
-                                        setIsNewItem && setIsNewItem(false);
-                                    }}
-                                >
-                                    Cancel
-                                </Button>
                                 <Button
                                     variant={'contained'}
                                     size={'small'}
@@ -172,6 +150,13 @@ export const EditWishListItem: React.FunctionComponent<
                                     }}
                                 >
                                     Save
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        setIsNewItem && setIsNewItem(false);
+                                    }}
+                                >
+                                    Cancel
                                 </Button>
                             </div>
                         )}
@@ -202,6 +187,19 @@ export const EditWishListItem: React.FunctionComponent<
                                     <CircularProgress size={'small'} />
                                 )}
                             </div>
+                        )}
+                        {itemId && (
+                            <Button
+                                className={'delete-wish-list-item-button'}
+                                size={'small'}
+                                onClick={() => {
+                                    deleteWishListItem.mutate({
+                                        itemId,
+                                    });
+                                }}
+                            >
+                                Delete
+                            </Button>
                         )}
                     </CardActions>
                 </Card>

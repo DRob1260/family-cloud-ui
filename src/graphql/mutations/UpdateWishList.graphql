@@ -1,0 +1,5 @@
+mutation UpdateWishList($wishListId: Int!, $title: String!, $description: String) {
+    update_familycloud_wish_list_by_pk(_set: {title: $title, description: $description}, pk_columns: {id: $wishListId}) {
+        id
+    }
+}

@@ -1624,6 +1624,13 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type DeleteWishListMutationVariables = Exact<{
+  wishListId: Scalars['Int'];
+}>;
+
+
+export type DeleteWishListMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
+
 export type DeleteWishListItemMutationVariables = Exact<{
   itemId: Scalars['Int'];
 }>;
@@ -1648,6 +1655,15 @@ export type InsertWishListItemMutationVariables = Exact<{
 
 
 export type InsertWishListItemMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item?: { __typename?: 'familycloud_wish_list_item_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item', id: number }> } | null | undefined };
+
+export type UpdateWishListMutationVariables = Exact<{
+  wishListId: Scalars['Int'];
+  title: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateWishListMutation = { __typename?: 'mutation_root', update_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
 
 export type UpdateWishListItemMutationVariables = Exact<{
   itemId: Scalars['Int'];
@@ -1679,6 +1695,26 @@ export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
 
 
+export const DeleteWishListDocument = `
+    mutation DeleteWishList($wishListId: Int!) {
+  delete_familycloud_wish_list_by_pk(id: $wishListId) {
+    id
+  }
+}
+    `;
+export const useDeleteWishListMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteWishListMutation, TError, DeleteWishListMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteWishListMutation, TError, DeleteWishListMutationVariables, TContext>(
+      'DeleteWishList',
+      (variables?: DeleteWishListMutationVariables) => fetcher<DeleteWishListMutation, DeleteWishListMutationVariables>(client, DeleteWishListDocument, variables, headers)(),
+      options
+    );
 export const DeleteWishListItemDocument = `
     mutation DeleteWishListItem($itemId: Int!) {
   delete_familycloud_wish_list_item_by_pk(id: $itemId) {
@@ -1745,6 +1781,29 @@ export const useInsertWishListItemMutation = <
     useMutation<InsertWishListItemMutation, TError, InsertWishListItemMutationVariables, TContext>(
       'insertWishListItem',
       (variables?: InsertWishListItemMutationVariables) => fetcher<InsertWishListItemMutation, InsertWishListItemMutationVariables>(client, InsertWishListItemDocument, variables, headers)(),
+      options
+    );
+export const UpdateWishListDocument = `
+    mutation UpdateWishList($wishListId: Int!, $title: String!, $description: String) {
+  update_familycloud_wish_list_by_pk(
+    _set: {title: $title, description: $description}
+    pk_columns: {id: $wishListId}
+  ) {
+    id
+  }
+}
+    `;
+export const useUpdateWishListMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateWishListMutation, TError, UpdateWishListMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateWishListMutation, TError, UpdateWishListMutationVariables, TContext>(
+      'UpdateWishList',
+      (variables?: UpdateWishListMutationVariables) => fetcher<UpdateWishListMutation, UpdateWishListMutationVariables>(client, UpdateWishListDocument, variables, headers)(),
       options
     );
 export const UpdateWishListItemDocument = `

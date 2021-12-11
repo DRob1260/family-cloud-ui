@@ -1,9 +1,12 @@
 .EditWishList {
-  .MuiDialog-root {
-    width: 100%;
+
+}
+
+.EditWishList-dialog {
+  .wish-list-delete-button {
+    color: red;
   }
-  .wish-list-items-header {
-    display:flex;
-    flex-direction:row;
+  .wish-list-delete-button:hover {
+    background-color: rgba(255, 0, 0, 0.03)
   }
 }

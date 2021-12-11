@@ -33,6 +33,7 @@ export const WishLists: React.FunctionComponent = () => {
                 open={editWishListOpen}
                 setOpen={setEditWishListOpen}
                 wishListId={editWishListId}
+                refetchWishLists={wishListsQuery.refetch}
             />
             <Grid container spacing={2}>
                 <Grid item xs={'auto'}>

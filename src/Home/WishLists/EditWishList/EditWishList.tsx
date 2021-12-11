@@ -10,7 +10,11 @@ import {
     TextField,
 } from '@mui/material';
 import { TokenContext } from '../../../contexts/TokenContext';
-import { useGetWishListByIdQuery } from '../../../types/hasura';
+import {
+    useDeleteWishListMutation,
+    useGetWishListByIdQuery,
+    useUpdateWishListMutation,
+} from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../GraphqlClient';
 import { WishListItems } from './WishListItems/WishListItems';
 
@@ -18,12 +22,14 @@ export type EditWishListType = {
     open: boolean;
     setOpen: (open: boolean) => void;
     wishListId: null | number;
+    refetchWishLists: () => void;
 };
 
 export const EditWishList: React.FunctionComponent<EditWishListType> = ({
     open,
     setOpen,
     wishListId,
+    refetchWishLists,
 }) => {
     const { token } = useContext(TokenContext);
 
@@ -46,9 +52,24 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
         },
     );
 
+    const updateWishList = useUpdateWishListMutation(
+        GraphqlClientWithAuth(token),
+    );
+
+    const deleteWishList = useDeleteWishListMutation(
+        GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
+                refetchWishLists();
+                setOpen(false);
+            },
+        },
+    );
+
     return (
         <div className={'EditWishList'}>
             <Dialog
+                className={'EditWishList-dialog'}
                 open={open}
                 onClose={() => setOpen(false)}
                 maxWidth={'md'}
@@ -98,6 +119,32 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
                     )}
                 </DialogContent>
                 <DialogActions>
+                    {wishListId && title && (
+                        <Button
+                            variant={'contained'}
+                            onClick={() => {
+                                updateWishList.mutate({
+                                    wishListId: wishListId,
+                                    title: title,
+                                    description: description,
+                                });
+                            }}
+                        >
+                            Update
+                        </Button>
+                    )}
+                    {wishListId && (
+                        <Button
+                            className={'wish-list-delete-button'}
+                            onClick={() =>
+                                deleteWishList.mutate({
+                                    wishListId: wishListId,
+                                })
+                            }
+                        >
+                            Delete
+                        </Button>
+                    )}
                     <Button onClick={() => setOpen(false)}>Close</Button>
                 </DialogActions>
             </Dialog>
