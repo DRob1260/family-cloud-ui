@@ -1,0 +1,10 @@
+query GetWishListItems($wishListId: Int!) {
+    familycloud_wish_list_item(where: {wish_list_id: {_eq: $wishListId}}) {
+        created_at
+        description
+        id
+        title
+        updated_at
+        url
+    }
+}

@@ -6,13 +6,5 @@ query GetWishListById($wishListId: Int!) {
         }
         description
         title
-        wish_list_items {
-            description
-            id
-            title
-            created_at
-            updated_at
-            url
-        }
     }
 }

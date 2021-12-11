@@ -8,12 +8,11 @@ import {
     DialogContent,
     Grid,
     TextField,
-    Typography,
 } from '@mui/material';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { useGetWishListByIdQuery } from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../GraphqlClient';
-import { EditWishListItem } from './EditWishListItem/EditWishListItem';
+import { WishListItems } from './WishListItems/WishListItems';
 
 export type EditWishListType = {
     open: boolean;
@@ -30,7 +29,6 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [isNewWishListItem, setIsNewWishListItem] = useState(false);
 
     const getWishList = useGetWishListByIdQuery(
         GraphqlClientWithAuth(token),
@@ -89,83 +87,11 @@ export const EditWishList: React.FunctionComponent<EditWishListType> = ({
                                     }}
                                 />
                             </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                className={'wish-list-items-header'}
-                            >
-                                <Typography variant={'subtitle2'}>
-                                    Wish List Items
-                                </Typography>
-                                <div>
-                                    {getWishList.isLoading ? (
-                                        <CircularProgress />
-                                    ) : (
-                                        <Button
-                                            onClick={() =>
-                                                setIsNewWishListItem(
-                                                    !isNewWishListItem,
-                                                )
-                                            }
-                                        >
-                                            {isNewWishListItem
-                                                ? 'Cancel'
-                                                : 'Add item'}
-                                        </Button>
-                                    )}
-                                </div>
-                            </Grid>
-                            {isNewWishListItem && (
-                                <Grid item xs={4}>
-                                    <EditWishListItem
-                                        isNewItem={true}
-                                        setIsNewItem={setIsNewWishListItem}
-                                        wishListId={
-                                            getWishList.data
-                                                ?.familycloud_wish_list_by_pk
-                                                ?.id || -1
-                                        }
-                                        initialTitle={''}
-                                        initialDescription={''}
-                                        initialUrl={''}
-                                        refetchWishListItems={
-                                            getWishList.refetch
-                                        }
-                                    />
+                            {wishListId && (
+                                <Grid item xs={12}>
+                                    <WishListItems wishListId={wishListId} />
                                 </Grid>
                             )}
-                            {getWishList.data?.familycloud_wish_list_by_pk?.wish_list_items
-                                ?.sort((item1, item2) => {
-                                    const item1Date = new Date(
-                                        item1.created_at,
-                                    );
-                                    const item2Date = new Date(
-                                        item2.created_at,
-                                    );
-                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                    // @ts-ignore
-                                    return item2Date - item1Date;
-                                })
-                                .map((item) => (
-                                    <Grid item xs={4}>
-                                        <EditWishListItem
-                                            itemId={item.id}
-                                            wishListId={
-                                                getWishList.data
-                                                    ?.familycloud_wish_list_by_pk
-                                                    ?.id || -1
-                                            }
-                                            initialTitle={item.title}
-                                            initialDescription={
-                                                item.description
-                                            }
-                                            initialUrl={item.url}
-                                            refetchWishListItems={
-                                                getWishList.refetch
-                                            }
-                                        />
-                                    </Grid>
-                                ))}
                         </Grid>
                     ) : (
                         <CircularProgress />

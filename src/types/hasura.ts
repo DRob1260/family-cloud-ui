@@ -1664,7 +1664,14 @@ export type GetWishListByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string, author: { __typename?: 'familycloud_person', nickname: string }, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, id: number, title: string, created_at: any, updated_at: any, url?: string | null | undefined }> } | null | undefined };
+export type GetWishListByIdQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string, author: { __typename?: 'familycloud_person', nickname: string } } | null | undefined };
+
+export type GetWishListItemsQueryVariables = Exact<{
+  wishListId: Scalars['Int'];
+}>;
+
+
+export type GetWishListItemsQuery = { __typename?: 'query_root', familycloud_wish_list_item: Array<{ __typename?: 'familycloud_wish_list_item', created_at: any, description?: string | null | undefined, id: number, title: string, updated_at: any, url?: string | null | undefined }> };
 
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1772,14 +1779,6 @@ export const GetWishListByIdDocument = `
     }
     description
     title
-    wish_list_items {
-      description
-      id
-      title
-      created_at
-      updated_at
-      url
-    }
   }
 }
     `;
@@ -1795,6 +1794,32 @@ export const useGetWishListByIdQuery = <
     useQuery<GetWishListByIdQuery, TError, TData>(
       ['GetWishListById', variables],
       fetcher<GetWishListByIdQuery, GetWishListByIdQueryVariables>(client, GetWishListByIdDocument, variables, headers),
+      options
+    );
+export const GetWishListItemsDocument = `
+    query GetWishListItems($wishListId: Int!) {
+  familycloud_wish_list_item(where: {wish_list_id: {_eq: $wishListId}}) {
+    created_at
+    description
+    id
+    title
+    updated_at
+    url
+  }
+}
+    `;
+export const useGetWishListItemsQuery = <
+      TData = GetWishListItemsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetWishListItemsQueryVariables,
+      options?: UseQueryOptions<GetWishListItemsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetWishListItemsQuery, TError, TData>(
+      ['GetWishListItems', variables],
+      fetcher<GetWishListItemsQuery, GetWishListItemsQueryVariables>(client, GetWishListItemsDocument, variables, headers),
       options
     );
 export const WishListsDocument = `

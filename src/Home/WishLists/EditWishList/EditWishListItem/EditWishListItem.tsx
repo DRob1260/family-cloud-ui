@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './EditWishListItem.scss';
 import {
     Button,
@@ -41,9 +41,10 @@ export const EditWishListItem: React.FunctionComponent<
 }) => {
     const { token } = useContext(TokenContext);
 
-    const [title, setTitle] = useState(initialTitle);
-    const [description, setDescription] = useState(initialDescription);
-    const [url, setUrl] = useState(initialUrl);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [url, setUrl] = useState('');
+    const [disableUpdateButton, setDisableUpdateButton] = useState(false);
 
     const insertWishListItem = useInsertWishListItemMutation(
         GraphqlClientWithAuth(token),
@@ -76,8 +77,22 @@ export const EditWishListItem: React.FunctionComponent<
         },
     );
 
+    // todo: logic for disabling update button isn't right
+    useEffect(() => {
+        console.log('description', description);
+        console.log('initialDescription', initialDescription);
+        if (title && title !== initialTitle) {
+            setDisableUpdateButton(false);
+        } else if (description !== initialDescription || url !== initialUrl) {
+            setDisableUpdateButton(false);
+        }
+    }, [description, initialDescription, initialTitle, initialUrl, title, url]);
+
     return (
-        <div className={`EditWishListItem`}>
+        <div
+            className={`EditWishListItem`}
+            id={`edit-wish-list-item-${itemId}`}
+        >
             <div className={`${isNewItem ? 'new-item' : ''}`}>
                 <Card>
                     <CardContent>
@@ -87,7 +102,7 @@ export const EditWishListItem: React.FunctionComponent<
                             variant={'standard'}
                             fullWidth={true}
                             size={'small'}
-                            value={title}
+                            value={title || initialTitle}
                             onChange={(event) => setTitle(event.target.value)}
                             required={true}
                         />
@@ -97,7 +112,7 @@ export const EditWishListItem: React.FunctionComponent<
                             variant={'standard'}
                             fullWidth={true}
                             size={'small'}
-                            value={url}
+                            value={url || initialUrl}
                             onChange={(event) => setUrl(event.target.value)}
                         />
                         <TextField
@@ -106,7 +121,7 @@ export const EditWishListItem: React.FunctionComponent<
                             fullWidth={true}
                             variant={'standard'}
                             size={'small'}
-                            value={description}
+                            value={description || initialDescription}
                             multiline={true}
                             rows={3}
                             onChange={(event) =>
@@ -115,65 +130,72 @@ export const EditWishListItem: React.FunctionComponent<
                         />
                     </CardContent>
                     <CardActions>
-                        {isNewItem && (
+                        {itemId && (
                             <Button
+                                className={'delete-wish-list-item-button'}
                                 size={'small'}
-                                disabled={
-                                    !title ||
-                                    (initialTitle === title &&
-                                        initialDescription === description &&
-                                        initialUrl === url)
-                                }
                                 onClick={() => {
-                                    insertWishListItem.mutate({
-                                        wishListId: wishListId,
-                                        title: title,
-                                        description: description,
-                                        url: url,
+                                    deleteWishListItem.mutate({
+                                        itemId,
                                     });
                                 }}
                             >
-                                Save
+                                Delete
                             </Button>
                         )}
-                        {!isNewItem && (
+                        {isNewItem && (
                             <div>
                                 <Button
+                                    onClick={() => {
+                                        setIsNewItem && setIsNewItem(false);
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant={'contained'}
                                     size={'small'}
                                     disabled={
                                         !title ||
                                         (initialTitle === title &&
-                                            initialUrl === url &&
-                                            initialDescription === description)
+                                            initialDescription ===
+                                                description &&
+                                            initialUrl === url)
                                     }
+                                    onClick={() => {
+                                        insertWishListItem.mutate({
+                                            wishListId: wishListId,
+                                            title: title,
+                                            description: description,
+                                            url: url,
+                                        });
+                                    }}
+                                >
+                                    Save
+                                </Button>
+                            </div>
+                        )}
+                        {!isNewItem && (
+                            <div>
+                                <Button
+                                    variant={'contained'}
+                                    size={'small'}
+                                    disabled={disableUpdateButton}
                                     onClick={() => {
                                         if (itemId) {
                                             updateWishListItem.mutate({
                                                 itemId: itemId,
-                                                title: title,
-                                                description: description,
-                                                url: url,
+                                                title: title || initialTitle,
+                                                description:
+                                                    description ||
+                                                    initialDescription,
+                                                url: url || initialUrl,
                                             });
                                         }
                                     }}
                                 >
                                     Update
                                 </Button>
-                                {itemId && (
-                                    <Button
-                                        className={
-                                            'delete-wish-list-item-button'
-                                        }
-                                        size={'small'}
-                                        onClick={() => {
-                                            deleteWishListItem.mutate({
-                                                itemId,
-                                            });
-                                        }}
-                                    >
-                                        Delete
-                                    </Button>
-                                )}
                                 {(updateWishListItem.isLoading ||
                                     deleteWishListItem.isLoading ||
                                     insertWishListItem.isLoading) && (
