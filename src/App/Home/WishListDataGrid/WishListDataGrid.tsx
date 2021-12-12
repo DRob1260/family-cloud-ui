@@ -12,7 +12,7 @@ import {
     Typography,
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { AddCircle, Settings } from '@mui/icons-material';
+import { AddCircle, Settings, Share } from '@mui/icons-material';
 import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
@@ -165,7 +165,7 @@ export const WishListDataGrid: React.FunctionComponent<
             {getWishList.isSuccess && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
                     <Grid container id={'wish-lists-data-grid-header-grid'}>
-                        <Grid item xs={11}>
+                        <Grid item xs={10}>
                             <Typography variant={'h6'}>
                                 {
                                     getWishList.data.familycloud_wish_list_by_pk
@@ -173,9 +173,10 @@ export const WishListDataGrid: React.FunctionComponent<
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item xs={2}>
                             <ButtonGroup>
                                 <IconButton
+                                    title={'Configure Wish List'}
                                     id={'wish-list-settings-button'}
                                     onClick={() =>
                                         setOpenWishListSettings(true)
@@ -183,7 +184,11 @@ export const WishListDataGrid: React.FunctionComponent<
                                 >
                                     <Settings />
                                 </IconButton>
+                                <IconButton title={'Share Wish List'}>
+                                    <Share id={'share-wish-list-icon'} />
+                                </IconButton>
                                 <IconButton
+                                    title={'Add Wish List Item'}
                                     id={'add-wish-list-item-button'}
                                     onClick={() =>
                                         setOpenCreateWishListItem(true)

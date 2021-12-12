@@ -18,6 +18,7 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
     return (
         <div className={'ItemActions'}>
             <IconButton
+                title={'Delete Wish List Item'}
                 onClick={() => {
                     deleteItem(itemRow);
                 }}
@@ -25,6 +26,7 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
                 <Delete id={'delete-wish-list-item-icon'} />
             </IconButton>
             <IconButton
+                title={'Edit Wish List Item'}
                 onClick={() => {
                     editItem(itemRow);
                 }}

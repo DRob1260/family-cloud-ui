@@ -69,6 +69,7 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                                         </Grid>
                                         <Grid item xs={1}>
                                             <IconButton
+                                                title={'Add Wish List'}
                                                 id={'create-wish-list-button'}
                                                 size={'small'}
                                                 onClick={() =>
