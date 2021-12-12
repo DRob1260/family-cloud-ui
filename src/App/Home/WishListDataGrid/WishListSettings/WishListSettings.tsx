@@ -8,7 +8,11 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { useUpdateWishListMutation } from '../../../../types/hasura';
+import {
+    useGetWishListQuery,
+    useGetWishListsQuery,
+    useUpdateWishListMutation,
+} from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { TokenContext } from '../../../../contexts/TokenContext';
 
@@ -37,11 +41,22 @@ export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
 
     const { token } = useContext(TokenContext);
 
-    // todo: update data in parent components after mutation
+    const { refetch: refetchWishLists } = useGetWishListsQuery(
+        GraphqlClientWithAuth(token),
+    );
+
+    // todo: this could become an expensive refetch
+    const { refetch: refetchWishList } = useGetWishListQuery(
+        GraphqlClientWithAuth(token),
+        { wishListId: wishListId },
+    );
+
     const updateWishList = useUpdateWishListMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
+                refetchWishLists();
+                refetchWishList();
                 setOpen(false);
             },
         },

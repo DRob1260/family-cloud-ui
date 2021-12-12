@@ -1,4 +1,4 @@
-query WishLists {
+query GetWishLists {
     familycloud_wish_list(order_by: {updated_at: desc}) {
         title
         description

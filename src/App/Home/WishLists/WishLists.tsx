@@ -14,7 +14,7 @@ import './WishLists.scss';
 import React, { useContext, useState } from 'react';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
-import { useWishListsQuery } from '../../../types/hasura';
+import { useGetWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
 import { CreateWishList } from './CreateWishList/CreateWishList';
 
@@ -30,22 +30,22 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
     const { token } = useContext(TokenContext);
     const [createWishListOpen, setCreateWishListOpen] = useState(false);
 
-    const wishListsQuery = useWishListsQuery(GraphqlClientWithAuth(token));
+    const getWishLists = useGetWishListsQuery(GraphqlClientWithAuth(token));
 
     return (
         <div className={'WishLists'}>
             <CreateWishList
                 open={createWishListOpen}
                 setOpen={setCreateWishListOpen}
-                refetchWishLists={wishListsQuery.refetch}
+                refetchWishLists={getWishLists.refetch}
             />
             <Grid container spacing={2}>
-                {wishListsQuery.isLoading && (
+                {getWishLists.isLoading && (
                     <Grid item>
                         <CircularProgress />
                     </Grid>
                 )}
-                {wishListsQuery.isError && (
+                {getWishLists.isError && (
                     <Grid item>
                         <Alert severity={'error'}>
                             An error occurred while retrieving your Wish Lists.
@@ -86,9 +86,9 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                                 </ListSubheader>
                             }
                         >
-                            {wishListsQuery.isSuccess && (
+                            {getWishLists.isSuccess && (
                                 <div>
-                                    {wishListsQuery.data.familycloud_wish_list.map(
+                                    {getWishLists.data.familycloud_wish_list.map(
                                         (wishList) => (
                                             <div>
                                                 <Divider />
