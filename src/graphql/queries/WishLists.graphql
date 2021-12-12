@@ -1,5 +1,5 @@
 query WishLists {
-    familycloud_wish_list {
+    familycloud_wish_list(order_by: {updated_at: desc}) {
         title
         description
         id

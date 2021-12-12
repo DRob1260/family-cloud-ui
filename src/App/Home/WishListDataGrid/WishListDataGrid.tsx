@@ -4,6 +4,7 @@ import { TokenContext } from '../../../contexts/TokenContext';
 import { useGetWishListQuery } from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import {
+    ButtonGroup,
     CircularProgress,
     Grid,
     IconButton,
@@ -11,11 +12,12 @@ import {
     Typography,
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { AddCircle } from '@mui/icons-material';
+import { AddCircle, Settings } from '@mui/icons-material';
 import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
+import { WishListSettings } from './WishListSettings/WishListSettings';
 
 export type WishListDataGridProps = {
     wishListId: number;
@@ -36,6 +38,7 @@ export const WishListDataGrid: React.FunctionComponent<
     const [openCreateWishListItem, setOpenCreateWishListItem] = useState(false);
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
+    const [openWishListSettings, setOpenWishListSettings] = useState(false);
     const [actionRow, setActionRow] = useState<WishListItemRow>({
         id: -1,
         title: '',
@@ -146,6 +149,18 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openUpdateWishListItem}
                 setOpen={setOpenUpdateWishListItem}
             />
+            <WishListSettings
+                wishListId={wishListId}
+                initialTitle={
+                    getWishList.data?.familycloud_wish_list_by_pk?.title || ''
+                }
+                initialDescription={
+                    getWishList.data?.familycloud_wish_list_by_pk
+                        ?.description || ''
+                }
+                open={openWishListSettings}
+                setOpen={setOpenWishListSettings}
+            />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
@@ -159,12 +174,24 @@ export const WishListDataGrid: React.FunctionComponent<
                             </Typography>
                         </Grid>
                         <Grid item xs={1}>
-                            <IconButton
-                                id={'add-wish-list-item-button'}
-                                onClick={() => setOpenCreateWishListItem(true)}
-                            >
-                                <AddCircle id={'add-wish-list-item-icon'} />
-                            </IconButton>
+                            <ButtonGroup>
+                                <IconButton
+                                    id={'wish-list-settings-button'}
+                                    onClick={() =>
+                                        setOpenWishListSettings(true)
+                                    }
+                                >
+                                    <Settings />
+                                </IconButton>
+                                <IconButton
+                                    id={'add-wish-list-item-button'}
+                                    onClick={() =>
+                                        setOpenCreateWishListItem(true)
+                                    }
+                                >
+                                    <AddCircle id={'add-wish-list-item-icon'} />
+                                </IconButton>
+                            </ButtonGroup>
                         </Grid>
                     </Grid>
                     <DataGrid columns={columns} rows={rows} autoHeight={true} />

@@ -8,62 +8,49 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { WishListItemRow } from '../WishListDataGrid';
-import { useUpdateWishListItemMutation } from '../../../../types/hasura';
+import { useUpdateWishListMutation } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
 
-export type UpdateWishListItemProps = {
-    itemRow: WishListItemRow;
-    updateRow: (row: WishListItemRow) => void;
+export type WishListSettings = {
+    wishListId: number;
+    initialTitle: string;
+    initialDescription: string;
     open: boolean;
     setOpen: (open: boolean) => void;
 };
 
-export const UpdateWishListItem: React.FunctionComponent<
-    UpdateWishListItemProps
-> = ({ itemRow, updateRow, open, setOpen }) => {
+export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
+    wishListId,
+    initialTitle,
+    initialDescription,
+    open,
+    setOpen,
+}) => {
     const [title, setTitle] = useState('');
-    const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
+
+    useEffect(() => {
+        setTitle(initialTitle);
+        setDescription(initialDescription);
+    }, [initialTitle, initialDescription]);
 
     const { token } = useContext(TokenContext);
 
-    const updateWishListItem = useUpdateWishListItemMutation(
+    // todo: update data in parent components after mutation
+    const updateWishList = useUpdateWishListMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
-                console.log(
-                    'itemRow?.actionsRowNumber',
-                    itemRow?.actionsRowNumber,
-                );
-                updateRow({
-                    id: itemRow?.id || -1,
-                    title: title,
-                    url: url,
-                    description: description,
-                    actionsRowNumber: itemRow?.actionsRowNumber,
-                });
                 setOpen(false);
             },
         },
     );
 
-    useEffect(() => {
-        setTitle(itemRow?.title || '');
-        setUrl(itemRow?.url || '');
-        setDescription(itemRow?.description || '');
-    }, [itemRow]);
-
     return (
-        <div className={'UpdateWishListItem'}>
-            <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                fullWidth={true}
-                maxWidth={'xs'}
-            >
-                <DialogTitle>Update Wish List Item</DialogTitle>
+        <div className={'WishListSettings'}>
+            <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogTitle>Update Wish List Configuration</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
@@ -78,18 +65,10 @@ export const UpdateWishListItem: React.FunctionComponent<
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label={'Url'}
-                                fullWidth={true}
-                                value={url}
-                                onChange={(event) => setUrl(event.target.value)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
                                 label={'Description'}
-                                fullWidth={true}
                                 multiline={true}
                                 rows={3}
+                                fullWidth={true}
                                 value={description}
                                 onChange={(event) =>
                                     setDescription(event.target.value)
@@ -99,18 +78,16 @@ export const UpdateWishListItem: React.FunctionComponent<
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={() => setOpen(false)}>Close</Button>
                     <Button
                         variant={'contained'}
                         onClick={() => {
-                            updateWishListItem.mutate({
-                                itemId: itemRow?.id,
+                            updateWishList.mutate({
+                                wishListId: wishListId,
                                 title: title,
                                 description: description,
-                                url: url,
                             });
                         }}
-                        disabled={!title}
                     >
                         Update
                     </Button>

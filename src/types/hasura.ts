@@ -1682,13 +1682,6 @@ export type GetWishListQueryVariables = Exact<{
 
 export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
 
-export type GetWishListItemsQueryVariables = Exact<{
-  wishListId: Scalars['Int'];
-}>;
-
-
-export type GetWishListItemsQuery = { __typename?: 'query_root', familycloud_wish_list_item: Array<{ __typename?: 'familycloud_wish_list_item', created_at: any, description?: string | null | undefined, id: number, title: string, updated_at: any, url?: string | null | undefined }> };
-
 export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1858,35 +1851,9 @@ export const useGetWishListQuery = <
       fetcher<GetWishListQuery, GetWishListQueryVariables>(client, GetWishListDocument, variables, headers),
       options
     );
-export const GetWishListItemsDocument = `
-    query GetWishListItems($wishListId: Int!) {
-  familycloud_wish_list_item(where: {wish_list_id: {_eq: $wishListId}}) {
-    created_at
-    description
-    id
-    title
-    updated_at
-    url
-  }
-}
-    `;
-export const useGetWishListItemsQuery = <
-      TData = GetWishListItemsQuery,
-      TError = unknown
-    >(
-      client: GraphQLClient,
-      variables: GetWishListItemsQueryVariables,
-      options?: UseQueryOptions<GetWishListItemsQuery, TError, TData>,
-      headers?: RequestInit['headers']
-    ) =>
-    useQuery<GetWishListItemsQuery, TError, TData>(
-      ['GetWishListItems', variables],
-      fetcher<GetWishListItemsQuery, GetWishListItemsQueryVariables>(client, GetWishListItemsDocument, variables, headers),
-      options
-    );
 export const WishListsDocument = `
     query WishLists {
-  familycloud_wish_list {
+  familycloud_wish_list(order_by: {updated_at: desc}) {
     title
     description
     id
