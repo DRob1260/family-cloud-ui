@@ -9,7 +9,7 @@ import {
     TextField,
 } from '@mui/material';
 import { TokenContext } from '../../../../contexts/TokenContext';
-import { WishListItemRow } from '../WishListItemsDataGrid';
+import { WishListItemRow } from '../WishListDataGrid';
 import { useUpdateWishListItemMutation } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 

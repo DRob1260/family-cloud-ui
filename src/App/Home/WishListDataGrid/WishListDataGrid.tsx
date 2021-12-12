@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import './WishListItemsDataGrid.scss';
+import './WishListDataGrid.scss';
 import { TokenContext } from '../../../contexts/TokenContext';
-import { useGetWishListItemsQuery } from '../../../types/hasura';
+import { useGetWishListQuery } from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import {
     CircularProgress,
@@ -29,7 +29,7 @@ export type WishListItemRow = {
     actionsRowNumber: number;
 };
 
-export const WishListItemsDataGrid: React.FunctionComponent<
+export const WishListDataGrid: React.FunctionComponent<
     WishListDataGridProps
 > = ({ wishListId }) => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
@@ -44,7 +44,7 @@ export const WishListItemsDataGrid: React.FunctionComponent<
 
     const { token } = useContext(TokenContext);
 
-    const getWishListItems = useGetWishListItemsQuery(
+    const getWishList = useGetWishListQuery(
         GraphqlClientWithAuth(token),
         {
             wishListId: wishListId,
@@ -52,15 +52,17 @@ export const WishListItemsDataGrid: React.FunctionComponent<
         {
             onSuccess: (data) => {
                 const newRows: WishListItemRow[] =
-                    data.familycloud_wish_list_item.map((item, index) => {
-                        return {
-                            id: item.id,
-                            title: item.title,
-                            description: item.description || '',
-                            url: item.url || '',
-                            actionsRowNumber: index,
-                        };
-                    });
+                    data.familycloud_wish_list_by_pk?.wish_list_items.map(
+                        (item, index) => {
+                            return {
+                                id: item.id,
+                                title: item.title,
+                                description: item.description || '',
+                                url: item.url || '',
+                                actionsRowNumber: index,
+                            };
+                        },
+                    ) || [];
                 setRows(newRows);
             },
         },
@@ -125,10 +127,10 @@ export const WishListItemsDataGrid: React.FunctionComponent<
     ];
 
     return (
-        <div className={'WishListItemsDataGrid'}>
+        <div className={'WishListDataGrid'}>
             <CreateWishListItem
                 wishListId={wishListId}
-                refetchWishListItems={getWishListItems.refetch}
+                refetchWishListItems={getWishList.refetch}
                 open={openCreateWishListItem}
                 setOpen={setOpenCreateWishListItem}
             />
@@ -144,16 +146,16 @@ export const WishListItemsDataGrid: React.FunctionComponent<
                 open={openUpdateWishListItem}
                 setOpen={setOpenUpdateWishListItem}
             />
-            {getWishListItems.isLoading && <CircularProgress />}
-            {getWishListItems.isSuccess && (
-                <Paper elevation={3} id={'wish-list-items-data-grid-paper'}>
-                    <Grid
-                        container
-                        id={'wish-lists-items-data-grid-header-grid'}
-                    >
+            {getWishList.isLoading && <CircularProgress />}
+            {getWishList.isSuccess && (
+                <Paper elevation={3} id={'wish-list-data-grid-paper'}>
+                    <Grid container id={'wish-lists-data-grid-header-grid'}>
                         <Grid item xs={11}>
                             <Typography variant={'h6'}>
-                                Wish List Items
+                                {
+                                    getWishList.data.familycloud_wish_list_by_pk
+                                        ?.title
+                                }
                             </Typography>
                         </Grid>
                         <Grid item xs={1}>

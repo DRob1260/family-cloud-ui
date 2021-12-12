@@ -12,7 +12,7 @@ import {
 import { TokenContext } from '../../../../contexts/TokenContext';
 import { useDeleteWishListItemMutation } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
-import { WishListItemRow } from '../WishListItemsDataGrid';
+import { WishListItemRow } from '../WishListDataGrid';
 
 export type DeleteWishListItemProps = {
     itemRow: WishListItemRow;

@@ -2,7 +2,7 @@ import React from 'react';
 import './ItemActions.scss';
 import { IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { WishListItemRow } from '../WishListItemsDataGrid';
+import { WishListItemRow } from '../WishListDataGrid';
 
 export type ItemActionsProps = {
     itemRow: WishListItemRow;
