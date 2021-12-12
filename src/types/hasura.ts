@@ -1682,10 +1682,10 @@ export type GetWishListQueryVariables = Exact<{
 
 export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
 
-export type WishListsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
+export type GetWishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
 
 
 export const DeleteWishListDocument = `
@@ -1851,8 +1851,8 @@ export const useGetWishListQuery = <
       fetcher<GetWishListQuery, GetWishListQueryVariables>(client, GetWishListDocument, variables, headers),
       options
     );
-export const WishListsDocument = `
-    query WishLists {
+export const GetWishListsDocument = `
+    query GetWishLists {
   familycloud_wish_list(order_by: {updated_at: desc}) {
     title
     description
@@ -1861,17 +1861,17 @@ export const WishListsDocument = `
   }
 }
     `;
-export const useWishListsQuery = <
-      TData = WishListsQuery,
+export const useGetWishListsQuery = <
+      TData = GetWishListsQuery,
       TError = unknown
     >(
       client: GraphQLClient,
-      variables?: WishListsQueryVariables,
-      options?: UseQueryOptions<WishListsQuery, TError, TData>,
+      variables?: GetWishListsQueryVariables,
+      options?: UseQueryOptions<GetWishListsQuery, TError, TData>,
       headers?: RequestInit['headers']
     ) =>
-    useQuery<WishListsQuery, TError, TData>(
-      variables === undefined ? ['WishLists'] : ['WishLists', variables],
-      fetcher<WishListsQuery, WishListsQueryVariables>(client, WishListsDocument, variables, headers),
+    useQuery<GetWishListsQuery, TError, TData>(
+      variables === undefined ? ['GetWishLists'] : ['GetWishLists', variables],
+      fetcher<GetWishListsQuery, GetWishListsQueryVariables>(client, GetWishListsDocument, variables, headers),
       options
     );
