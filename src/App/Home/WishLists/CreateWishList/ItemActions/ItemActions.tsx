@@ -2,17 +2,16 @@ import React from 'react';
 import './ItemActions.scss';
 import { IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { WishListItemRow } from '../../../WishListItemsDataGrid/WishListItemsDataGrid';
 
 export type ItemActionsProps = {
-    itemId: number;
-    actionsRowNumber: number;
-    deleteItem: (itemId: number, actionRowId: number) => void;
-    editItem: (itemId: number, actionRowId: number) => void;
+    itemRow: WishListItemRow;
+    deleteItem: (itemRow: WishListItemRow) => void;
+    editItem: (itemRow: WishListItemRow) => void;
 };
 
 export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
-    itemId,
-    actionsRowNumber,
+    itemRow,
     deleteItem,
     editItem,
 }) => {
@@ -20,14 +19,14 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
         <div className={'ItemActions'}>
             <IconButton
                 onClick={() => {
-                    deleteItem(itemId, actionsRowNumber);
+                    deleteItem(itemRow);
                 }}
             >
                 <Delete id={'delete-wish-list-item-icon'} />
             </IconButton>
             <IconButton
                 onClick={() => {
-                    editItem(itemId, actionsRowNumber);
+                    editItem(itemRow);
                 }}
             >
                 <Edit id={'edit-wish-list-item-button'} />

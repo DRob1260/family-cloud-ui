@@ -12,15 +12,16 @@ import {
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AddCircle } from '@mui/icons-material';
-import { CreateItem } from './CreateItem/CreateItem';
+import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from '../WishLists/CreateWishList/ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
+import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 
 export type WishListDataGridProps = {
     wishListId: number;
 };
 
-type WishListItemRow = {
+export type WishListItemRow = {
     id: number;
     title: string;
     description?: string;
@@ -34,8 +35,12 @@ export const WishListItemsDataGrid: React.FunctionComponent<
     const [rows, setRows] = useState<WishListItemRow[]>([]);
     const [openCreateWishListItem, setOpenCreateWishListItem] = useState(false);
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
-    const [actionRowId, setActionRowId] = useState(-1);
-    const [actionItemId, setActionItemId] = useState(-1);
+    const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
+    const [actionRow, setActionRow] = useState<WishListItemRow>({
+        id: -1,
+        title: '',
+        actionsRowNumber: -1,
+    });
 
     const { token } = useContext(TokenContext);
 
@@ -61,19 +66,30 @@ export const WishListItemsDataGrid: React.FunctionComponent<
         },
     );
 
-    const deleteItem = (itemId: number, actionRowId: number) => {
-        setActionRowId(actionRowId);
-        setActionItemId(itemId);
+    const deleteItem = (itemRow: WishListItemRow) => {
+        setActionRow(itemRow);
         setOpenDeleteWishListItem(true);
     };
 
-    const removeRow = (rowId: number) => {
+    const removeRow = (itemRow: WishListItemRow) => {
         const rowsCopy = [...rows];
-        setRows([...rowsCopy.splice(0, rowId), ...rowsCopy.splice(rowId + 1)]);
+        setRows([
+            ...rowsCopy.splice(0, itemRow.actionsRowNumber),
+            ...rowsCopy.splice(itemRow.actionsRowNumber + 1),
+        ]);
     };
 
-    const editItem = (itemId: number, actionRowId: number) => {
-        // do nothing
+    const editItem = (itemRow: WishListItemRow) => {
+        setActionRow(itemRow);
+        setOpenUpdateWishListItem(true);
+    };
+
+    const updateRow = (itemRow: WishListItemRow) => {
+        console.log(itemRow);
+
+        const rowsCopy = [...rows];
+        rowsCopy[itemRow.actionsRowNumber] = itemRow;
+        setRows(rowsCopy);
     };
 
     const columns: GridColDef[] = [
@@ -99,8 +115,7 @@ export const WishListItemsDataGrid: React.FunctionComponent<
             renderCell: (params) => {
                 return (
                     <ItemActions
-                        itemId={params.id as number}
-                        actionsRowNumber={params.row.actionsRowNumber}
+                        itemRow={params.row}
                         deleteItem={deleteItem}
                         editItem={editItem}
                     />
@@ -111,18 +126,23 @@ export const WishListItemsDataGrid: React.FunctionComponent<
 
     return (
         <div className={'WishListItemsDataGrid'}>
-            <CreateItem
+            <CreateWishListItem
                 wishListId={wishListId}
                 refetchWishListItems={getWishListItems.refetch}
                 open={openCreateWishListItem}
                 setOpen={setOpenCreateWishListItem}
             />
             <DeleteWishListItem
-                itemId={actionItemId}
-                rowId={actionRowId}
+                itemRow={actionRow}
                 removeRow={removeRow}
                 open={openDeleteWishListItem}
                 setOpen={setOpenDeleteWishListItem}
+            />
+            <UpdateWishListItem
+                itemRow={actionRow}
+                updateRow={updateRow}
+                open={openUpdateWishListItem}
+                setOpen={setOpenUpdateWishListItem}
             />
             {getWishListItems.isLoading && <CircularProgress />}
             {getWishListItems.isSuccess && (

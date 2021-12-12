@@ -12,18 +12,18 @@ import {
 import { TokenContext } from '../../../../contexts/TokenContext';
 import { useDeleteWishListItemMutation } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { WishListItemRow } from '../WishListItemsDataGrid';
 
 export type DeleteWishListItemProps = {
-    itemId: number;
-    rowId: number;
-    removeRow: (rowId: number) => void;
+    itemRow: WishListItemRow;
+    removeRow: (itemRow: WishListItemRow) => void;
     open: boolean;
     setOpen: (open: boolean) => void;
 };
 
 export const DeleteWishListItem: React.FunctionComponent<
     DeleteWishListItemProps
-> = ({ itemId, rowId, removeRow, open, setOpen }) => {
+> = ({ itemRow, removeRow, open, setOpen }) => {
     const { token } = useContext(TokenContext);
 
     const deleteWishListItem = useDeleteWishListItemMutation(
@@ -61,9 +61,9 @@ export const DeleteWishListItem: React.FunctionComponent<
                         variant={'contained'}
                         onClick={() => {
                             deleteWishListItem.mutate({
-                                itemId: itemId,
+                                itemId: itemRow.id,
                             });
-                            removeRow(rowId);
+                            removeRow(itemRow);
                             setOpen(false);
                         }}
                         id={'delete-wish-list-item-button'}

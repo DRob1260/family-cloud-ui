@@ -19,7 +19,7 @@ export type CreateItemProps = {
     setOpen: (open: boolean) => void;
 };
 
-export const CreateItem: React.FunctionComponent<CreateItemProps> = ({
+export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
     wishListId,
     refetchWishListItems,
     open,
@@ -45,7 +45,7 @@ export const CreateItem: React.FunctionComponent<CreateItemProps> = ({
     );
 
     return (
-        <div className={'CreateItem'}>
+        <div className={'CreateWishListItem'}>
             <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
