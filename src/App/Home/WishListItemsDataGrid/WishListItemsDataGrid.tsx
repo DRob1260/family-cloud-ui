@@ -13,7 +13,7 @@ import {
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AddCircle } from '@mui/icons-material';
 import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
-import { ItemActions } from '../WishLists/CreateWishList/ItemActions/ItemActions';
+import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 
