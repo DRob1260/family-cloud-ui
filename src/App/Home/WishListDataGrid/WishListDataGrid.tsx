@@ -12,12 +12,13 @@ import {
     Typography,
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { AddCircle, Settings, Share } from '@mui/icons-material';
+import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
 import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { WishListSettings } from './WishListSettings/WishListSettings';
+import { WishListSharing } from './WishListSharing/WishListSharing';
 
 export type WishListDataGridProps = {
     wishListId: number;
@@ -39,6 +40,7 @@ export const WishListDataGrid: React.FunctionComponent<
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
     const [openWishListSettings, setOpenWishListSettings] = useState(false);
+    const [openWishListSharing, setOpenWishListSharing] = useState(false);
     const [actionRow, setActionRow] = useState<WishListItemRow>({
         id: -1,
         title: '',
@@ -161,6 +163,10 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}
             />
+            <WishListSharing
+                open={openWishListSharing}
+                setOpen={setOpenWishListSharing}
+            />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
@@ -184,8 +190,11 @@ export const WishListDataGrid: React.FunctionComponent<
                                 >
                                     <Settings />
                                 </IconButton>
-                                <IconButton title={'Share Wish List'}>
-                                    <Share id={'share-wish-list-icon'} />
+                                <IconButton
+                                    title={'Share Wish List'}
+                                    onClick={() => setOpenWishListSharing(true)}
+                                >
+                                    <PeopleAlt id={'share-wish-list-icon'} />
                                 </IconButton>
                                 <IconButton
                                     title={'Add Wish List Item'}
