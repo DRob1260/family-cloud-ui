@@ -49,6 +49,9 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
     const getWishListInvites = useGetWishListInvitesQuery(
         GraphqlClientWithAuth(token),
         { wish_list_id: wishListId },
+        {
+            enabled: userSearchInput !== '',
+        },
     );
 
     const insertWishListInvite = useInsertWishListInviteMutation(
