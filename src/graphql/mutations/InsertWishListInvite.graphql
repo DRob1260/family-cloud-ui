@@ -1,0 +1,6 @@
+mutation InsertWishListInvite($admin: Boolean, $person_id: String!, $wish_list_id: Int!) {
+    insert_familycloud_wish_list_invite_one(object: {admin: $admin, person_id: $person_id, status: "PENDING", wish_list_id: $wish_list_id}) {
+        id
+    }
+}
+

@@ -18,7 +18,7 @@ import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { WishListSettings } from './WishListSettings/WishListSettings';
-import { WishListSharing } from './WishListSharing/WishListSharing';
+import { ShareWishList } from './ShareWishList/ShareWishList';
 
 export type WishListDataGridProps = {
     wishListId: number;
@@ -163,9 +163,10 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}
             />
-            <WishListSharing
+            <ShareWishList
                 open={openWishListSharing}
                 setOpen={setOpenWishListSharing}
+                wishListId={wishListId}
             />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && (

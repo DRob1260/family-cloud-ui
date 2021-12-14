@@ -382,11 +382,13 @@ export type Familycloud_Wish_List_Insert_Input = {
 export type Familycloud_Wish_List_Invite = {
   __typename?: 'familycloud_wish_list_invite';
   admin: Scalars['Boolean'];
+  created_at: Scalars['timestamptz'];
   id: Scalars['uuid'];
   /** An object relationship */
   person: Familycloud_Person;
   person_id: Scalars['String'];
   status: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
   /** An object relationship */
   wish_list: Familycloud_Wish_List;
   wish_list_id: Scalars['Int'];
@@ -461,10 +463,12 @@ export type Familycloud_Wish_List_Invite_Bool_Exp = {
   _not?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
   _or?: InputMaybe<Array<Familycloud_Wish_List_Invite_Bool_Exp>>;
   admin?: InputMaybe<Boolean_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   person?: InputMaybe<Familycloud_Person_Bool_Exp>;
   person_id?: InputMaybe<String_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   wish_list_id?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -489,34 +493,42 @@ export type Familycloud_Wish_List_Invite_Insert_Input = {
 /** aggregate max on columns */
 export type Familycloud_Wish_List_Invite_Max_Fields = {
   __typename?: 'familycloud_wish_list_invite_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   person_id?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   wish_list_id?: Maybe<Scalars['Int']>;
 };
 
 /** order by max() on columns of table "familycloud.wish_list_invite" */
 export type Familycloud_Wish_List_Invite_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   person_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Familycloud_Wish_List_Invite_Min_Fields = {
   __typename?: 'familycloud_wish_list_invite_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   person_id?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   wish_list_id?: Maybe<Scalars['Int']>;
 };
 
 /** order by min() on columns of table "familycloud.wish_list_invite" */
 export type Familycloud_Wish_List_Invite_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   person_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -539,10 +551,12 @@ export type Familycloud_Wish_List_Invite_On_Conflict = {
 /** Ordering options when selecting data from "familycloud.wish_list_invite". */
 export type Familycloud_Wish_List_Invite_Order_By = {
   admin?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   person?: InputMaybe<Familycloud_Person_Order_By>;
   person_id?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
@@ -557,11 +571,15 @@ export enum Familycloud_Wish_List_Invite_Select_Column {
   /** column name */
   Admin = 'admin',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
   PersonId = 'person_id',
   /** column name */
   Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at',
   /** column name */
   WishListId = 'wish_list_id'
 }
@@ -1646,6 +1664,15 @@ export type InsertWishListMutationVariables = Exact<{
 
 export type InsertWishListMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_one?: { __typename?: 'familycloud_wish_list', id: number, description?: string | null | undefined, title: string } | null | undefined };
 
+export type InsertWishListInviteMutationVariables = Exact<{
+  admin?: InputMaybe<Scalars['Boolean']>;
+  person_id: Scalars['String'];
+  wish_list_id: Scalars['Int'];
+}>;
+
+
+export type InsertWishListInviteMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_invite_one?: { __typename?: 'familycloud_wish_list_invite', id: any } | null | undefined };
+
 export type InsertWishListItemMutationVariables = Exact<{
   wishListId: Scalars['Int'];
   title: Scalars['String'];
@@ -1686,6 +1713,13 @@ export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetWishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
+
+export type SearchUserQueryVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+
+export type SearchUserQuery = { __typename?: 'query_root', familycloud_person: Array<{ __typename?: 'familycloud_person', id: string, nickname: string }> };
 
 
 export const DeleteWishListDocument = `
@@ -1750,6 +1784,28 @@ export const useInsertWishListMutation = <
     useMutation<InsertWishListMutation, TError, InsertWishListMutationVariables, TContext>(
       'InsertWishList',
       (variables?: InsertWishListMutationVariables) => fetcher<InsertWishListMutation, InsertWishListMutationVariables>(client, InsertWishListDocument, variables, headers)(),
+      options
+    );
+export const InsertWishListInviteDocument = `
+    mutation InsertWishListInvite($admin: Boolean, $person_id: String!, $wish_list_id: Int!) {
+  insert_familycloud_wish_list_invite_one(
+    object: {admin: $admin, person_id: $person_id, status: "PENDING", wish_list_id: $wish_list_id}
+  ) {
+    id
+  }
+}
+    `;
+export const useInsertWishListInviteMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InsertWishListInviteMutation, TError, InsertWishListInviteMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InsertWishListInviteMutation, TError, InsertWishListInviteMutationVariables, TContext>(
+      'InsertWishListInvite',
+      (variables?: InsertWishListInviteMutationVariables) => fetcher<InsertWishListInviteMutation, InsertWishListInviteMutationVariables>(client, InsertWishListInviteDocument, variables, headers)(),
       options
     );
 export const InsertWishListItemDocument = `
@@ -1873,5 +1929,27 @@ export const useGetWishListsQuery = <
     useQuery<GetWishListsQuery, TError, TData>(
       variables === undefined ? ['GetWishLists'] : ['GetWishLists', variables],
       fetcher<GetWishListsQuery, GetWishListsQueryVariables>(client, GetWishListsDocument, variables, headers),
+      options
+    );
+export const SearchUserDocument = `
+    query SearchUser($input: String!) {
+  familycloud_person(where: {nickname: {_ilike: $input}}) {
+    id
+    nickname
+  }
+}
+    `;
+export const useSearchUserQuery = <
+      TData = SearchUserQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: SearchUserQueryVariables,
+      options?: UseQueryOptions<SearchUserQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SearchUserQuery, TError, TData>(
+      ['SearchUser', variables],
+      fetcher<SearchUserQuery, SearchUserQueryVariables>(client, SearchUserDocument, variables, headers),
       options
     );

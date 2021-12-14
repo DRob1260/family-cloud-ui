@@ -1,0 +1,6 @@
+query SearchUser($input: String!) {
+    familycloud_person(where: {nickname: {_ilike: $input}}) {
+        id
+        nickname
+    }
+}
