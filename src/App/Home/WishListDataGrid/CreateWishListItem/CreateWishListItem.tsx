@@ -35,6 +35,7 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
+                // todo: add new item manually instead of refetching api
                 refetchWishListItems();
                 setOpen(false);
                 setTitle('');
