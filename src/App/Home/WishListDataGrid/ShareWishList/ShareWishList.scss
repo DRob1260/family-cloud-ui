@@ -12,6 +12,18 @@
 
     #wish-list-invites-paper {
       padding: 1em;
+
+      #delete-wish-list-invite-button-span {
+        width: 100%;
+
+        #delete-wish-list-invite-button {
+          float: right;
+
+          #delete-wish-list-invite-button-icon {
+            color: red;
+          }
+        }
+      }
     }
   }
 }

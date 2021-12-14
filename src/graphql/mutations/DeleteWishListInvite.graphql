@@ -1,0 +1,5 @@
+mutation DeleteWishListInvite($id: uuid!) {
+    delete_familycloud_wish_list_invite_by_pk(id: $id) {
+        id
+    }
+}

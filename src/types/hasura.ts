@@ -1649,6 +1649,13 @@ export type DeleteWishListMutationVariables = Exact<{
 
 export type DeleteWishListMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
 
+export type DeleteWishListInviteMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteWishListInviteMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_invite_by_pk?: { __typename?: 'familycloud_wish_list_invite', id: any } | null | undefined };
+
 export type DeleteWishListItemMutationVariables = Exact<{
   itemId: Scalars['Int'];
 }>;
@@ -1747,6 +1754,26 @@ export const useDeleteWishListMutation = <
     useMutation<DeleteWishListMutation, TError, DeleteWishListMutationVariables, TContext>(
       'DeleteWishList',
       (variables?: DeleteWishListMutationVariables) => fetcher<DeleteWishListMutation, DeleteWishListMutationVariables>(client, DeleteWishListDocument, variables, headers)(),
+      options
+    );
+export const DeleteWishListInviteDocument = `
+    mutation DeleteWishListInvite($id: uuid!) {
+  delete_familycloud_wish_list_invite_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteWishListInviteMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteWishListInviteMutation, TError, DeleteWishListInviteMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteWishListInviteMutation, TError, DeleteWishListInviteMutationVariables, TContext>(
+      'DeleteWishListInvite',
+      (variables?: DeleteWishListInviteMutationVariables) => fetcher<DeleteWishListInviteMutation, DeleteWishListInviteMutationVariables>(client, DeleteWishListInviteDocument, variables, headers)(),
       options
     );
 export const DeleteWishListItemDocument = `

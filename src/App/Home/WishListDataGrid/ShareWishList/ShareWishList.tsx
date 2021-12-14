@@ -11,6 +11,7 @@ import {
     Divider,
     FormControlLabel,
     Grid,
+    IconButton,
     List,
     ListItem,
     Paper,
@@ -19,11 +20,13 @@ import {
 } from '@mui/material';
 import { TokenContext } from '../../../../contexts/TokenContext';
 import {
+    useDeleteWishListInviteMutation,
     useGetWishListInvitesQuery,
     useInsertWishListInviteMutation,
     useSearchUserQuery,
 } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { Delete } from '@mui/icons-material';
 
 export type SharingWishListProps = {
     open: boolean;
@@ -42,16 +45,19 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
 
     const { token } = useContext(TokenContext);
 
-    const searchUser = useSearchUserQuery(GraphqlClientWithAuth(token), {
-        input: `${userSearchInput}%`,
-    });
+    const searchUser = useSearchUserQuery(
+        GraphqlClientWithAuth(token),
+        {
+            input: `${userSearchInput}%`,
+        },
+        {
+            enabled: userSearchInput !== '',
+        },
+    );
 
     const getWishListInvites = useGetWishListInvitesQuery(
         GraphqlClientWithAuth(token),
         { wish_list_id: wishListId },
-        {
-            enabled: userSearchInput !== '',
-        },
     );
 
     const insertWishListInvite = useInsertWishListInviteMutation(
@@ -61,6 +67,15 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                 setIsAdmin(false);
                 setUserSelected('');
                 setUserSearchInput('');
+                getWishListInvites.refetch();
+            },
+        },
+    );
+
+    const deleteWishListInvite = useDeleteWishListInviteMutation(
+        GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
                 getWishListInvites.refetch();
             },
         },
@@ -177,10 +192,37 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                                     <div>
                                                         <Divider />
                                                         <ListItem>
-                                                            {
-                                                                invite.person
-                                                                    .nickname
-                                                            }
+                                                            <span>
+                                                                {
+                                                                    invite
+                                                                        .person
+                                                                        .nickname
+                                                                }
+                                                            </span>
+                                                            <span
+                                                                id={
+                                                                    'delete-wish-list-invite-button-span'
+                                                                }
+                                                            >
+                                                                <IconButton
+                                                                    id={
+                                                                        'delete-wish-list-invite-button'
+                                                                    }
+                                                                    onClick={() => {
+                                                                        deleteWishListInvite.mutate(
+                                                                            {
+                                                                                id: invite.id,
+                                                                            },
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <Delete
+                                                                        id={
+                                                                            'delete-wish-list-invite-button-icon'
+                                                                        }
+                                                                    />
+                                                                </IconButton>
+                                                            </span>
                                                         </ListItem>
                                                     </div>
                                                 ),
