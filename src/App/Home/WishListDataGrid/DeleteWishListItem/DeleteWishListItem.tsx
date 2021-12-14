@@ -28,6 +28,12 @@ export const DeleteWishListItem: React.FunctionComponent<
 
     const deleteWishListItem = useDeleteWishListItemMutation(
         GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
+                removeRow(itemRow);
+                setOpen(false);
+            },
+        },
     );
 
     return (
@@ -63,8 +69,6 @@ export const DeleteWishListItem: React.FunctionComponent<
                             deleteWishListItem.mutate({
                                 itemId: itemRow.id,
                             });
-                            removeRow(itemRow);
-                            setOpen(false);
                         }}
                         id={'delete-wish-list-item-button'}
                     >
