@@ -58,6 +58,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                 setIsAdmin(false);
                 setUserSelected('');
                 setUserSearchInput('');
+                getWishListInvites.refetch();
             },
         },
     );
