@@ -131,6 +131,8 @@ export const WishListDataGrid: React.FunctionComponent<
         },
     ];
 
+    // todo: only add/remove row after successful insert/delete api call
+
     return (
         <div className={'WishListDataGrid'}>
             <CreateWishListItem
