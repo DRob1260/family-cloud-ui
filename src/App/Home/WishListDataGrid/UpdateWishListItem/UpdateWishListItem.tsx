@@ -33,10 +33,6 @@ export const UpdateWishListItem: React.FunctionComponent<
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
-                console.log(
-                    'itemRow?.actionsRowNumber',
-                    itemRow?.actionsRowNumber,
-                );
                 updateRow({
                     id: itemRow?.id || -1,
                     title: title,
