@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Auth0ProviderWithHistory } from '../auth0/Auth0ProviderWithHistory';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home } from './Home/Home';
@@ -14,6 +15,7 @@ const App: React.FunctionComponent = () => {
             <BrowserRouter>
                 <Auth0ProviderWithHistory>
                     <QueryClientProvider client={queryClient}>
+                        <ReactQueryDevtools initialIsOpen={false} />
                         <Navigator />
                         <Switch>
                             <Route path={'/family-cloud'}>
