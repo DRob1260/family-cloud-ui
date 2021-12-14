@@ -1709,6 +1709,13 @@ export type GetWishListQueryVariables = Exact<{
 
 export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
 
+export type GetWishListInvitesQueryVariables = Exact<{
+  wish_list_id: Scalars['Int'];
+}>;
+
+
+export type GetWishListInvitesQuery = { __typename?: 'query_root', familycloud_wish_list_invite: Array<{ __typename?: 'familycloud_wish_list_invite', id: any, status: string, person: { __typename?: 'familycloud_person', nickname: string } }> };
+
 export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1905,6 +1912,34 @@ export const useGetWishListQuery = <
     useQuery<GetWishListQuery, TError, TData>(
       ['GetWishList', variables],
       fetcher<GetWishListQuery, GetWishListQueryVariables>(client, GetWishListDocument, variables, headers),
+      options
+    );
+export const GetWishListInvitesDocument = `
+    query GetWishListInvites($wish_list_id: Int!) {
+  familycloud_wish_list_invite(
+    where: {wish_list_id: {_eq: $wish_list_id}}
+    order_by: {created_at: asc}
+  ) {
+    id
+    status
+    person {
+      nickname
+    }
+  }
+}
+    `;
+export const useGetWishListInvitesQuery = <
+      TData = GetWishListInvitesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetWishListInvitesQueryVariables,
+      options?: UseQueryOptions<GetWishListInvitesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetWishListInvitesQuery, TError, TData>(
+      ['GetWishListInvites', variables],
+      fetcher<GetWishListInvitesQuery, GetWishListInvitesQueryVariables>(client, GetWishListInvitesDocument, variables, headers),
       options
     );
 export const GetWishListsDocument = `
