@@ -8,6 +8,7 @@ import {
     CircularProgress,
     Grid,
     IconButton,
+    Link,
     Paper,
     Typography,
 } from '@mui/material';
@@ -114,6 +115,17 @@ export const WishListDataGrid: React.FunctionComponent<
             field: 'url',
             headerName: 'Url',
             width: 300,
+            renderCell: (params) => {
+                return (
+                    <Link
+                        href={params.row.url}
+                        target={'blank'}
+                        rel={'noreferrer'}
+                    >
+                        {params.row.url}
+                    </Link>
+                );
+            },
         },
         {
             field: 'actionsRowNumber',
