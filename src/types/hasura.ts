@@ -1699,6 +1699,14 @@ export type UpdateWishListMutationVariables = Exact<{
 
 export type UpdateWishListMutation = { __typename?: 'mutation_root', update_familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number } | null | undefined };
 
+export type UpdateWishListInviteMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  admin?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateWishListInviteMutation = { __typename?: 'mutation_root', update_familycloud_wish_list_invite_by_pk?: { __typename?: 'familycloud_wish_list_invite', id: any } | null | undefined };
+
 export type UpdateWishListItemMutationVariables = Exact<{
   itemId: Scalars['Int'];
   title?: InputMaybe<Scalars['String']>;
@@ -1721,7 +1729,7 @@ export type GetWishListInvitesQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListInvitesQuery = { __typename?: 'query_root', familycloud_wish_list_invite: Array<{ __typename?: 'familycloud_wish_list_invite', id: any, status: string, person: { __typename?: 'familycloud_person', nickname: string } }> };
+export type GetWishListInvitesQuery = { __typename?: 'query_root', familycloud_wish_list_invite: Array<{ __typename?: 'familycloud_wish_list_invite', id: any, status: string, admin: boolean, person: { __typename?: 'familycloud_person', nickname: string } }> };
 
 export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1889,6 +1897,29 @@ export const useUpdateWishListMutation = <
       (variables?: UpdateWishListMutationVariables) => fetcher<UpdateWishListMutation, UpdateWishListMutationVariables>(client, UpdateWishListDocument, variables, headers)(),
       options
     );
+export const UpdateWishListInviteDocument = `
+    mutation UpdateWishListInvite($id: uuid!, $admin: Boolean = false) {
+  update_familycloud_wish_list_invite_by_pk(
+    pk_columns: {id: $id}
+    _set: {admin: $admin}
+  ) {
+    id
+  }
+}
+    `;
+export const useUpdateWishListInviteMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateWishListInviteMutation, TError, UpdateWishListInviteMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateWishListInviteMutation, TError, UpdateWishListInviteMutationVariables, TContext>(
+      'UpdateWishListInvite',
+      (variables?: UpdateWishListInviteMutationVariables) => fetcher<UpdateWishListInviteMutation, UpdateWishListInviteMutationVariables>(client, UpdateWishListInviteDocument, variables, headers)(),
+      options
+    );
 export const UpdateWishListItemDocument = `
     mutation updateWishListItem($itemId: Int!, $title: String, $description: String, $url: String) {
   update_familycloud_wish_list_item_by_pk(
@@ -1949,6 +1980,7 @@ export const GetWishListInvitesDocument = `
   ) {
     id
     status
+    admin
     person {
       nickname
     }

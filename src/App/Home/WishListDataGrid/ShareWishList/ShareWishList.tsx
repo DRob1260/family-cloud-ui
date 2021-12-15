@@ -4,6 +4,8 @@ import {
     Autocomplete,
     Button,
     Checkbox,
+    CircularProgress,
+    Collapse,
     Dialog,
     DialogActions,
     DialogContent,
@@ -14,7 +16,10 @@ import {
     IconButton,
     List,
     ListItem,
+    ListItemButton,
+    ListItemText,
     Paper,
+    Switch,
     TextField,
     Typography,
 } from '@mui/material';
@@ -24,9 +29,10 @@ import {
     useGetWishListInvitesQuery,
     useInsertWishListInviteMutation,
     useSearchUserQuery,
+    useUpdateWishListInviteMutation,
 } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
-import { Delete } from '@mui/icons-material';
+import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
 
 export type SharingWishListProps = {
     open: boolean;
@@ -42,6 +48,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
     const [userSelected, setUserSelected] = useState('');
     const [userSearchInput, setUserSearchInput] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [wishListInviteSelected, setWishListInvitedSelected] = useState('');
 
     const { token } = useContext(TokenContext);
 
@@ -73,6 +80,15 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
     );
 
     const deleteWishListInvite = useDeleteWishListInviteMutation(
+        GraphqlClientWithAuth(token),
+        {
+            onSuccess: () => {
+                getWishListInvites.refetch();
+            },
+        },
+    );
+
+    const updateWishListInvite = useUpdateWishListInviteMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
@@ -189,41 +205,117 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                         <List>
                                             {getWishListInvites.data?.familycloud_wish_list_invite?.map(
                                                 (invite) => (
-                                                    <div>
+                                                    <div
+                                                        className={
+                                                            wishListInviteSelected ===
+                                                            invite.id
+                                                                ? 'invite-selected'
+                                                                : ''
+                                                        }
+                                                    >
                                                         <Divider />
-                                                        <ListItem>
-                                                            <span>
-                                                                {
+                                                        <ListItemButton
+                                                            onClick={() => {
+                                                                if (
+                                                                    wishListInviteSelected ===
+                                                                    invite.id
+                                                                ) {
+                                                                    setWishListInvitedSelected(
+                                                                        '',
+                                                                    );
+                                                                } else {
+                                                                    setWishListInvitedSelected(
+                                                                        invite.id,
+                                                                    );
+                                                                }
+                                                            }}
+                                                        >
+                                                            <ListItemText
+                                                                primary={
                                                                     invite
                                                                         .person
                                                                         .nickname
                                                                 }
-                                                            </span>
-                                                            <span
-                                                                id={
-                                                                    'delete-wish-list-invite-button-span'
-                                                                }
-                                                            >
+                                                            />
+                                                            {wishListInviteSelected ===
+                                                            invite.id ? (
+                                                                <ExpandLess />
+                                                            ) : (
+                                                                <ExpandMore />
+                                                            )}
+                                                        </ListItemButton>
+                                                        <Collapse
+                                                            in={
+                                                                wishListInviteSelected ===
+                                                                invite.id
+                                                            }
+                                                            timeout={'auto'}
+                                                            unmountOnExit={true}
+                                                        >
+                                                            <ListItem>
+                                                                <ListItemText
+                                                                    primary={`Status: Invite ${invite.status.toLowerCase()}`}
+                                                                />
                                                                 <IconButton
-                                                                    id={
-                                                                        'delete-wish-list-invite-button'
-                                                                    }
-                                                                    onClick={() => {
+                                                                    onClick={() =>
                                                                         deleteWishListInvite.mutate(
                                                                             {
                                                                                 id: invite.id,
                                                                             },
-                                                                        );
-                                                                    }}
+                                                                        )
+                                                                    }
                                                                 >
                                                                     <Delete
                                                                         id={
-                                                                            'delete-wish-list-invite-button-icon'
+                                                                            'delete-wish-list-invite-icon'
                                                                         }
                                                                     />
                                                                 </IconButton>
-                                                            </span>
-                                                        </ListItem>
+                                                            </ListItem>
+                                                            <ListItem>
+                                                                {/*<ListItemText*/}
+                                                                {/*    primary={`Admin: ${*/}
+                                                                {/*        invite.admin*/}
+                                                                {/*            ? 'Yes'*/}
+                                                                {/*            : 'No'*/}
+                                                                {/*    }`}*/}
+                                                                {/*/>*/}
+                                                                {/*<IconButton>*/}
+                                                                {/*    <Edit*/}
+                                                                {/*        id={*/}
+                                                                {/*            'edit-wish-list-invite-icon'*/}
+                                                                {/*        }*/}
+                                                                {/*    />*/}
+                                                                {/*</IconButton>*/}
+                                                                <FormControlLabel
+                                                                    control={
+                                                                        <Switch
+                                                                            checked={
+                                                                                invite.admin
+                                                                            }
+                                                                            onClick={() => {
+                                                                                updateWishListInvite.mutate(
+                                                                                    {
+                                                                                        id: invite.id,
+                                                                                        admin: !invite.admin,
+                                                                                    },
+                                                                                );
+                                                                            }}
+                                                                        />
+                                                                    }
+                                                                    label={
+                                                                        'Admin'
+                                                                    }
+                                                                />
+                                                                {updateWishListInvite.isLoading && (
+                                                                    <CircularProgress
+                                                                        size={
+                                                                            20
+                                                                        }
+                                                                    />
+                                                                )}
+                                                            </ListItem>
+                                                        </Collapse>
                                                     </div>
                                                 ),
                                             )}

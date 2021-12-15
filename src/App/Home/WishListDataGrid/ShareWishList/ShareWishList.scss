@@ -13,16 +13,16 @@
     #wish-list-invites-paper {
       padding: 1em;
 
-      #delete-wish-list-invite-button-span {
-        width: 100%;
+      .invite-selected {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
 
-        #delete-wish-list-invite-button {
-          float: right;
+      #delete-wish-list-invite-icon {
+        color: red;
+      }
 
-          #delete-wish-list-invite-button-icon {
-            color: red;
-          }
-        }
+      #edit-wish-list-invite-icon {
+        color:  #1565c0;
       }
     }
   }

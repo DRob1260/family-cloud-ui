@@ -2,6 +2,7 @@ query GetWishListInvites($wish_list_id: Int!) {
     familycloud_wish_list_invite(where: {wish_list_id: {_eq: $wish_list_id}}, order_by: {created_at: asc}) {
         id
         status
+        admin
         person {
             nickname
         }

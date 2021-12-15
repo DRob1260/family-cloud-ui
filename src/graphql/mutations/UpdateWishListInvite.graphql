@@ -1,0 +1,5 @@
+mutation UpdateWishListInvite($id: uuid!, $admin: Boolean = false) {
+    update_familycloud_wish_list_invite_by_pk(pk_columns: {id: $id}, _set: {admin: $admin}) {
+        id
+    }
+}
