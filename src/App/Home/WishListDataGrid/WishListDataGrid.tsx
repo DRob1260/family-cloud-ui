@@ -185,7 +185,7 @@ export const WishListDataGrid: React.FunctionComponent<
                 wishListId={wishListId}
             />
             {getWishList.isLoading && <CircularProgress />}
-            {getWishList.isSuccess && (
+            {getWishList.isSuccess && getWishList.data && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
                     <Grid container id={'wish-lists-data-grid-header-grid'}>
                         <Grid item xs={10}>

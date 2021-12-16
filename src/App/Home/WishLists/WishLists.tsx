@@ -30,7 +30,21 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
     const { token } = useContext(TokenContext);
     const [createWishListOpen, setCreateWishListOpen] = useState(false);
 
-    const getWishLists = useGetWishListsQuery(GraphqlClientWithAuth(token));
+    const getWishLists = useGetWishListsQuery(
+        GraphqlClientWithAuth(token),
+        {},
+        {
+            onSuccess: (data) => {
+                const activeWishList = data.familycloud_wish_list.find(
+                    (wishList) => wishList.id === activeWishListId,
+                );
+                console.log(activeWishList);
+                if (!activeWishList) {
+                    setActiveWishListId(null);
+                }
+            },
+        },
+    );
 
     return (
         <div className={'WishLists'}>

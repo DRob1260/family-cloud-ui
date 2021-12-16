@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './UpdateWishList.scss';
 import {
     Button,
     Dialog,
@@ -11,12 +12,13 @@ import {
     TextField,
 } from '@mui/material';
 import {
-    useGetWishListQuery,
-    useGetWishListsQuery,
+    useDeleteWishListMutation,
     useUpdateWishListMutation,
 } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { TokenContext } from '../../../../contexts/TokenContext';
+import { DeleteWishList } from './DeleteWishList/DeleteWishList';
+import { useQueryClient } from 'react-query';
 
 export type UpdateWishListProps = {
     wishListId: number;
@@ -38,6 +40,7 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [contributionsHidden, setContributionsHidden] = useState(true);
+    const [openDeleteWishList, setOpenDeleteWishList] = useState(false);
 
     useEffect(() => {
         setTitle(initialTitle);
@@ -47,22 +50,24 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
 
     const { token } = useContext(TokenContext);
 
-    const { refetch: refetchWishLists } = useGetWishListsQuery(
-        GraphqlClientWithAuth(token),
-    );
+    const queryClient = useQueryClient();
 
-    // todo: this could become an expensive refetch
-    const { refetch: refetchWishList } = useGetWishListQuery(
+    const deleteWishList = useDeleteWishListMutation(
         GraphqlClientWithAuth(token),
-        { wishListId: wishListId },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('GetWishLists');
+                setOpen(false);
+            },
+        },
     );
 
     const updateWishList = useUpdateWishListMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
-                refetchWishLists();
-                refetchWishList();
+                queryClient.invalidateQueries('GetWishLists');
+                queryClient.invalidateQueries('GetWishList');
                 setOpen(false);
             },
         },
@@ -70,7 +75,18 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
 
     return (
         <div className={'UpdateWishList'}>
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <DeleteWishList
+                open={openDeleteWishList}
+                setOpen={setOpenDeleteWishList}
+                deleteWishList={() => {
+                    deleteWishList.mutate({ wishListId: wishListId });
+                }}
+            />
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                className={'UpdateWishList-dialog'}
+            >
                 <DialogTitle>Update Wish List Configuration</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={1}>
@@ -115,6 +131,13 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button
+                        id={'delete-wish-list-button'}
+                        variant={'contained'}
+                        onClick={() => setOpenDeleteWishList(true)}
+                    >
+                        Delete
+                    </Button>
                     <Button
                         variant={'contained'}
                         onClick={() => {
