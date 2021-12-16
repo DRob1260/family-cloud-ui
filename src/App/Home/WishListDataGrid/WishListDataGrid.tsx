@@ -93,8 +93,6 @@ export const WishListDataGrid: React.FunctionComponent<
     };
 
     const updateRow = (itemRow: WishListItemRow) => {
-        console.log(itemRow);
-
         const rowsCopy = [...rows];
         rowsCopy[itemRow.actionsRowNumber] = itemRow;
         setRows(rowsCopy);

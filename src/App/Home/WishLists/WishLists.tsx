@@ -38,7 +38,6 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                 const activeWishList = data.familycloud_wish_list.find(
                     (wishList) => wishList.id === activeWishListId,
                 );
-                console.log(activeWishList);
                 if (!activeWishList) {
                     setActiveWishListId(null);
                 }
