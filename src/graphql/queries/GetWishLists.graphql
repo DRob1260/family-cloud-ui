@@ -4,5 +4,7 @@ query GetWishLists {
         description
         id
         created_at
+        author_item_contributions_hidden
     }
 }
+

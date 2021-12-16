@@ -5,7 +5,9 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControlLabel,
     Grid,
+    Switch,
     TextField,
 } from '@mui/material';
 import {
@@ -16,28 +18,32 @@ import {
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { TokenContext } from '../../../../contexts/TokenContext';
 
-export type WishListSettings = {
+export type UpdateWishListProps = {
     wishListId: number;
     initialTitle: string;
     initialDescription: string;
+    initialContributionsHidden: boolean;
     open: boolean;
     setOpen: (open: boolean) => void;
 };
 
-export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
+export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
     wishListId,
     initialTitle,
     initialDescription,
+    initialContributionsHidden,
     open,
     setOpen,
 }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [contributionsHidden, setContributionsHidden] = useState(true);
 
     useEffect(() => {
         setTitle(initialTitle);
         setDescription(initialDescription);
-    }, [initialTitle, initialDescription]);
+        setContributionsHidden(initialContributionsHidden);
+    }, [initialTitle, initialDescription, initialContributionsHidden]);
 
     const { token } = useContext(TokenContext);
 
@@ -63,7 +69,7 @@ export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
     );
 
     return (
-        <div className={'WishListSettings'}>
+        <div className={'UpdateWishList'}>
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Update Wish List Configuration</DialogTitle>
                 <DialogContent>
@@ -90,6 +96,21 @@ export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
                                 }
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={contributionsHidden}
+                                        onChange={(event) =>
+                                            setContributionsHidden(
+                                                event.target.checked,
+                                            )
+                                        }
+                                    />
+                                }
+                                label={'Hide item contributions from me'}
+                            />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -98,9 +119,11 @@ export const WishListSettings: React.FunctionComponent<WishListSettings> = ({
                         variant={'contained'}
                         onClick={() => {
                             updateWishList.mutate({
-                                wishListId: wishListId,
+                                id: wishListId,
                                 title: title,
                                 description: description,
+                                author_item_contributions_hidden:
+                                    contributionsHidden,
                             });
                         }}
                     >

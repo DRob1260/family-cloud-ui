@@ -18,7 +18,7 @@ import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
-import { WishListSettings } from './WishListSettings/WishListSettings';
+import { UpdateWishList } from './UpdateWishList/UpdateWishList';
 import { ShareWishList } from './ShareWishList/ShareWishList';
 
 export type WishListDataGridProps = {
@@ -163,7 +163,7 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openUpdateWishListItem}
                 setOpen={setOpenUpdateWishListItem}
             />
-            <WishListSettings
+            <UpdateWishList
                 wishListId={wishListId}
                 initialTitle={
                     getWishList.data?.familycloud_wish_list_by_pk?.title || ''
@@ -171,6 +171,10 @@ export const WishListDataGrid: React.FunctionComponent<
                 initialDescription={
                     getWishList.data?.familycloud_wish_list_by_pk
                         ?.description || ''
+                }
+                initialContributionsHidden={
+                    getWishList.data?.familycloud_wish_list_by_pk
+                        ?.author_item_contributions_hidden || true
                 }
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}

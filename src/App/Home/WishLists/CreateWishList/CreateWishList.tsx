@@ -6,7 +6,9 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControlLabel,
     Grid,
+    Switch,
     TextField,
 } from '@mui/material';
 import { TokenContext } from '../../../../contexts/TokenContext';
@@ -27,6 +29,7 @@ export const CreateWishList: React.FunctionComponent<CreateWishListType> = ({
     const { token } = useContext(TokenContext);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [contributionsHidden, setContributionsHidden] = useState(true);
 
     const insertWishListMutation = useInsertWishListMutation(
         GraphqlClientWithAuth(token),
@@ -67,6 +70,21 @@ export const CreateWishList: React.FunctionComponent<CreateWishListType> = ({
                                 }}
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={contributionsHidden}
+                                        onChange={(event) =>
+                                            setContributionsHidden(
+                                                event.target.checked,
+                                            )
+                                        }
+                                    />
+                                }
+                                label={'Hide item contributions from me'}
+                            />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -83,6 +101,8 @@ export const CreateWishList: React.FunctionComponent<CreateWishListType> = ({
                             insertWishListMutation.mutate({
                                 title: title,
                                 description: description,
+                                author_item_contributions_hidden:
+                                    contributionsHidden,
                             });
                         }}
                     >

@@ -1,5 +1,5 @@
-mutation InsertWishList($title: String!, $description: String!) {
-    insert_familycloud_wish_list_one(object: {title: $title, description: $description}) {
+mutation InsertWishList($title: String!, $description: String!, $author_item_contributions_hidden: Boolean!) {
+    insert_familycloud_wish_list_one(object: {title: $title, description: $description, author_item_contributions_hidden: $author_item_contributions_hidden}) {
         id
         description
         title

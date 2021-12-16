@@ -92,6 +92,10 @@ export type Familycloud_Person = {
   /** An aggregate relationship */
   wish_list_invites_aggregate: Familycloud_Wish_List_Invite_Aggregate;
   /** An array relationship */
+  wish_list_item_contributions: Array<Familycloud_Wish_List_Item_Contribution>;
+  /** An aggregate relationship */
+  wish_list_item_contributions_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
+  /** An array relationship */
   wish_lists: Array<Familycloud_Wish_List>;
   /** An aggregate relationship */
   wish_lists_aggregate: Familycloud_Wish_List_Aggregate;
@@ -115,6 +119,26 @@ export type Familycloud_PersonWish_List_Invites_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Familycloud_Wish_List_Invite_Order_By>>;
   where?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_List_Item_ContributionsArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.person" */
+export type Familycloud_PersonWish_List_Item_Contributions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 
@@ -169,6 +193,7 @@ export type Familycloud_Person_Bool_Exp = {
   nickname?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Bool_Exp>;
+  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
   wish_lists?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
 };
 
@@ -206,6 +231,7 @@ export type Familycloud_Person_Order_By = {
   nickname?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   wish_list_invites_aggregate?: InputMaybe<Familycloud_Wish_List_Invite_Aggregate_Order_By>;
+  wish_list_item_contributions_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By>;
   wish_lists_aggregate?: InputMaybe<Familycloud_Wish_List_Aggregate_Order_By>;
 };
 
@@ -235,6 +261,7 @@ export type Familycloud_Person_Set_Input = {
 export type Familycloud_Wish_List = {
   __typename?: 'familycloud_wish_list';
   author_id: Scalars['String'];
+  author_item_contributions_hidden: Scalars['Boolean'];
   created_at: Scalars['timestamptz'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -354,6 +381,7 @@ export type Familycloud_Wish_List_Bool_Exp = {
   _not?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   _or?: InputMaybe<Array<Familycloud_Wish_List_Bool_Exp>>;
   author_id?: InputMaybe<String_Comparison_Exp>;
+  author_item_contributions_hidden?: InputMaybe<Boolean_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
@@ -372,6 +400,7 @@ export enum Familycloud_Wish_List_Constraint {
 
 /** input type for inserting data into table "familycloud.wish_list" */
 export type Familycloud_Wish_List_Insert_Input = {
+  author_item_contributions_hidden?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   wish_list_invites?: InputMaybe<Familycloud_Wish_List_Invite_Arr_Rel_Insert_Input>;
@@ -687,6 +716,30 @@ export type Familycloud_Wish_List_Item = {
   /** An object relationship */
   wish_list: Familycloud_Wish_List;
   wish_list_id: Scalars['Int'];
+  /** An array relationship */
+  wish_list_item_contributions: Array<Familycloud_Wish_List_Item_Contribution>;
+  /** An aggregate relationship */
+  wish_list_item_contributions_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
+};
+
+
+/** columns and relationships of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_ItemWish_List_Item_ContributionsArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_ItemWish_List_Item_Contributions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** aggregated selection of "familycloud.wish_list_item" */
@@ -767,6 +820,7 @@ export type Familycloud_Wish_List_Item_Bool_Exp = {
   url?: InputMaybe<String_Comparison_Exp>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   wish_list_id?: InputMaybe<Int_Comparison_Exp>;
+  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "familycloud.wish_list_item" */
@@ -777,6 +831,287 @@ export enum Familycloud_Wish_List_Item_Constraint {
   WishListItemPkey = 'wish_list_item_pkey'
 }
 
+/** columns and relationships of "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution = {
+  __typename?: 'familycloud_wish_list_item_contribution';
+  contributor_id: Scalars['String'];
+  created_at: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  /** An object relationship */
+  person: Familycloud_Person;
+  updated_at: Scalars['timestamptz'];
+  /** An object relationship */
+  wish_list_item: Familycloud_Wish_List_Item;
+  wish_list_item_id: Scalars['Int'];
+};
+
+/** aggregated selection of "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Aggregate = {
+  __typename?: 'familycloud_wish_list_item_contribution_aggregate';
+  aggregate?: Maybe<Familycloud_Wish_List_Item_Contribution_Aggregate_Fields>;
+  nodes: Array<Familycloud_Wish_List_Item_Contribution>;
+};
+
+/** aggregate fields of "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Aggregate_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_aggregate_fields';
+  avg?: Maybe<Familycloud_Wish_List_Item_Contribution_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Familycloud_Wish_List_Item_Contribution_Max_Fields>;
+  min?: Maybe<Familycloud_Wish_List_Item_Contribution_Min_Fields>;
+  stddev?: Maybe<Familycloud_Wish_List_Item_Contribution_Stddev_Fields>;
+  stddev_pop?: Maybe<Familycloud_Wish_List_Item_Contribution_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Familycloud_Wish_List_Item_Contribution_Stddev_Samp_Fields>;
+  sum?: Maybe<Familycloud_Wish_List_Item_Contribution_Sum_Fields>;
+  var_pop?: Maybe<Familycloud_Wish_List_Item_Contribution_Var_Pop_Fields>;
+  var_samp?: Maybe<Familycloud_Wish_List_Item_Contribution_Var_Samp_Fields>;
+  variance?: Maybe<Familycloud_Wish_List_Item_Contribution_Variance_Fields>;
+};
+
+
+/** aggregate fields of "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By = {
+  avg?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Max_Order_By>;
+  min?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Min_Order_By>;
+  stddev?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Sum_Order_By>;
+  var_pop?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Var_Samp_Order_By>;
+  variance?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input = {
+  data: Array<Familycloud_Wish_List_Item_Contribution_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Familycloud_Wish_List_Item_Contribution_Avg_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "familycloud.wish_list_item_contribution". All fields are combined with a logical 'AND'. */
+export type Familycloud_Wish_List_Item_Contribution_Bool_Exp = {
+  _and?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Bool_Exp>>;
+  _not?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+  _or?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Bool_Exp>>;
+  contributor_id?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  person?: InputMaybe<Familycloud_Person_Bool_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  wish_list_item?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
+  wish_list_item_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "familycloud.wish_list_item_contribution" */
+export enum Familycloud_Wish_List_Item_Contribution_Constraint {
+  /** unique or primary key constraint */
+  WishListItemContributionPkey = 'wish_list_item_contribution_pkey'
+}
+
+/** input type for inserting data into table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Insert_Input = {
+  wish_list_item?: InputMaybe<Familycloud_Wish_List_Item_Obj_Rel_Insert_Input>;
+  wish_list_item_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Familycloud_Wish_List_Item_Contribution_Max_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_max_fields';
+  contributor_id?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  wish_list_item_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Max_Order_By = {
+  contributor_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Familycloud_Wish_List_Item_Contribution_Min_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_min_fields';
+  contributor_id?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  wish_list_item_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Min_Order_By = {
+  contributor_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Mutation_Response = {
+  __typename?: 'familycloud_wish_list_item_contribution_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Familycloud_Wish_List_Item_Contribution>;
+};
+
+/** on conflict condition type for table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_On_Conflict = {
+  constraint: Familycloud_Wish_List_Item_Contribution_Constraint;
+  update_columns?: Array<Familycloud_Wish_List_Item_Contribution_Update_Column>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "familycloud.wish_list_item_contribution". */
+export type Familycloud_Wish_List_Item_Contribution_Order_By = {
+  contributor_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  person?: InputMaybe<Familycloud_Person_Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  wish_list_item?: InputMaybe<Familycloud_Wish_List_Item_Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "familycloud.wish_list_item_contribution" */
+export enum Familycloud_Wish_List_Item_Contribution_Select_Column {
+  /** column name */
+  ContributorId = 'contributor_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  WishListItemId = 'wish_list_item_id'
+}
+
+/** aggregate stddev on columns */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Familycloud_Wish_List_Item_Contribution_Sum_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  wish_list_item_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** placeholder for update columns of table "familycloud.wish_list_item_contribution" (current role has no relevant permissions) */
+export enum Familycloud_Wish_List_Item_Contribution_Update_Column {
+  /** placeholder (do not use) */
+  Placeholder = '_PLACEHOLDER'
+}
+
+/** aggregate var_pop on columns */
+export type Familycloud_Wish_List_Item_Contribution_Var_Pop_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Familycloud_Wish_List_Item_Contribution_Var_Samp_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Familycloud_Wish_List_Item_Contribution_Variance_Fields = {
+  __typename?: 'familycloud_wish_list_item_contribution_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  wish_list_item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  wish_list_item_id?: InputMaybe<Order_By>;
+};
+
 /** input type for inserting data into table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
@@ -784,6 +1119,7 @@ export type Familycloud_Wish_List_Item_Insert_Input = {
   url?: InputMaybe<Scalars['String']>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Obj_Rel_Insert_Input>;
   wish_list_id?: InputMaybe<Scalars['Int']>;
+  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -841,6 +1177,13 @@ export type Familycloud_Wish_List_Item_Mutation_Response = {
   returning: Array<Familycloud_Wish_List_Item>;
 };
 
+/** input type for inserting object relation for remote table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Obj_Rel_Insert_Input = {
+  data: Familycloud_Wish_List_Item_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_On_Conflict>;
+};
+
 /** on conflict condition type for table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_On_Conflict = {
   constraint: Familycloud_Wish_List_Item_Constraint;
@@ -858,6 +1201,7 @@ export type Familycloud_Wish_List_Item_Order_By = {
   url?: InputMaybe<Order_By>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
+  wish_list_item_contributions_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: familycloud_wish_list_item */
@@ -1059,6 +1403,7 @@ export type Familycloud_Wish_List_On_Conflict = {
 /** Ordering options when selecting data from "familycloud.wish_list". */
 export type Familycloud_Wish_List_Order_By = {
   author_id?: InputMaybe<Order_By>;
+  author_item_contributions_hidden?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -1079,6 +1424,8 @@ export enum Familycloud_Wish_List_Select_Column {
   /** column name */
   AuthorId = 'author_id',
   /** column name */
+  AuthorItemContributionsHidden = 'author_item_contributions_hidden',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Description = 'description',
@@ -1092,6 +1439,7 @@ export enum Familycloud_Wish_List_Select_Column {
 
 /** input type for updating data in table "familycloud.wish_list" */
 export type Familycloud_Wish_List_Set_Input = {
+  author_item_contributions_hidden?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1142,6 +1490,8 @@ export type Familycloud_Wish_List_Sum_Order_By = {
 
 /** update columns of table "familycloud.wish_list" */
 export enum Familycloud_Wish_List_Update_Column {
+  /** column name */
+  AuthorItemContributionsHidden = 'author_item_contributions_hidden',
   /** column name */
   Description = 'description',
   /** column name */
@@ -1196,6 +1546,10 @@ export type Mutation_Root = {
   delete_familycloud_wish_list_item?: Maybe<Familycloud_Wish_List_Item_Mutation_Response>;
   /** delete single row from the table: "familycloud.wish_list_item" */
   delete_familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
+  /** delete data from the table: "familycloud.wish_list_item_contribution" */
+  delete_familycloud_wish_list_item_contribution?: Maybe<Familycloud_Wish_List_Item_Contribution_Mutation_Response>;
+  /** delete single row from the table: "familycloud.wish_list_item_contribution" */
+  delete_familycloud_wish_list_item_contribution_by_pk?: Maybe<Familycloud_Wish_List_Item_Contribution>;
   /** insert data into the table: "familycloud.wish_list" */
   insert_familycloud_wish_list?: Maybe<Familycloud_Wish_List_Mutation_Response>;
   /** insert data into the table: "familycloud.wish_list_invite" */
@@ -1204,6 +1558,10 @@ export type Mutation_Root = {
   insert_familycloud_wish_list_invite_one?: Maybe<Familycloud_Wish_List_Invite>;
   /** insert data into the table: "familycloud.wish_list_item" */
   insert_familycloud_wish_list_item?: Maybe<Familycloud_Wish_List_Item_Mutation_Response>;
+  /** insert data into the table: "familycloud.wish_list_item_contribution" */
+  insert_familycloud_wish_list_item_contribution?: Maybe<Familycloud_Wish_List_Item_Contribution_Mutation_Response>;
+  /** insert a single row into the table: "familycloud.wish_list_item_contribution" */
+  insert_familycloud_wish_list_item_contribution_one?: Maybe<Familycloud_Wish_List_Item_Contribution>;
   /** insert a single row into the table: "familycloud.wish_list_item" */
   insert_familycloud_wish_list_item_one?: Maybe<Familycloud_Wish_List_Item>;
   /** insert a single row into the table: "familycloud.wish_list" */
@@ -1264,6 +1622,18 @@ export type Mutation_RootDelete_Familycloud_Wish_List_Item_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Familycloud_Wish_List_Item_ContributionArgs = {
+  where: Familycloud_Wish_List_Item_Contribution_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Familycloud_Wish_List_Item_Contribution_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Familycloud_Wish_ListArgs = {
   objects: Array<Familycloud_Wish_List_Insert_Input>;
   on_conflict?: InputMaybe<Familycloud_Wish_List_On_Conflict>;
@@ -1288,6 +1658,20 @@ export type Mutation_RootInsert_Familycloud_Wish_List_Invite_OneArgs = {
 export type Mutation_RootInsert_Familycloud_Wish_List_ItemArgs = {
   objects: Array<Familycloud_Wish_List_Item_Insert_Input>;
   on_conflict?: InputMaybe<Familycloud_Wish_List_Item_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Familycloud_Wish_List_Item_ContributionArgs = {
+  objects: Array<Familycloud_Wish_List_Item_Contribution_Insert_Input>;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Familycloud_Wish_List_Item_Contribution_OneArgs = {
+  object: Familycloud_Wish_List_Item_Contribution_Insert_Input;
+  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
 };
 
 
@@ -1402,6 +1786,12 @@ export type Query_Root = {
   familycloud_wish_list_item_aggregate: Familycloud_Wish_List_Item_Aggregate;
   /** fetch data from the table: "familycloud.wish_list_item" using primary key columns */
   familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
+  /** fetch data from the table: "familycloud.wish_list_item_contribution" */
+  familycloud_wish_list_item_contribution: Array<Familycloud_Wish_List_Item_Contribution>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_item_contribution" */
+  familycloud_wish_list_item_contribution_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_item_contribution" using primary key columns */
+  familycloud_wish_list_item_contribution_by_pk?: Maybe<Familycloud_Wish_List_Item_Contribution>;
 };
 
 
@@ -1496,6 +1886,29 @@ export type Query_RootFamilycloud_Wish_List_Item_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
+export type Query_RootFamilycloud_Wish_List_Item_ContributionArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_Item_Contribution_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+export type Query_RootFamilycloud_Wish_List_Item_Contribution_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "familycloud.person" */
@@ -1522,6 +1935,12 @@ export type Subscription_Root = {
   familycloud_wish_list_item_aggregate: Familycloud_Wish_List_Item_Aggregate;
   /** fetch data from the table: "familycloud.wish_list_item" using primary key columns */
   familycloud_wish_list_item_by_pk?: Maybe<Familycloud_Wish_List_Item>;
+  /** fetch data from the table: "familycloud.wish_list_item_contribution" */
+  familycloud_wish_list_item_contribution: Array<Familycloud_Wish_List_Item_Contribution>;
+  /** fetch aggregated fields from the table: "familycloud.wish_list_item_contribution" */
+  familycloud_wish_list_item_contribution_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
+  /** fetch data from the table: "familycloud.wish_list_item_contribution" using primary key columns */
+  familycloud_wish_list_item_contribution_by_pk?: Maybe<Familycloud_Wish_List_Item_Contribution>;
 };
 
 
@@ -1616,6 +2035,29 @@ export type Subscription_RootFamilycloud_Wish_List_Item_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
+export type Subscription_RootFamilycloud_Wish_List_Item_ContributionArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_Item_Contribution_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+export type Subscription_RootFamilycloud_Wish_List_Item_Contribution_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['timestamptz']>;
@@ -1666,6 +2108,7 @@ export type DeleteWishListItemMutation = { __typename?: 'mutation_root', delete_
 export type InsertWishListMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
+  author_item_contributions_hidden: Scalars['Boolean'];
 }>;
 
 
@@ -1691,9 +2134,10 @@ export type InsertWishListItemMutationVariables = Exact<{
 export type InsertWishListItemMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item?: { __typename?: 'familycloud_wish_list_item_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item', id: number }> } | null | undefined };
 
 export type UpdateWishListMutationVariables = Exact<{
-  wishListId: Scalars['Int'];
+  id: Scalars['Int'];
   title: Scalars['String'];
   description?: InputMaybe<Scalars['String']>;
+  author_item_contributions_hidden: Scalars['Boolean'];
 }>;
 
 
@@ -1722,7 +2166,7 @@ export type GetWishListQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
+export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
 
 export type GetWishListInvitesQueryVariables = Exact<{
   wish_list_id: Scalars['Int'];
@@ -1734,7 +2178,7 @@ export type GetWishListInvitesQuery = { __typename?: 'query_root', familycloud_w
 export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetWishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any }> };
+export type GetWishListsQuery = { __typename?: 'query_root', familycloud_wish_list: Array<{ __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, id: number, created_at: any, author_item_contributions_hidden: boolean }> };
 
 export type SearchUserQueryVariables = Exact<{
   input: Scalars['String'];
@@ -1805,9 +2249,9 @@ export const useDeleteWishListItemMutation = <
       options
     );
 export const InsertWishListDocument = `
-    mutation InsertWishList($title: String!, $description: String!) {
+    mutation InsertWishList($title: String!, $description: String!, $author_item_contributions_hidden: Boolean!) {
   insert_familycloud_wish_list_one(
-    object: {title: $title, description: $description}
+    object: {title: $title, description: $description, author_item_contributions_hidden: $author_item_contributions_hidden}
   ) {
     id
     description
@@ -1875,10 +2319,10 @@ export const useInsertWishListItemMutation = <
       options
     );
 export const UpdateWishListDocument = `
-    mutation UpdateWishList($wishListId: Int!, $title: String!, $description: String) {
+    mutation UpdateWishList($id: Int!, $title: String!, $description: String, $author_item_contributions_hidden: Boolean!) {
   update_familycloud_wish_list_by_pk(
-    _set: {title: $title, description: $description}
-    pk_columns: {id: $wishListId}
+    _set: {title: $title, description: $description, author_item_contributions_hidden: $author_item_contributions_hidden}
+    pk_columns: {id: $id}
   ) {
     id
   }
@@ -1948,6 +2392,7 @@ export const GetWishListDocument = `
   familycloud_wish_list_by_pk(id: $wishListId) {
     title
     description
+    author_item_contributions_hidden
     wish_list_items(order_by: {created_at: asc}) {
       description
       created_at
@@ -2008,6 +2453,7 @@ export const GetWishListsDocument = `
     description
     id
     created_at
+    author_item_contributions_hidden
   }
 }
     `;

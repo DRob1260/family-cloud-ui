@@ -2,6 +2,7 @@ query GetWishList($wishListId: Int!) {
     familycloud_wish_list_by_pk(id: $wishListId) {
         title
         description
+        author_item_contributions_hidden
         wish_list_items(order_by: {created_at: asc}) {
             description
             created_at
