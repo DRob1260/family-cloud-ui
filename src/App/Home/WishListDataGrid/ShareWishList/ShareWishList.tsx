@@ -273,20 +273,6 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                                                 </IconButton>
                                                             </ListItem>
                                                             <ListItem>
-                                                                {/*<ListItemText*/}
-                                                                {/*    primary={`Admin: ${*/}
-                                                                {/*        invite.admin*/}
-                                                                {/*            ? 'Yes'*/}
-                                                                {/*            : 'No'*/}
-                                                                {/*    }`}*/}
-                                                                {/*/>*/}
-                                                                {/*<IconButton>*/}
-                                                                {/*    <Edit*/}
-                                                                {/*        id={*/}
-                                                                {/*            'edit-wish-list-invite-icon'*/}
-                                                                {/*        }*/}
-                                                                {/*    />*/}
-                                                                {/*</IconButton>*/}
                                                                 <FormControlLabel
                                                                     control={
                                                                         <Switch
