@@ -24,11 +24,18 @@ import { useQueryClient } from 'react-query';
 export type EditUserContributionProps = {
     userContribution: UserContributions;
     wishListItemId: number;
+    wishListItemQuantity: number;
+    existingContributionsQuantity: number;
 };
 
 export const EditUserContribution: React.FunctionComponent<
     EditUserContributionProps
-> = ({ userContribution, wishListItemId }) => {
+> = ({
+    userContribution,
+    wishListItemId,
+    wishListItemQuantity,
+    existingContributionsQuantity,
+}) => {
     const [quantity, setQuantity] = useState(1);
     const [updateError, setUpdateError] = useState(false);
     const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
@@ -100,7 +107,9 @@ export const EditUserContribution: React.FunctionComponent<
     const disableUpdateButton = () => {
         const valueHasBeenUpdate =
             quantity === userContribution.contributions.quantity;
-        const quantityInvalid = quantity <= 0;
+        const quantityInvalid =
+            quantity <= 0 ||
+            quantity > wishListItemQuantity - existingContributionsQuantity;
 
         return (
             valueHasBeenUpdate ||
@@ -140,6 +149,9 @@ export const EditUserContribution: React.FunctionComponent<
                         ) : (
                             <IconButton
                                 id={'delete-wish-list-contribution-button'}
+                                disabled={
+                                    updateButtonLoading || deleteButtonLoading
+                                }
                             >
                                 <Delete
                                     id={'delete-wish-list-contribution-icon'}
@@ -155,6 +167,7 @@ export const EditUserContribution: React.FunctionComponent<
                         )}
                     </ListItem>
                     <ListItem>
+                        {/* todo: display feedback when/why button is disabled */}
                         <Button
                             variant={'contained'}
                             disabled={disableUpdateButton()}

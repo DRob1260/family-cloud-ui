@@ -33,6 +33,7 @@ export type ContributeItemProps = {
     open: boolean;
     setOpen: (open: boolean) => void;
     wishListItemId: number;
+    wishListItemQuantity: number;
 };
 
 export type UserContributions = {
@@ -50,6 +51,7 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
     open,
     setOpen,
     wishListItemId,
+    wishListItemQuantity,
 }) => {
     const [quantity, setQuantity] = useState(1);
     const [userContributions, setUserContributions] = useState<
@@ -140,7 +142,13 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
     };
 
     const contributeButtonDisabled = () => {
-        const invalidQuantity = quantity <= 0;
+        const existingContributionsQuantity =
+            getWishListItemContributions.data
+                ?.familycloud_wish_list_item_contribution.length || 0;
+
+        const invalidQuantity =
+            quantity <= 0 ||
+            quantity > wishListItemQuantity - existingContributionsQuantity;
 
         return invalidQuantity || insertWishListItemContribution.isLoading;
     };
@@ -179,7 +187,7 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        {/* todo: disable button if input is greater than item quantity */}
+                                        {/* todo: display feedback when/why button is disabled */}
                                         <Button
                                             variant={'contained'}
                                             onClick={() => {
@@ -315,6 +323,16 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
                                                                 }
                                                                 wishListItemId={
                                                                     wishListItemId
+                                                                }
+                                                                wishListItemQuantity={
+                                                                    wishListItemQuantity
+                                                                }
+                                                                existingContributionsQuantity={
+                                                                    getWishListItemContributions
+                                                                        .data
+                                                                        ?.familycloud_wish_list_item_contribution
+                                                                        .length ||
+                                                                    0
                                                                 }
                                                             />
                                                         </Collapse>

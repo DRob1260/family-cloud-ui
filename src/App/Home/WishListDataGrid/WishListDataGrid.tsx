@@ -202,6 +202,7 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openContributeItem}
                 setOpen={setOpenContributeItem}
                 wishListItemId={actionRow.id}
+                wishListItemQuantity={actionRow.quantity}
             />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && getWishList.data && (
