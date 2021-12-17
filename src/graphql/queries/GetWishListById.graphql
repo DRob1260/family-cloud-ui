@@ -9,6 +9,7 @@ query GetWishList($wishListId: Int!) {
             title
             id
             url
+            quantity
         }
     }
 }

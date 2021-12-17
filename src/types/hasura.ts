@@ -710,36 +710,13 @@ export type Familycloud_Wish_List_Item = {
   created_at: Scalars['timestamptz'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  quantity: Scalars['Int'];
   title: Scalars['String'];
   updated_at: Scalars['timestamptz'];
   url?: Maybe<Scalars['String']>;
   /** An object relationship */
   wish_list: Familycloud_Wish_List;
   wish_list_id: Scalars['Int'];
-  /** An array relationship */
-  wish_list_item_contributions: Array<Familycloud_Wish_List_Item_Contribution>;
-  /** An aggregate relationship */
-  wish_list_item_contributions_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
-};
-
-
-/** columns and relationships of "familycloud.wish_list_item" */
-export type Familycloud_Wish_List_ItemWish_List_Item_ContributionsArgs = {
-  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
-  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
-};
-
-
-/** columns and relationships of "familycloud.wish_list_item" */
-export type Familycloud_Wish_List_ItemWish_List_Item_Contributions_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
-  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** aggregated selection of "familycloud.wish_list_item" */
@@ -798,12 +775,14 @@ export type Familycloud_Wish_List_Item_Arr_Rel_Insert_Input = {
 export type Familycloud_Wish_List_Item_Avg_Fields = {
   __typename?: 'familycloud_wish_list_item_avg_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Avg_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -815,12 +794,12 @@ export type Familycloud_Wish_List_Item_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  quantity?: InputMaybe<Int_Comparison_Exp>;
   title?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   url?: InputMaybe<String_Comparison_Exp>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   wish_list_id?: InputMaybe<Int_Comparison_Exp>;
-  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "familycloud.wish_list_item" */
@@ -890,13 +869,6 @@ export type Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By = {
   variance?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Variance_Order_By>;
 };
 
-/** input type for inserting array relation for remote table "familycloud.wish_list_item_contribution" */
-export type Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input = {
-  data: Array<Familycloud_Wish_List_Item_Contribution_Insert_Input>;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
-};
-
 /** aggregate avg on columns */
 export type Familycloud_Wish_List_Item_Contribution_Avg_Fields = {
   __typename?: 'familycloud_wish_list_item_contribution_avg_fields';
@@ -923,12 +895,6 @@ export type Familycloud_Wish_List_Item_Contribution_Bool_Exp = {
   wish_list_item?: InputMaybe<Familycloud_Wish_List_Item_Bool_Exp>;
   wish_list_item_id?: InputMaybe<Int_Comparison_Exp>;
 };
-
-/** unique or primary key constraints on table "familycloud.wish_list_item_contribution" */
-export enum Familycloud_Wish_List_Item_Contribution_Constraint {
-  /** unique or primary key constraint */
-  WishListItemContributionPkey = 'wish_list_item_contribution_pkey'
-}
 
 /** input type for inserting data into table "familycloud.wish_list_item_contribution" */
 export type Familycloud_Wish_List_Item_Contribution_Insert_Input = {
@@ -981,13 +947,6 @@ export type Familycloud_Wish_List_Item_Contribution_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Familycloud_Wish_List_Item_Contribution>;
-};
-
-/** on conflict condition type for table "familycloud.wish_list_item_contribution" */
-export type Familycloud_Wish_List_Item_Contribution_On_Conflict = {
-  constraint: Familycloud_Wish_List_Item_Contribution_Constraint;
-  update_columns?: Array<Familycloud_Wish_List_Item_Contribution_Update_Column>;
-  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "familycloud.wish_list_item_contribution". */
@@ -1067,12 +1026,6 @@ export type Familycloud_Wish_List_Item_Contribution_Sum_Order_By = {
   wish_list_item_id?: InputMaybe<Order_By>;
 };
 
-/** placeholder for update columns of table "familycloud.wish_list_item_contribution" (current role has no relevant permissions) */
-export enum Familycloud_Wish_List_Item_Contribution_Update_Column {
-  /** placeholder (do not use) */
-  Placeholder = '_PLACEHOLDER'
-}
-
 /** aggregate var_pop on columns */
 export type Familycloud_Wish_List_Item_Contribution_Var_Pop_Fields = {
   __typename?: 'familycloud_wish_list_item_contribution_var_pop_fields';
@@ -1112,14 +1065,19 @@ export type Familycloud_Wish_List_Item_Contribution_Variance_Order_By = {
   wish_list_item_id?: InputMaybe<Order_By>;
 };
 
+/** input type for incrementing numeric columns in table "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_Item_Inc_Input = {
+  quantity?: InputMaybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
+  quantity?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Obj_Rel_Insert_Input>;
   wish_list_id?: InputMaybe<Scalars['Int']>;
-  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1128,6 +1086,7 @@ export type Familycloud_Wish_List_Item_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   url?: Maybe<Scalars['String']>;
@@ -1139,6 +1098,7 @@ export type Familycloud_Wish_List_Item_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
@@ -1151,6 +1111,7 @@ export type Familycloud_Wish_List_Item_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   url?: Maybe<Scalars['String']>;
@@ -1162,6 +1123,7 @@ export type Familycloud_Wish_List_Item_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
@@ -1196,12 +1158,12 @@ export type Familycloud_Wish_List_Item_Order_By = {
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
-  wish_list_item_contributions_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: familycloud_wish_list_item */
@@ -1218,6 +1180,8 @@ export enum Familycloud_Wish_List_Item_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Quantity = 'quantity',
+  /** column name */
   Title = 'title',
   /** column name */
   UpdatedAt = 'updated_at',
@@ -1230,6 +1194,7 @@ export enum Familycloud_Wish_List_Item_Select_Column {
 /** input type for updating data in table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
+  quantity?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -1238,12 +1203,14 @@ export type Familycloud_Wish_List_Item_Set_Input = {
 export type Familycloud_Wish_List_Item_Stddev_Fields = {
   __typename?: 'familycloud_wish_list_item_stddev_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Stddev_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1251,12 +1218,14 @@ export type Familycloud_Wish_List_Item_Stddev_Order_By = {
 export type Familycloud_Wish_List_Item_Stddev_Pop_Fields = {
   __typename?: 'familycloud_wish_list_item_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Stddev_Pop_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1264,12 +1233,14 @@ export type Familycloud_Wish_List_Item_Stddev_Pop_Order_By = {
 export type Familycloud_Wish_List_Item_Stddev_Samp_Fields = {
   __typename?: 'familycloud_wish_list_item_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Stddev_Samp_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1277,12 +1248,14 @@ export type Familycloud_Wish_List_Item_Stddev_Samp_Order_By = {
 export type Familycloud_Wish_List_Item_Sum_Fields = {
   __typename?: 'familycloud_wish_list_item_sum_fields';
   id?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
   wish_list_id?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Sum_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1290,6 +1263,8 @@ export type Familycloud_Wish_List_Item_Sum_Order_By = {
 export enum Familycloud_Wish_List_Item_Update_Column {
   /** column name */
   Description = 'description',
+  /** column name */
+  Quantity = 'quantity',
   /** column name */
   Title = 'title',
   /** column name */
@@ -1300,12 +1275,14 @@ export enum Familycloud_Wish_List_Item_Update_Column {
 export type Familycloud_Wish_List_Item_Var_Pop_Fields = {
   __typename?: 'familycloud_wish_list_item_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Var_Pop_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1313,12 +1290,14 @@ export type Familycloud_Wish_List_Item_Var_Pop_Order_By = {
 export type Familycloud_Wish_List_Item_Var_Samp_Fields = {
   __typename?: 'familycloud_wish_list_item_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Var_Samp_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1326,12 +1305,14 @@ export type Familycloud_Wish_List_Item_Var_Samp_Order_By = {
 export type Familycloud_Wish_List_Item_Variance_Fields = {
   __typename?: 'familycloud_wish_list_item_variance_fields';
   id?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
   wish_list_id?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "familycloud.wish_list_item" */
 export type Familycloud_Wish_List_Item_Variance_Order_By = {
   id?: InputMaybe<Order_By>;
+  quantity?: InputMaybe<Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
 };
 
@@ -1664,14 +1645,12 @@ export type Mutation_RootInsert_Familycloud_Wish_List_ItemArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Familycloud_Wish_List_Item_ContributionArgs = {
   objects: Array<Familycloud_Wish_List_Item_Contribution_Insert_Input>;
-  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
 };
 
 
 /** mutation root */
 export type Mutation_RootInsert_Familycloud_Wish_List_Item_Contribution_OneArgs = {
   object: Familycloud_Wish_List_Item_Contribution_Insert_Input;
-  on_conflict?: InputMaybe<Familycloud_Wish_List_Item_Contribution_On_Conflict>;
 };
 
 
@@ -1733,6 +1712,7 @@ export type Mutation_RootUpdate_Familycloud_Wish_List_Invite_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Familycloud_Wish_List_ItemArgs = {
+  _inc?: InputMaybe<Familycloud_Wish_List_Item_Inc_Input>;
   _set?: InputMaybe<Familycloud_Wish_List_Item_Set_Input>;
   where: Familycloud_Wish_List_Item_Bool_Exp;
 };
@@ -1740,6 +1720,7 @@ export type Mutation_RootUpdate_Familycloud_Wish_List_ItemArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Familycloud_Wish_List_Item_By_PkArgs = {
+  _inc?: InputMaybe<Familycloud_Wish_List_Item_Inc_Input>;
   _set?: InputMaybe<Familycloud_Wish_List_Item_Set_Input>;
   pk_columns: Familycloud_Wish_List_Item_Pk_Columns_Input;
 };
@@ -2166,7 +2147,7 @@ export type GetWishListQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined }> } | null | undefined };
+export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined, quantity: number }> } | null | undefined };
 
 export type GetWishListInvitesQueryVariables = Exact<{
   wish_list_id: Scalars['Int'];
@@ -2399,6 +2380,7 @@ export const GetWishListDocument = `
       title
       id
       url
+      quantity
     }
   }
 }

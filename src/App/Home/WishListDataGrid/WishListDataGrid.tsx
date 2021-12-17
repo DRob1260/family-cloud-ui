@@ -28,6 +28,7 @@ export type WishListDataGridProps = {
 export type WishListItemRow = {
     id: number;
     title: string;
+    quantity: number;
     description?: string;
     url?: string;
     actionsRowNumber: number;
@@ -46,6 +47,7 @@ export const WishListDataGrid: React.FunctionComponent<
         id: -1,
         title: '',
         actionsRowNumber: -1,
+        quantity: 1,
     });
 
     const { token } = useContext(TokenContext);
@@ -63,6 +65,7 @@ export const WishListDataGrid: React.FunctionComponent<
                             return {
                                 id: item.id,
                                 title: item.title,
+                                quantity: item.quantity,
                                 description: item.description || '',
                                 url: item.url || '',
                                 actionsRowNumber: index,
@@ -103,6 +106,11 @@ export const WishListDataGrid: React.FunctionComponent<
             field: 'title',
             headerName: 'Title',
             width: 200,
+        },
+        {
+            field: 'quantity',
+            headerName: 'Quantity',
+            width: 125,
         },
         {
             field: 'description',
