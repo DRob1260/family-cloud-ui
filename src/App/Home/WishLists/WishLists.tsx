@@ -112,7 +112,10 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                                                         wishList.id
                                                     }
                                                     onClick={() => {
-                                                        if (activeWishListId) {
+                                                        if (
+                                                            activeWishListId ===
+                                                            wishList.id
+                                                        ) {
                                                             setActiveWishListId(
                                                                 null,
                                                             );
