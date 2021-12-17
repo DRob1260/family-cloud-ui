@@ -24,6 +24,7 @@ export const UpdateWishListItem: React.FunctionComponent<
     UpdateWishListItemProps
 > = ({ itemRow, updateRow, open, setOpen }) => {
     const [title, setTitle] = useState('');
+    const [quantity, setQuantity] = useState(1);
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
 
@@ -36,6 +37,7 @@ export const UpdateWishListItem: React.FunctionComponent<
                 updateRow({
                     id: itemRow?.id || -1,
                     title: title,
+                    quantity: quantity,
                     url: url,
                     description: description,
                     actionsRowNumber: itemRow?.actionsRowNumber,
@@ -47,6 +49,7 @@ export const UpdateWishListItem: React.FunctionComponent<
 
     useEffect(() => {
         setTitle(itemRow?.title || '');
+        setQuantity(itemRow?.quantity || 1);
         setUrl(itemRow?.url || '');
         setDescription(itemRow?.description || '');
     }, [itemRow]);
@@ -70,6 +73,20 @@ export const UpdateWishListItem: React.FunctionComponent<
                                 onChange={(event) =>
                                     setTitle(event.target.value)
                                 }
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label={'Quantity'}
+                                type={'number'}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                fullWidth={true}
+                                value={quantity}
+                                onChange={(event) => {
+                                    setQuantity(parseInt(event.target.value));
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -102,11 +119,12 @@ export const UpdateWishListItem: React.FunctionComponent<
                             updateWishListItem.mutate({
                                 itemId: itemRow?.id,
                                 title: title,
+                                quantity: quantity,
                                 description: description,
                                 url: url,
                             });
                         }}
-                        disabled={!title}
+                        disabled={!title || quantity < 1}
                     >
                         Update
                     </Button>

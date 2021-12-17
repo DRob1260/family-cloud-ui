@@ -2135,6 +2135,7 @@ export type UpdateWishListInviteMutation = { __typename?: 'mutation_root', updat
 export type UpdateWishListItemMutationVariables = Exact<{
   itemId: Scalars['Int'];
   title?: InputMaybe<Scalars['String']>;
+  quantity: Scalars['Int'];
   description?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 }>;
@@ -2346,10 +2347,10 @@ export const useUpdateWishListInviteMutation = <
       options
     );
 export const UpdateWishListItemDocument = `
-    mutation updateWishListItem($itemId: Int!, $title: String, $description: String, $url: String) {
+    mutation updateWishListItem($itemId: Int!, $title: String, $quantity: Int!, $description: String, $url: String) {
   update_familycloud_wish_list_item_by_pk(
     pk_columns: {id: $itemId}
-    _set: {description: $description, title: $title, url: $url}
+    _set: {description: $description, title: $title, quantity: $quantity, url: $url}
   ) {
     id
   }
