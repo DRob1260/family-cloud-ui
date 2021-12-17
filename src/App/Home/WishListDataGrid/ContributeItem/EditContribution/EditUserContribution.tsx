@@ -57,9 +57,10 @@ export const EditUserContribution: React.FunctionComponent<
             {
                 onSuccess: () => {
                     setUpdateError(false);
-                    queryClient.invalidateQueries(
+                    queryClient.invalidateQueries([
                         'GetWishListItemContributions',
-                    );
+                        'GetWishList',
+                    ]);
                 },
                 onError: () => {
                     setUpdateError(true);
@@ -77,9 +78,10 @@ export const EditUserContribution: React.FunctionComponent<
             {
                 onSuccess: () => {
                     setUpdateError(false);
-                    queryClient.invalidateQueries(
+                    queryClient.invalidateQueries([
                         'GetWishListItemContributions',
-                    );
+                        'GetWishList',
+                    ]);
                     close();
                 },
                 onError: () => {

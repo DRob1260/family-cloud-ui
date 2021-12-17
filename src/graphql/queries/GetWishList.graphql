@@ -10,6 +10,11 @@ query GetWishList($wishListId: Int!) {
             id
             url
             quantity
+            wish_list_item_contributions_aggregate {
+                aggregate {
+                    count
+                }
+            }
         }
     }
 }

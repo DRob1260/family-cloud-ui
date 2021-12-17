@@ -38,6 +38,7 @@ export const UpdateWishListItem: React.FunctionComponent<
                     id: itemRow?.id || -1,
                     title: title,
                     quantity: quantity,
+                    contributionsQuantity: itemRow.contributionsQuantity,
                     url: url,
                     description: description,
                     actionsRowNumber: itemRow?.actionsRowNumber,

@@ -717,6 +717,30 @@ export type Familycloud_Wish_List_Item = {
   /** An object relationship */
   wish_list: Familycloud_Wish_List;
   wish_list_id: Scalars['Int'];
+  /** An array relationship */
+  wish_list_item_contributions: Array<Familycloud_Wish_List_Item_Contribution>;
+  /** An aggregate relationship */
+  wish_list_item_contributions_aggregate: Familycloud_Wish_List_Item_Contribution_Aggregate;
+};
+
+
+/** columns and relationships of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_ItemWish_List_Item_ContributionsArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
+};
+
+
+/** columns and relationships of "familycloud.wish_list_item" */
+export type Familycloud_Wish_List_ItemWish_List_Item_Contributions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Familycloud_Wish_List_Item_Contribution_Order_By>>;
+  where?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** aggregated selection of "familycloud.wish_list_item" */
@@ -800,6 +824,7 @@ export type Familycloud_Wish_List_Item_Bool_Exp = {
   url?: InputMaybe<String_Comparison_Exp>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Bool_Exp>;
   wish_list_id?: InputMaybe<Int_Comparison_Exp>;
+  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "familycloud.wish_list_item" */
@@ -867,6 +892,11 @@ export type Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By = {
   var_pop?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Var_Pop_Order_By>;
   var_samp?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Var_Samp_Order_By>;
   variance?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "familycloud.wish_list_item_contribution" */
+export type Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input = {
+  data: Array<Familycloud_Wish_List_Item_Contribution_Insert_Input>;
 };
 
 /** aggregate avg on columns */
@@ -1078,6 +1108,7 @@ export type Familycloud_Wish_List_Item_Insert_Input = {
   url?: InputMaybe<Scalars['String']>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Obj_Rel_Insert_Input>;
   wish_list_id?: InputMaybe<Scalars['Int']>;
+  wish_list_item_contributions?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1164,6 +1195,7 @@ export type Familycloud_Wish_List_Item_Order_By = {
   url?: InputMaybe<Order_By>;
   wish_list?: InputMaybe<Familycloud_Wish_List_Order_By>;
   wish_list_id?: InputMaybe<Order_By>;
+  wish_list_item_contributions_aggregate?: InputMaybe<Familycloud_Wish_List_Item_Contribution_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: familycloud_wish_list_item */
@@ -2163,7 +2195,7 @@ export type GetWishListQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined, quantity: number }> } | null | undefined };
+export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined, quantity: number, wish_list_item_contributions_aggregate: { __typename?: 'familycloud_wish_list_item_contribution_aggregate', aggregate?: { __typename?: 'familycloud_wish_list_item_contribution_aggregate_fields', count: number } | null | undefined } }> } | null | undefined };
 
 export type GetWishListInvitesQueryVariables = Exact<{
   wish_list_id: Scalars['Int'];
@@ -2448,6 +2480,11 @@ export const GetWishListDocument = `
       id
       url
       quantity
+      wish_list_item_contributions_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 }

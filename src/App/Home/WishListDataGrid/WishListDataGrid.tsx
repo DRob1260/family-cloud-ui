@@ -30,6 +30,7 @@ export type WishListItemRow = {
     id: number;
     title: string;
     quantity: number;
+    contributionsQuantity: number;
     description?: string;
     url?: string;
     actionsRowNumber: number;
@@ -50,6 +51,7 @@ export const WishListDataGrid: React.FunctionComponent<
         title: '',
         actionsRowNumber: -1,
         quantity: 1,
+        contributionsQuantity: 0,
     });
 
     const { token } = useContext(TokenContext);
@@ -68,6 +70,9 @@ export const WishListDataGrid: React.FunctionComponent<
                                 id: item.id,
                                 title: item.title,
                                 quantity: item.quantity,
+                                contributionsQuantity:
+                                    item.wish_list_item_contributions_aggregate
+                                        ?.aggregate?.count || 0,
                                 description: item.description || '',
                                 url: item.url || '',
                                 actionsRowNumber: index,
@@ -110,6 +115,21 @@ export const WishListDataGrid: React.FunctionComponent<
 
     const columns: GridColDef[] = [
         {
+            field: 'actionsRowNumber',
+            headerName: 'Actions',
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <ItemActions
+                        itemRow={params.row}
+                        deleteItem={deleteItem}
+                        editItem={editItem}
+                        contributeItem={contributeItem}
+                    />
+                );
+            },
+        },
+        {
             field: 'title',
             headerName: 'Title',
             width: 200,
@@ -117,6 +137,11 @@ export const WishListDataGrid: React.FunctionComponent<
         {
             field: 'quantity',
             headerName: 'Quantity',
+            width: 125,
+        },
+        {
+            field: 'contributionsQuantity',
+            headerName: 'Contributions',
             width: 125,
         },
         {
@@ -137,21 +162,6 @@ export const WishListDataGrid: React.FunctionComponent<
                     >
                         {params.row.url}
                     </Link>
-                );
-            },
-        },
-        {
-            field: 'actionsRowNumber',
-            headerName: 'Actions',
-            width: 150,
-            renderCell: (params) => {
-                return (
-                    <ItemActions
-                        itemRow={params.row}
-                        deleteItem={deleteItem}
-                        editItem={editItem}
-                        contributeItem={contributeItem}
-                    />
                 );
             },
         },

@@ -28,6 +28,7 @@ import {
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { EditUserContribution } from './EditContribution/EditUserContribution';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useQueryClient } from 'react-query';
 
 export type ContributeItemProps = {
     open: boolean;
@@ -65,6 +66,8 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
     const auth0 = useAuth0();
 
     const { token } = useContext(TokenContext);
+
+    const queryClient = useQueryClient();
 
     const getWishListItemContributions = useGetWishListItemContributionsQuery(
         GraphqlClientWithAuth(token),
@@ -126,6 +129,7 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
             GraphqlClientWithAuth(token),
             {
                 onSuccess: () => {
+                    queryClient.invalidateQueries('GetWishList');
                     setInsertError(false);
                     getWishListItemContributions.refetch();
                 },
