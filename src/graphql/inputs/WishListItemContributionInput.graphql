@@ -1,0 +1,4 @@
+input WishListItemContributionInput {
+    contributor_id: String!
+    wish_list_item_id: Int!
+}

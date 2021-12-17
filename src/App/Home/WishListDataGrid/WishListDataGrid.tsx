@@ -20,6 +20,7 @@ import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { UpdateWishList } from './UpdateWishList/UpdateWishList';
 import { ShareWishList } from './ShareWishList/ShareWishList';
+import { ContributeItem } from './ContributeItem/ContributeItem';
 
 export type WishListDataGridProps = {
     wishListId: number;
@@ -43,6 +44,7 @@ export const WishListDataGrid: React.FunctionComponent<
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
     const [openWishListSettings, setOpenWishListSettings] = useState(false);
     const [openWishListSharing, setOpenWishListSharing] = useState(false);
+    const [openContributeItem, setOpenContributeItem] = useState(false);
     const [actionRow, setActionRow] = useState<WishListItemRow>({
         id: -1,
         title: '',
@@ -101,6 +103,11 @@ export const WishListDataGrid: React.FunctionComponent<
         setRows(rowsCopy);
     };
 
+    const contributeItem = (itemRow: WishListItemRow) => {
+        setActionRow(itemRow);
+        setOpenContributeItem(true);
+    };
+
     const columns: GridColDef[] = [
         {
             field: 'title',
@@ -136,13 +143,14 @@ export const WishListDataGrid: React.FunctionComponent<
         {
             field: 'actionsRowNumber',
             headerName: 'Actions',
-            width: 100,
+            width: 150,
             renderCell: (params) => {
                 return (
                     <ItemActions
                         itemRow={params.row}
                         deleteItem={deleteItem}
                         editItem={editItem}
+                        contributeItem={contributeItem}
                     />
                 );
             },
@@ -189,6 +197,11 @@ export const WishListDataGrid: React.FunctionComponent<
                 open={openWishListSharing}
                 setOpen={setOpenWishListSharing}
                 wishListId={wishListId}
+            />
+            <ContributeItem
+                open={openContributeItem}
+                setOpen={setOpenContributeItem}
+                wishListItemId={actionRow.id}
             />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && getWishList.data && (

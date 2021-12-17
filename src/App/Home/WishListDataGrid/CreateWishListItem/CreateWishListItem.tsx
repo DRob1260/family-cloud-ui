@@ -26,6 +26,7 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
     setOpen,
 }) => {
     const [title, setTitle] = useState('');
+    const [quantity, setQuantity] = useState(1);
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
 
@@ -68,6 +69,20 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                label={'Quantity'}
+                                type={'number'}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                fullWidth={true}
+                                value={quantity}
+                                onChange={(event) => {
+                                    setQuantity(parseInt(event.target.value));
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
                                 label={'Url'}
                                 fullWidth={true}
                                 value={url}
@@ -104,12 +119,13 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
                         onClick={() => {
                             insertWishListItem.mutate({
                                 wishListId: wishListId,
+                                quantity: quantity,
                                 title: title,
                                 description: description,
                                 url: url,
                             });
                         }}
-                        disabled={!title}
+                        disabled={!title || quantity < 1}
                     >
                         Save
                     </Button>

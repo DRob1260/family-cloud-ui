@@ -1,0 +1,9 @@
+query GetWishListItemContributions($wish_list_item_id: Int) {
+    familycloud_wish_list_item_contribution(where: {wish_list_item_id: {_eq: $wish_list_item_id}}, order_by: {created_at: asc}) {
+        person {
+            id
+            nickname
+        }
+        id
+    }
+}

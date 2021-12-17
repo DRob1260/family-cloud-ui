@@ -2086,6 +2086,13 @@ export type DeleteWishListItemMutationVariables = Exact<{
 
 export type DeleteWishListItemMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_item_by_pk?: { __typename?: 'familycloud_wish_list_item', id: number } | null | undefined };
 
+export type DeleteWishListItemContributionMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteWishListItemContributionMutation = { __typename?: 'mutation_root', delete_familycloud_wish_list_item_contribution_by_pk?: { __typename?: 'familycloud_wish_list_item_contribution', id: number } | null | undefined };
+
 export type InsertWishListMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
@@ -2107,12 +2114,20 @@ export type InsertWishListInviteMutation = { __typename?: 'mutation_root', inser
 export type InsertWishListItemMutationVariables = Exact<{
   wishListId: Scalars['Int'];
   title: Scalars['String'];
+  quantity: Scalars['Int'];
   description?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 }>;
 
 
 export type InsertWishListItemMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item?: { __typename?: 'familycloud_wish_list_item_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item', id: number }> } | null | undefined };
+
+export type InsertWishListItemContributionMutationVariables = Exact<{
+  wish_list_item_id: Scalars['Int'];
+}>;
+
+
+export type InsertWishListItemContributionMutation = { __typename?: 'mutation_root', insert_familycloud_wish_list_item_contribution?: { __typename?: 'familycloud_wish_list_item_contribution_mutation_response', returning: Array<{ __typename?: 'familycloud_wish_list_item_contribution', id: number }> } | null | undefined };
 
 export type UpdateWishListMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2156,6 +2171,13 @@ export type GetWishListInvitesQueryVariables = Exact<{
 
 
 export type GetWishListInvitesQuery = { __typename?: 'query_root', familycloud_wish_list_invite: Array<{ __typename?: 'familycloud_wish_list_invite', id: any, status: string, admin: boolean, person: { __typename?: 'familycloud_person', nickname: string } }> };
+
+export type GetWishListItemContributionsQueryVariables = Exact<{
+  wish_list_item_id?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetWishListItemContributionsQuery = { __typename?: 'query_root', familycloud_wish_list_item_contribution: Array<{ __typename?: 'familycloud_wish_list_item_contribution', id: number, person: { __typename?: 'familycloud_person', id: string, nickname: string } }> };
 
 export type GetWishListsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2230,6 +2252,26 @@ export const useDeleteWishListItemMutation = <
       (variables?: DeleteWishListItemMutationVariables) => fetcher<DeleteWishListItemMutation, DeleteWishListItemMutationVariables>(client, DeleteWishListItemDocument, variables, headers)(),
       options
     );
+export const DeleteWishListItemContributionDocument = `
+    mutation DeleteWishListItemContribution($id: Int!) {
+  delete_familycloud_wish_list_item_contribution_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export const useDeleteWishListItemContributionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteWishListItemContributionMutation, TError, DeleteWishListItemContributionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteWishListItemContributionMutation, TError, DeleteWishListItemContributionMutationVariables, TContext>(
+      'DeleteWishListItemContribution',
+      (variables?: DeleteWishListItemContributionMutationVariables) => fetcher<DeleteWishListItemContributionMutation, DeleteWishListItemContributionMutationVariables>(client, DeleteWishListItemContributionDocument, variables, headers)(),
+      options
+    );
 export const InsertWishListDocument = `
     mutation InsertWishList($title: String!, $description: String!, $author_item_contributions_hidden: Boolean!) {
   insert_familycloud_wish_list_one(
@@ -2277,9 +2319,9 @@ export const useInsertWishListInviteMutation = <
       options
     );
 export const InsertWishListItemDocument = `
-    mutation insertWishListItem($wishListId: Int!, $title: String!, $description: String, $url: String) {
+    mutation insertWishListItem($wishListId: Int!, $title: String!, $quantity: Int!, $description: String, $url: String) {
   insert_familycloud_wish_list_item(
-    objects: {wish_list_id: $wishListId, title: $title, description: $description, url: $url}
+    objects: {wish_list_id: $wishListId, title: $title, quantity: $quantity, description: $description, url: $url}
   ) {
     returning {
       id
@@ -2298,6 +2340,30 @@ export const useInsertWishListItemMutation = <
     useMutation<InsertWishListItemMutation, TError, InsertWishListItemMutationVariables, TContext>(
       'insertWishListItem',
       (variables?: InsertWishListItemMutationVariables) => fetcher<InsertWishListItemMutation, InsertWishListItemMutationVariables>(client, InsertWishListItemDocument, variables, headers)(),
+      options
+    );
+export const InsertWishListItemContributionDocument = `
+    mutation InsertWishListItemContribution($wish_list_item_id: Int!) {
+  insert_familycloud_wish_list_item_contribution(
+    objects: {wish_list_item_id: $wish_list_item_id}
+  ) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+export const useInsertWishListItemContributionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InsertWishListItemContributionMutation, TError, InsertWishListItemContributionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InsertWishListItemContributionMutation, TError, InsertWishListItemContributionMutationVariables, TContext>(
+      'InsertWishListItemContribution',
+      (variables?: InsertWishListItemContributionMutationVariables) => fetcher<InsertWishListItemContributionMutation, InsertWishListItemContributionMutationVariables>(client, InsertWishListItemContributionDocument, variables, headers)(),
       options
     );
 export const UpdateWishListDocument = `
@@ -2427,6 +2493,34 @@ export const useGetWishListInvitesQuery = <
     useQuery<GetWishListInvitesQuery, TError, TData>(
       ['GetWishListInvites', variables],
       fetcher<GetWishListInvitesQuery, GetWishListInvitesQueryVariables>(client, GetWishListInvitesDocument, variables, headers),
+      options
+    );
+export const GetWishListItemContributionsDocument = `
+    query GetWishListItemContributions($wish_list_item_id: Int) {
+  familycloud_wish_list_item_contribution(
+    where: {wish_list_item_id: {_eq: $wish_list_item_id}}
+    order_by: {created_at: asc}
+  ) {
+    person {
+      id
+      nickname
+    }
+    id
+  }
+}
+    `;
+export const useGetWishListItemContributionsQuery = <
+      TData = GetWishListItemContributionsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetWishListItemContributionsQueryVariables,
+      options?: UseQueryOptions<GetWishListItemContributionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetWishListItemContributionsQuery, TError, TData>(
+      variables === undefined ? ['GetWishListItemContributions'] : ['GetWishListItemContributions', variables],
+      fetcher<GetWishListItemContributionsQuery, GetWishListItemContributionsQueryVariables>(client, GetWishListItemContributionsDocument, variables, headers),
       options
     );
 export const GetWishListsDocument = `

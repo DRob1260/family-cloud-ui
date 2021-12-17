@@ -1,0 +1,5 @@
+mutation DeleteWishListItemContribution($id: Int!) {
+    delete_familycloud_wish_list_item_contribution_by_pk(id: $id) {
+        id
+    }
+}

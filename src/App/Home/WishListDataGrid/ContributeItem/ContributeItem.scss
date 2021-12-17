@@ -1,0 +1,25 @@
+.ContributeItem {
+
+}
+
+.ContributeItem-dialog {
+  #contribute-item-paper {
+    padding: 1em;
+
+    #contribute-wish-list-item-spinner {
+      margin-left: .5em;
+    }
+  }
+
+  #item-contributions-grid {
+    margin-top: 2em;
+
+    #item-contributions-paper {
+      padding: 1em;
+
+      .userContributionSelected {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}

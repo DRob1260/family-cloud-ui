@@ -1,0 +1,9 @@
+mutation InsertWishListItemContribution($wish_list_item_id: Int!) {
+    insert_familycloud_wish_list_item_contribution(objects: {
+        wish_list_item_id: $wish_list_item_id
+    }) {
+        returning {
+            id
+        }
+    }
+}
