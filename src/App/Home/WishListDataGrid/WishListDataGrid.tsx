@@ -218,7 +218,7 @@ export const WishListDataGrid: React.FunctionComponent<
             {getWishList.isSuccess && getWishList.data && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
                     <Grid container id={'wish-lists-data-grid-header-grid'}>
-                        <Grid item xs={10}>
+                        <Grid item xs={6} md={10} lg={11}>
                             <Typography variant={'h6'}>
                                 {
                                     getWishList.data.familycloud_wish_list_by_pk
@@ -226,8 +226,8 @@ export const WishListDataGrid: React.FunctionComponent<
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item xs={2}>
-                            <ButtonGroup>
+                        <Grid item xs={6} md={2} lg={1}>
+                            <ButtonGroup id={'wish-list-data-grid-actions'}>
                                 <IconButton
                                     title={'Configure Wish List'}
                                     id={'wish-list-settings-button'}

@@ -168,7 +168,7 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
             >
                 <DialogTitle>Contribute Wish List Item</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Paper id={'contribute-item-paper'} elevation={3}>
                                 <Grid container spacing={1}>
