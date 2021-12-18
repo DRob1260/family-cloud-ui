@@ -27,13 +27,13 @@ export const Home: React.FunctionComponent = () => {
                                     Welcome, {user?.nickname}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6} md={4} lg={3}>
                                 <WishLists
                                     activeWishListId={activeWishListId}
                                     setActiveWishListId={setActiveWishListId}
                                 />
                             </Grid>
-                            <Grid item xs={9}>
+                            <Grid item xs={12} md={12}>
                                 {activeWishListId && (
                                     <WishListDataGrid
                                         wishListId={activeWishListId}
