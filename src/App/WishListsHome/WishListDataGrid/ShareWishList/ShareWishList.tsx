@@ -206,6 +206,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                             {getWishListInvites.data?.familycloud_wish_list_invite?.map(
                                                 (invite) => (
                                                     <div
+                                                        key={`share-wish-list-invite-${invite.id}`}
                                                         className={
                                                             wishListInviteSelected ===
                                                             invite.id

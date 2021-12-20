@@ -11,23 +11,20 @@ import {
     Typography,
 } from '@mui/material';
 import './WishLists.scss';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { useGetWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
 import { CreateWishList } from './CreateWishList/CreateWishList';
+import { useNavigate } from 'react-location';
 
-export type WishListsProps = {
-    activeWishListId: number | null;
-    setActiveWishListId: (wishListId: number | null) => void;
-};
-
-export const WishLists: React.FunctionComponent<WishListsProps> = ({
-    activeWishListId,
-    setActiveWishListId,
-}) => {
+export const WishLists: React.FunctionComponent = () => {
     const { token } = useContext(TokenContext);
+    const navigate = useNavigate();
+    const [activeWishListId, setActiveWishListId] = useState<null | number>(
+        null,
+    );
     const [createWishListOpen, setCreateWishListOpen] = useState(false);
 
     const getWishLists = useGetWishListsQuery(
@@ -44,6 +41,10 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
             },
         },
     );
+
+    useEffect(() => {
+        navigate({ to: activeWishListId });
+    }, [activeWishListId, navigate]);
 
     return (
         <div className={'WishLists'}>

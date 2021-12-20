@@ -1,32 +1,35 @@
 import React from 'react';
-import './App.scss';
+import { Router, useLocation } from 'react-location';
+import { WishListsHome } from './WishListsHome/WishListsHome';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Auth0ProviderWithHistory } from '../auth0/Auth0ProviderWithHistory';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home } from './Home/Home';
-import { Navigator } from './Navigator/Navigator';
+import { Navigator } from '../Navigator/Navigator';
 
 const queryClient = new QueryClient();
 
-const App: React.FunctionComponent = () => {
+export const App: React.FunctionComponent = () => {
+    const location = useLocation();
+
     return (
-        <div className="App">
-            <BrowserRouter>
-                <Auth0ProviderWithHistory>
-                    <QueryClientProvider client={queryClient}>
-                        <ReactQueryDevtools initialIsOpen={false} />
-                        <Navigator />
-                        <Switch>
-                            <Route path={'/family-cloud'}>
-                                <Home />
-                            </Route>
-                        </Switch>
-                    </QueryClientProvider>
-                </Auth0ProviderWithHistory>
-            </BrowserRouter>
+        <div className={'App'}>
+            <QueryClientProvider client={queryClient}>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <Navigator />
+                <Router
+                    location={location}
+                    routes={[
+                        {
+                            path: '/',
+                            children: [
+                                {
+                                    path: 'wish-lists',
+                                    element: <WishListsHome />,
+                                },
+                            ],
+                        },
+                    ]}
+                />
+            </QueryClientProvider>
         </div>
     );
 };
-
-export default App;

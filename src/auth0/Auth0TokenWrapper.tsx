@@ -14,9 +14,9 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
                 scope: 'openid profile',
             })
             .then((t) => {
-                setToken(t.__raw);
+                if (t) setToken(t.__raw);
             });
-    }, []);
+    }, [auth0]);
 
     return (
         <div
@@ -26,11 +26,9 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
                 width: '100%',
             }}
         >
-            {!auth0.isLoading && token && (
-                <TokenContext.Provider value={{ token: token }}>
-                    {children}
-                </TokenContext.Provider>
-            )}
+            <TokenContext.Provider value={{ token: token }}>
+                {children}
+            </TokenContext.Provider>
         </div>
     );
 };

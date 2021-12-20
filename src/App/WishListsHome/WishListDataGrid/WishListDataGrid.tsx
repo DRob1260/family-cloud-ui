@@ -21,10 +21,7 @@ import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { UpdateWishList } from './UpdateWishList/UpdateWishList';
 import { ShareWishList } from './ShareWishList/ShareWishList';
 import { ContributeItem } from './ContributeItem/ContributeItem';
-
-export type WishListDataGridProps = {
-    wishListId: number;
-};
+import { useMatch } from 'react-location';
 
 export type WishListItemRow = {
     id: number;
@@ -36,9 +33,7 @@ export type WishListItemRow = {
     actionsRowNumber: number;
 };
 
-export const WishListDataGrid: React.FunctionComponent<
-    WishListDataGridProps
-> = ({ wishListId }) => {
+export const WishListDataGrid: React.FunctionComponent = () => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
     const [openCreateWishListItem, setOpenCreateWishListItem] = useState(false);
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
@@ -56,10 +51,12 @@ export const WishListDataGrid: React.FunctionComponent<
 
     const { token } = useContext(TokenContext);
 
+    const { params } = useMatch();
+
     const getWishList = useGetWishListQuery(
         GraphqlClientWithAuth(token),
         {
-            wishListId: wishListId,
+            wishListId: parseInt(params.selectedWishListId),
         },
         {
             onSuccess: (data) => {
@@ -170,7 +167,7 @@ export const WishListDataGrid: React.FunctionComponent<
     return (
         <div className={'WishListDataGrid'}>
             <CreateWishListItem
-                wishListId={wishListId}
+                wishListId={parseInt(params.selectedWishListId)}
                 refetchWishListItems={getWishList.refetch}
                 open={openCreateWishListItem}
                 setOpen={setOpenCreateWishListItem}
@@ -188,7 +185,7 @@ export const WishListDataGrid: React.FunctionComponent<
                 setOpen={setOpenUpdateWishListItem}
             />
             <UpdateWishList
-                wishListId={wishListId}
+                wishListId={parseInt(params.selectedWishListId)}
                 initialTitle={
                     getWishList.data?.familycloud_wish_list_by_pk?.title || ''
                 }
@@ -206,7 +203,7 @@ export const WishListDataGrid: React.FunctionComponent<
             <ShareWishList
                 open={openWishListSharing}
                 setOpen={setOpenWishListSharing}
-                wishListId={wishListId}
+                wishListId={parseInt(params.selectedWishListId)}
             />
             <ContributeItem
                 open={openContributeItem}
