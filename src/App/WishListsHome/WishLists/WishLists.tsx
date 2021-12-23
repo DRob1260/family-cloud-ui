@@ -16,7 +16,6 @@ import { TokenContext } from '../../../contexts/TokenContext';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { useGetWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
-import { CreateWishList } from './CreateWishList/CreateWishList';
 import { useNavigate } from 'react-location';
 
 export const WishLists: React.FunctionComponent = () => {
@@ -25,7 +24,6 @@ export const WishLists: React.FunctionComponent = () => {
     const [activeWishListId, setActiveWishListId] = useState<null | number>(
         null,
     );
-    const [createWishListOpen, setCreateWishListOpen] = useState(false);
 
     const getWishLists = useGetWishListsQuery(
         GraphqlClientWithAuth(token),
@@ -48,11 +46,6 @@ export const WishLists: React.FunctionComponent = () => {
 
     return (
         <div className={'WishLists'}>
-            <CreateWishList
-                open={createWishListOpen}
-                setOpen={setCreateWishListOpen}
-                refetchWishLists={getWishLists.refetch}
-            />
             <Grid container spacing={2}>
                 {getWishLists.isLoading && (
                     <Grid item>
@@ -87,7 +80,12 @@ export const WishLists: React.FunctionComponent = () => {
                                                 id={'create-wish-list-button'}
                                                 size={'small'}
                                                 onClick={() =>
-                                                    setCreateWishListOpen(true)
+                                                    navigate({
+                                                        search: {
+                                                            createWishList:
+                                                                true,
+                                                        },
+                                                    })
                                                 }
                                             >
                                                 <AddCircle

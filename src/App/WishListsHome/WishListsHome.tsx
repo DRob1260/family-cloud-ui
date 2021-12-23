@@ -5,6 +5,7 @@ import { WishLists } from './WishLists/WishLists';
 import { Grid, Typography } from '@mui/material';
 import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
 import { Router, useLocation } from 'react-location';
+import { CreateWishList } from './WishLists/CreateWishList/CreateWishList';
 
 export const WishListsHome: React.FunctionComponent = () => {
     const { isAuthenticated, user } = useAuth0();
@@ -12,6 +13,7 @@ export const WishListsHome: React.FunctionComponent = () => {
 
     return (
         <div className={'WishListsHome'}>
+            <CreateWishList />
             {isAuthenticated && user && (
                 <div className={'page'}>
                     <Grid container spacing={2}>
