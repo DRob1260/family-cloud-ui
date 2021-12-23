@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import { ReactLocation, Router } from 'react-location';
+import { parseSearch, stringifySearch } from 'react-location-jsurl';
 import { App } from './App/App';
 import { Auth0ProviderWithHistory } from './auth0/Auth0ProviderWithHistory';
 import { Auth0TokenWrapper } from './auth0/Auth0TokenWrapper';
 
-const location = new ReactLocation();
+const location = new ReactLocation({
+    parseSearch,
+    stringifySearch,
+});
 
 ReactDOM.render(
     <React.StrictMode>
