@@ -37,7 +37,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
     const [openWishListSettings, setOpenWishListSettings] = useState(false);
-    const [openWishListSharing, setOpenWishListSharing] = useState(false);
     const [openContributeItem, setOpenContributeItem] = useState(false);
     const [actionRow, setActionRow] = useState<WishListItemRow>({
         id: -1,
@@ -180,11 +179,7 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}
             />
-            <ShareWishList
-                open={openWishListSharing}
-                setOpen={setOpenWishListSharing}
-                wishListId={parseInt(params.activeWishListId)}
-            />
+            <ShareWishList />
             <DeleteWishListItem
                 itemRow={actionRow}
                 removeRow={removeRow}
@@ -228,7 +223,13 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                 </IconButton>
                                 <IconButton
                                     title={'Share Wish List'}
-                                    onClick={() => setOpenWishListSharing(true)}
+                                    onClick={() =>
+                                        navigate({
+                                            search: {
+                                                shareWishList: true,
+                                            },
+                                        })
+                                    }
                                 >
                                     <PeopleAlt id={'share-wish-list-icon'} />
                                 </IconButton>
