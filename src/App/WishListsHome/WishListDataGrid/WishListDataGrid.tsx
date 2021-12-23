@@ -166,24 +166,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
 
     return (
         <div className={'WishListDataGrid'}>
-            <CreateWishListItem
-                wishListId={parseInt(params.selectedWishListId)}
-                refetchWishListItems={getWishList.refetch}
-                open={openCreateWishListItem}
-                setOpen={setOpenCreateWishListItem}
-            />
-            <DeleteWishListItem
-                itemRow={actionRow}
-                removeRow={removeRow}
-                open={openDeleteWishListItem}
-                setOpen={setOpenDeleteWishListItem}
-            />
-            <UpdateWishListItem
-                itemRow={actionRow}
-                updateRow={updateRow}
-                open={openUpdateWishListItem}
-                setOpen={setOpenUpdateWishListItem}
-            />
             <UpdateWishList
                 wishListId={parseInt(params.selectedWishListId)}
                 initialTitle={
@@ -200,10 +182,28 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}
             />
+            <CreateWishListItem
+                wishListId={parseInt(params.selectedWishListId)}
+                refetchWishListItems={getWishList.refetch}
+                open={openCreateWishListItem}
+                setOpen={setOpenCreateWishListItem}
+            />
             <ShareWishList
                 open={openWishListSharing}
                 setOpen={setOpenWishListSharing}
                 wishListId={parseInt(params.selectedWishListId)}
+            />
+            <DeleteWishListItem
+                itemRow={actionRow}
+                removeRow={removeRow}
+                open={openDeleteWishListItem}
+                setOpen={setOpenDeleteWishListItem}
+            />
+            <UpdateWishListItem
+                itemRow={actionRow}
+                updateRow={updateRow}
+                open={openUpdateWishListItem}
+                setOpen={setOpenUpdateWishListItem}
             />
             <ContributeItem
                 open={openContributeItem}
