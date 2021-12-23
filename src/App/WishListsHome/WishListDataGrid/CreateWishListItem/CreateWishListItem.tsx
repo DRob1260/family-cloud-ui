@@ -11,34 +11,37 @@ import {
 import { useInsertWishListItemMutation } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { TokenContext } from '../../../../contexts/TokenContext';
+import { useMatch, useNavigate, useSearch } from 'react-location';
+import { useQueryClient } from 'react-query';
 
-export type CreateItemProps = {
-    wishListId: number;
-    refetchWishListItems: () => void;
-    open: boolean;
-    setOpen: (open: boolean) => void;
-};
-
-export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
-    wishListId,
-    refetchWishListItems,
-    open,
-    setOpen,
-}) => {
+export const CreateWishListItem: React.FunctionComponent = () => {
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
 
     const { token } = useContext(TokenContext);
+    const queryClient = useQueryClient();
+    const search = useSearch();
+    const navigate = useNavigate();
+    const match = useMatch();
+
+    const closeCreateWishListItem = () => {
+        navigate({
+            search: (old) => {
+                delete old?.createWishListItem;
+                return old || {};
+            },
+        });
+    };
 
     const insertWishListItem = useInsertWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
                 // todo: add new item manually instead of refetching api
-                refetchWishListItems();
-                setOpen(false);
+                queryClient.invalidateQueries('GetWishLists');
+                closeCreateWishListItem();
                 setTitle('');
                 setDescription('');
                 setUrl('');
@@ -49,8 +52,8 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
     return (
         <div className={'CreateWishListItem'}>
             <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
+                open={search.createWishListItem === true}
+                onClose={closeCreateWishListItem}
                 maxWidth={'xs'}
                 fullWidth={true}
             >
@@ -106,7 +109,7 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
                 <DialogActions>
                     <Button
                         onClick={() => {
-                            setOpen(false);
+                            closeCreateWishListItem();
                             setTitle('');
                             setDescription('');
                             setUrl('');
@@ -117,8 +120,11 @@ export const CreateWishListItem: React.FunctionComponent<CreateItemProps> = ({
                     <Button
                         variant={'contained'}
                         onClick={() => {
+                            console.log(match);
                             insertWishListItem.mutate({
-                                wishListId: wishListId,
+                                wishListId: parseInt(
+                                    match.params.activeWishListId,
+                                ),
                                 quantity: quantity,
                                 title: title,
                                 description: description,

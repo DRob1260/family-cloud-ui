@@ -14,14 +14,13 @@ import {
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
-import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { UpdateWishList } from './UpdateWishList/UpdateWishList';
 import { ShareWishList } from './ShareWishList/ShareWishList';
 import { ContributeItem } from './ContributeItem/ContributeItem';
-import { useMatch } from 'react-location';
+import { useMatch, useNavigate } from 'react-location';
 
 export type WishListItemRow = {
     id: number;
@@ -35,7 +34,6 @@ export type WishListItemRow = {
 
 export const WishListDataGrid: React.FunctionComponent = () => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
-    const [openCreateWishListItem, setOpenCreateWishListItem] = useState(false);
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
     const [openWishListSettings, setOpenWishListSettings] = useState(false);
@@ -50,13 +48,13 @@ export const WishListDataGrid: React.FunctionComponent = () => {
     });
 
     const { token } = useContext(TokenContext);
-
     const { params } = useMatch();
+    const navigate = useNavigate();
 
     const getWishList = useGetWishListQuery(
         GraphqlClientWithAuth(token),
         {
-            wishListId: parseInt(params.selectedWishListId),
+            wishListId: parseInt(params.activeWishListId),
         },
         {
             onSuccess: (data) => {
@@ -167,7 +165,7 @@ export const WishListDataGrid: React.FunctionComponent = () => {
     return (
         <div className={'WishListDataGrid'}>
             <UpdateWishList
-                wishListId={parseInt(params.selectedWishListId)}
+                wishListId={parseInt(params.activeWishListId)}
                 initialTitle={
                     getWishList.data?.familycloud_wish_list_by_pk?.title || ''
                 }
@@ -182,16 +180,10 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                 open={openWishListSettings}
                 setOpen={setOpenWishListSettings}
             />
-            <CreateWishListItem
-                wishListId={parseInt(params.selectedWishListId)}
-                refetchWishListItems={getWishList.refetch}
-                open={openCreateWishListItem}
-                setOpen={setOpenCreateWishListItem}
-            />
             <ShareWishList
                 open={openWishListSharing}
                 setOpen={setOpenWishListSharing}
-                wishListId={parseInt(params.selectedWishListId)}
+                wishListId={parseInt(params.activeWishListId)}
             />
             <DeleteWishListItem
                 itemRow={actionRow}
@@ -244,7 +236,11 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                     title={'Add Wish List Item'}
                                     id={'add-wish-list-item-button'}
                                     onClick={() =>
-                                        setOpenCreateWishListItem(true)
+                                        navigate({
+                                            search: {
+                                                createWishListItem: true,
+                                            },
+                                        })
                                     }
                                 >
                                     <AddCircle id={'add-wish-list-item-icon'} />

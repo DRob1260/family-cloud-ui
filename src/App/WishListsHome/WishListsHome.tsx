@@ -6,6 +6,7 @@ import { Grid, Typography } from '@mui/material';
 import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
 import { Router, useLocation } from 'react-location';
 import { CreateWishList } from './WishLists/CreateWishList/CreateWishList';
+import { CreateWishListItem } from './WishListDataGrid/CreateWishListItem/CreateWishListItem';
 
 export const WishListsHome: React.FunctionComponent = () => {
     const { isAuthenticated, user } = useAuth0();
@@ -34,8 +35,13 @@ export const WishListsHome: React.FunctionComponent = () => {
                                 location={location}
                                 routes={[
                                     {
-                                        path: '/wish-lists/:selectedWishListId',
-                                        element: <WishListDataGrid />,
+                                        path: '/wish-lists/:activeWishListId',
+                                        element: (
+                                            <div>
+                                                <WishListDataGrid />
+                                                <CreateWishListItem />
+                                            </div>
+                                        ),
                                     },
                                 ]}
                             />
