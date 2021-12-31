@@ -23,15 +23,15 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
+import { TokenContext } from '../../../contexts/TokenContext';
 import {
     useDeleteWishListInviteMutation,
     useGetWishListInvitesQuery,
     useInsertWishListInviteMutation,
     useSearchUserQuery,
     useUpdateWishListInviteMutation,
-} from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+} from '../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useMatch, useNavigate, useSearch } from 'react-location';
 

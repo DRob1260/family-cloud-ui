@@ -11,9 +11,9 @@ import {
     Switch,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { useInsertWishListMutation } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../contexts/TokenContext';
+import { useInsertWishListMutation } from '../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useSearch } from 'react-location';
 

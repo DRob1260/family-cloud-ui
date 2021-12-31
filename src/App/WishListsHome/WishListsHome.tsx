@@ -5,8 +5,10 @@ import { WishLists } from './WishLists/WishLists';
 import { Grid, Typography } from '@mui/material';
 import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
 import { Router, useLocation } from 'react-location';
-import { CreateWishList } from './WishLists/CreateWishList/CreateWishList';
-import { CreateWishListItem } from './WishListDataGrid/CreateWishListItem/CreateWishListItem';
+import { CreateWishList } from './CreateWishList/CreateWishList';
+import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
+import { ShareWishList } from './ShareWishList/ShareWishList';
+import { UpdateWishList } from './WishListDataGrid/UpdateWishList/UpdateWishList';
 
 export const WishListsHome: React.FunctionComponent = () => {
     const { isAuthenticated, user } = useAuth0();
@@ -40,6 +42,8 @@ export const WishListsHome: React.FunctionComponent = () => {
                                             <div>
                                                 <WishListDataGrid />
                                                 <CreateWishListItem />
+                                                <ShareWishList />
+                                                <UpdateWishList />
                                             </div>
                                         ),
                                     },

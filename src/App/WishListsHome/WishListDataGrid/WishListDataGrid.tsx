@@ -17,8 +17,6 @@ import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
 import { ItemActions } from './ItemActions/ItemActions';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
-import { UpdateWishList } from './UpdateWishList/UpdateWishList';
-import { ShareWishList } from './ShareWishList/ShareWishList';
 import { ContributeItem } from './ContributeItem/ContributeItem';
 import { useMatch, useNavigate } from 'react-location';
 
@@ -36,7 +34,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
     const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
     const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
-    const [openWishListSettings, setOpenWishListSettings] = useState(false);
     const [openContributeItem, setOpenContributeItem] = useState(false);
     const [actionRow, setActionRow] = useState<WishListItemRow>({
         id: -1,
@@ -163,23 +160,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
 
     return (
         <div className={'WishListDataGrid'}>
-            <UpdateWishList
-                wishListId={parseInt(params.activeWishListId)}
-                initialTitle={
-                    getWishList.data?.familycloud_wish_list_by_pk?.title || ''
-                }
-                initialDescription={
-                    getWishList.data?.familycloud_wish_list_by_pk
-                        ?.description || ''
-                }
-                initialContributionsHidden={
-                    getWishList.data?.familycloud_wish_list_by_pk
-                        ?.author_item_contributions_hidden || true
-                }
-                open={openWishListSettings}
-                setOpen={setOpenWishListSettings}
-            />
-            <ShareWishList />
             <DeleteWishListItem
                 itemRow={actionRow}
                 removeRow={removeRow}
@@ -216,7 +196,27 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                     title={'Configure Wish List'}
                                     id={'wish-list-settings-button'}
                                     onClick={() =>
-                                        setOpenWishListSettings(true)
+                                        navigate({
+                                            search: {
+                                                updateWishListParams: {
+                                                    wishListId: parseInt(
+                                                        params.activeWishListId,
+                                                    ),
+                                                    initialTitle:
+                                                        getWishList.data
+                                                            ?.familycloud_wish_list_by_pk
+                                                            ?.title,
+                                                    initialDescription:
+                                                        getWishList.data
+                                                            ?.familycloud_wish_list_by_pk
+                                                            ?.description,
+                                                    initialContributionsHidden:
+                                                        getWishList.data
+                                                            ?.familycloud_wish_list_by_pk
+                                                            ?.author_item_contributions_hidden,
+                                                },
+                                            },
+                                        })
                                     }
                                 >
                                     <Settings />

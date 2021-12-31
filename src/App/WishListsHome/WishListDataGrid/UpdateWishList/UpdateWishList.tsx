@@ -19,45 +19,50 @@ import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { TokenContext } from '../../../../contexts/TokenContext';
 import { DeleteWishList } from './DeleteWishList/DeleteWishList';
 import { useQueryClient } from 'react-query';
+import { useNavigate, useSearch } from 'react-location';
 
-export type UpdateWishListProps = {
+export type UpdateWishListParams = {
     wishListId: number;
     initialTitle: string;
     initialDescription: string;
     initialContributionsHidden: boolean;
-    open: boolean;
-    setOpen: (open: boolean) => void;
 };
 
-export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
-    wishListId,
-    initialTitle,
-    initialDescription,
-    initialContributionsHidden,
-    open,
-    setOpen,
-}) => {
+export const UpdateWishList: React.FunctionComponent = () => {
+    const [wishListId, setWishListId] = useState(-1);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [contributionsHidden, setContributionsHidden] = useState(true);
     const [openDeleteWishList, setOpenDeleteWishList] = useState(false);
 
-    useEffect(() => {
-        setTitle(initialTitle);
-        setDescription(initialDescription);
-        setContributionsHidden(initialContributionsHidden);
-    }, [initialTitle, initialDescription, initialContributionsHidden]);
-
+    const search = useSearch();
+    const navigate = useNavigate();
     const { token } = useContext(TokenContext);
-
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        const params = search.updateWishListParams as UpdateWishListParams;
+        setWishListId(params.wishListId);
+        setTitle(params.initialTitle);
+        setDescription(params.initialDescription);
+        setContributionsHidden(params.initialContributionsHidden);
+    }, [search.updateWishListParams]);
+
+    const closeUpdateWishList = () => {
+        navigate({
+            search: (old) => {
+                delete old?.updateWishListParams;
+                return old || {};
+            },
+        });
+    };
 
     const deleteWishList = useDeleteWishListMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('GetWishLists');
-                setOpen(false);
+                closeUpdateWishList();
             },
         },
     );
@@ -68,7 +73,7 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
             onSuccess: () => {
                 queryClient.invalidateQueries('GetWishLists');
                 queryClient.invalidateQueries('GetWishList');
-                setOpen(false);
+                closeUpdateWishList();
             },
         },
     );
@@ -83,8 +88,8 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
                 }}
             />
             <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
+                open={search.updateWishListParams !== null}
+                onClose={closeUpdateWishList}
                 className={'UpdateWishList-dialog'}
             >
                 <DialogTitle>Update Wish List Configuration</DialogTitle>
@@ -130,7 +135,7 @@ export const UpdateWishList: React.FunctionComponent<UpdateWishListProps> = ({
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={closeUpdateWishList}>Close</Button>
                     <Button
                         id={'delete-wish-list-button'}
                         variant={'contained'}
