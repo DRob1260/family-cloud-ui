@@ -19,12 +19,12 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../../contexts/TokenContext';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 import {
     useGetWishListItemContributionsQuery,
     useInsertWishListItemContributionMutation,
-} from '../../../../types/hasura';
+} from '../../../../../types/hasura';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { EditUserContribution } from './EditContribution/EditUserContribution';
 import { useAuth0 } from '@auth0/auth0-react';

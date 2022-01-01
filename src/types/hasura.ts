@@ -2195,7 +2195,7 @@ export type GetWishListQueryVariables = Exact<{
 }>;
 
 
-export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined, quantity: number, wish_list_item_contributions_aggregate: { __typename?: 'familycloud_wish_list_item_contribution_aggregate', aggregate?: { __typename?: 'familycloud_wish_list_item_contribution_aggregate_fields', count: number } | null | undefined } }> } | null | undefined };
+export type GetWishListQuery = { __typename?: 'query_root', familycloud_wish_list_by_pk?: { __typename?: 'familycloud_wish_list', id: number, title: string, description?: string | null | undefined, author_item_contributions_hidden: boolean, wish_list_items: Array<{ __typename?: 'familycloud_wish_list_item', description?: string | null | undefined, created_at: any, title: string, id: number, url?: string | null | undefined, quantity: number, wish_list_item_contributions_aggregate: { __typename?: 'familycloud_wish_list_item_contribution_aggregate', aggregate?: { __typename?: 'familycloud_wish_list_item_contribution_aggregate_fields', count: number } | null | undefined } }> } | null | undefined };
 
 export type GetWishListInvitesQueryVariables = Exact<{
   wish_list_id: Scalars['Int'];
@@ -2470,6 +2470,7 @@ export const useUpdateWishListItemMutation = <
 export const GetWishListDocument = `
     query GetWishList($wishListId: Int!) {
   familycloud_wish_list_by_pk(id: $wishListId) {
+    id
     title
     description
     author_item_contributions_hidden

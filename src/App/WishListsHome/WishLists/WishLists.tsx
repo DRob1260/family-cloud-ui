@@ -41,7 +41,15 @@ export const WishLists: React.FunctionComponent = () => {
     );
 
     useEffect(() => {
-        navigate({ to: activeWishListId });
+        navigate({
+            to: activeWishListId,
+            search: (old) => ({
+                ...old,
+                activeWishList: {
+                    id: activeWishListId,
+                },
+            }),
+        });
     }, [activeWishListId, navigate]);
 
     return (
@@ -81,10 +89,11 @@ export const WishLists: React.FunctionComponent = () => {
                                                 size={'small'}
                                                 onClick={() =>
                                                     navigate({
-                                                        search: {
+                                                        search: (old) => ({
+                                                            ...old,
                                                             createWishList:
                                                                 true,
-                                                        },
+                                                        }),
                                                     })
                                                 }
                                             >

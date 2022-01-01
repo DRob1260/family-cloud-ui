@@ -17,7 +17,12 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
                     scope: 'openid profile',
                 })
                 .then((t) => {
-                    if (t) setToken(t.__raw);
+                    if (t) {
+                        if (process.env.NODE_ENV === 'development') {
+                            console.log('auth0 token', t.__raw);
+                        }
+                        setToken(t.__raw);
+                    }
                 });
         }
     }, [auth0]);

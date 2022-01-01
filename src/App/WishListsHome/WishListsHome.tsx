@@ -3,13 +3,10 @@ import './WishListsHome.scss';
 import { useAuth0 } from '@auth0/auth0-react';
 import { WishLists } from './WishLists/WishLists';
 import { Grid, Typography } from '@mui/material';
-import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
 import { Router, useLocation } from 'react-location';
 import { CreateWishList } from './CreateWishList/CreateWishList';
-import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
-import { ShareWishList } from './ShareWishList/ShareWishList';
-import { UpdateWishList } from './WishListDataGrid/UpdateWishList/UpdateWishList';
 import { TokenContext } from '../../contexts/TokenContext';
+import { WishList } from './WishList/WishList';
 
 export const WishListsHome: React.FunctionComponent = () => {
     const { user } = useAuth0();
@@ -40,14 +37,7 @@ export const WishListsHome: React.FunctionComponent = () => {
                                 routes={[
                                     {
                                         path: '/wish-lists/:activeWishListId',
-                                        element: (
-                                            <div>
-                                                <WishListDataGrid />
-                                                <CreateWishListItem />
-                                                <ShareWishList />
-                                                <UpdateWishList />
-                                            </div>
-                                        ),
+                                        element: <WishList />,
                                     },
                                 ]}
                             />

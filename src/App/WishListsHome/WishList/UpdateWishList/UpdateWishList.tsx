@@ -21,11 +21,11 @@ import { DeleteWishList } from './DeleteWishList/DeleteWishList';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useSearch } from 'react-location';
 
-export type UpdateWishListParams = {
-    wishListId: number;
-    initialTitle: string;
-    initialDescription: string;
-    initialContributionsHidden: boolean;
+export type ActiveWishListParams = {
+    id: number;
+    title: string;
+    description: string;
+    authorItemContributionsHidden: boolean;
 };
 
 export const UpdateWishList: React.FunctionComponent = () => {
@@ -41,17 +41,17 @@ export const UpdateWishList: React.FunctionComponent = () => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        const params = search.updateWishListParams as UpdateWishListParams;
-        setWishListId(params.wishListId);
-        setTitle(params.initialTitle);
-        setDescription(params.initialDescription);
-        setContributionsHidden(params.initialContributionsHidden);
-    }, [search.updateWishListParams]);
+        const params = search.activeWishList as ActiveWishListParams;
+        setWishListId(params.id);
+        setTitle(params.title);
+        setDescription(params.description);
+        setContributionsHidden(params.authorItemContributionsHidden);
+    }, [search]);
 
     const closeUpdateWishList = () => {
         navigate({
             search: (old) => {
-                delete old?.updateWishListParams;
+                delete old?.updateWishList;
                 return old || {};
             },
         });
@@ -88,7 +88,7 @@ export const UpdateWishList: React.FunctionComponent = () => {
                 }}
             />
             <Dialog
-                open={search.updateWishListParams !== null}
+                open={!!search.updateWishList}
                 onClose={closeUpdateWishList}
                 className={'UpdateWishList-dialog'}
             >

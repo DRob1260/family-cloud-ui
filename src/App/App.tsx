@@ -4,6 +4,7 @@ import { Router, useLocation } from 'react-location';
 import { WishListsHome } from './WishListsHome/WishListsHome';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactLocationDevtools } from 'react-location-devtools';
 import { Navigator } from './Navigator/Navigator';
 import { Authenticated } from './Authenticated/Authenticated';
 import { Login } from './Login/Login';
@@ -18,6 +19,10 @@ export const App: React.FunctionComponent = () => {
         <div className={'App'}>
             <QueryClientProvider client={queryClient}>
                 <ReactQueryDevtools initialIsOpen={false} />
+                <ReactLocationDevtools
+                    initialIsOpen={false}
+                    position={'bottom-right'}
+                />
                 <Navigator />
                 <div id={'app-content'}>
                     <Router

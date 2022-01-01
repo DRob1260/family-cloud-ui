@@ -9,9 +9,9 @@ import {
     Grid,
     Typography,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { useDeleteWishListItemMutation } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../../contexts/TokenContext';
+import { useDeleteWishListItemMutation } from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 import { WishListItemRow } from '../WishListDataGrid';
 
 export type DeleteWishListItemProps = {

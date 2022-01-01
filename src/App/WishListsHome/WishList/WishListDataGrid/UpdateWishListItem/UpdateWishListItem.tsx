@@ -8,10 +8,10 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
+import { TokenContext } from '../../../../../contexts/TokenContext';
 import { WishListItemRow } from '../WishListDataGrid';
-import { useUpdateWishListItemMutation } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { useUpdateWishListItemMutation } from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 
 export type UpdateWishListItemProps = {
     itemRow: WishListItemRow;

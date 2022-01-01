@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './WishListDataGrid.scss';
-import { TokenContext } from '../../../contexts/TokenContext';
-import { useGetWishListQuery } from '../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
+import { useGetWishListQuery } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import {
     ButtonGroup,
     CircularProgress,
@@ -197,25 +197,10 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                     id={'wish-list-settings-button'}
                                     onClick={() =>
                                         navigate({
-                                            search: {
-                                                updateWishListParams: {
-                                                    wishListId: parseInt(
-                                                        params.activeWishListId,
-                                                    ),
-                                                    initialTitle:
-                                                        getWishList.data
-                                                            ?.familycloud_wish_list_by_pk
-                                                            ?.title,
-                                                    initialDescription:
-                                                        getWishList.data
-                                                            ?.familycloud_wish_list_by_pk
-                                                            ?.description,
-                                                    initialContributionsHidden:
-                                                        getWishList.data
-                                                            ?.familycloud_wish_list_by_pk
-                                                            ?.author_item_contributions_hidden,
-                                                },
-                                            },
+                                            search: (old) => ({
+                                                ...old,
+                                                updateWishList: true,
+                                            }),
                                         })
                                     }
                                 >
@@ -225,9 +210,10 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                     title={'Share Wish List'}
                                     onClick={() =>
                                         navigate({
-                                            search: {
+                                            search: (old) => ({
+                                                ...old,
                                                 shareWishList: true,
-                                            },
+                                            }),
                                         })
                                     }
                                 >
@@ -238,9 +224,10 @@ export const WishListDataGrid: React.FunctionComponent = () => {
                                     id={'add-wish-list-item-button'}
                                     onClick={() =>
                                         navigate({
-                                            search: {
+                                            search: (old) => ({
+                                                ...old,
                                                 createWishListItem: true,
-                                            },
+                                            }),
                                         })
                                     }
                                 >
