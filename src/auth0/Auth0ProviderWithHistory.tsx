@@ -18,7 +18,7 @@ export const Auth0ProviderWithHistory: React.FunctionComponent = ({
         <Auth0Provider
             domain={domain}
             clientId={clientId}
-            redirectUri={`${window.location.origin}`}
+            redirectUri={`${window.location.origin}/authenticated`}
             audience={'family-cloud'}
             onRedirectCallback={onRedirectCallback}
             className={'Auth0ProviderWithHistory'}

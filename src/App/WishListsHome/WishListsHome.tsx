@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './WishListsHome.scss';
 import { useAuth0 } from '@auth0/auth0-react';
 import { WishLists } from './WishLists/WishLists';
@@ -9,15 +9,17 @@ import { CreateWishList } from './CreateWishList/CreateWishList';
 import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ShareWishList } from './ShareWishList/ShareWishList';
 import { UpdateWishList } from './WishListDataGrid/UpdateWishList/UpdateWishList';
+import { TokenContext } from '../../contexts/TokenContext';
 
 export const WishListsHome: React.FunctionComponent = () => {
-    const { isAuthenticated, user } = useAuth0();
+    const { user } = useAuth0();
+    const { token } = useContext(TokenContext);
     const location = useLocation();
 
     return (
         <div className={'WishListsHome'}>
             <CreateWishList />
-            {isAuthenticated && user && (
+            {token && user && (
                 <div className={'page'}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -53,7 +55,7 @@ export const WishListsHome: React.FunctionComponent = () => {
                     </Grid>
                 </div>
             )}
-            {!isAuthenticated && <div>Please login.</div>}
+            {!token && <div>Please login.</div>}
         </div>
     );
 };

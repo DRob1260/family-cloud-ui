@@ -8,14 +8,18 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
     const auth0 = useAuth0();
 
     useEffect(() => {
-        auth0
-            .getIdTokenClaims({
-                audience: 'family-cloud',
-                scope: 'openid profile',
-            })
-            .then((t) => {
-                if (t) setToken(t.__raw);
-            });
+        if (!auth0.isAuthenticated) {
+            // do something
+        } else {
+            auth0
+                .getIdTokenClaims({
+                    audience: 'family-cloud',
+                    scope: 'openid profile',
+                })
+                .then((t) => {
+                    if (t) setToken(t.__raw);
+                });
+        }
     }, [auth0]);
 
     return (
