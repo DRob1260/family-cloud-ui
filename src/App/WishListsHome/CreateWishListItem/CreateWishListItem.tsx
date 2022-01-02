@@ -38,9 +38,9 @@ export const CreateWishListItem: React.FunctionComponent = () => {
     const insertWishListItem = useInsertWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
-            onSuccess: () => {
+            onSuccess: async () => {
                 // todo: add new item manually instead of refetching api
-                queryClient.invalidateQueries('GetWishLists');
+                await queryClient.invalidateQueries('GetWishList');
                 closeCreateWishListItem();
                 setTitle('');
                 setDescription('');
