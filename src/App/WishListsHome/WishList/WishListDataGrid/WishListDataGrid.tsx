@@ -80,23 +80,9 @@ export const WishListDataGrid: React.FunctionComponent = () => {
         setOpenDeleteWishListItem(true);
     };
 
-    const removeRow = (itemRow: WishListItemRow) => {
-        const rowsCopy = [...rows];
-        setRows([
-            ...rowsCopy.splice(0, itemRow.actionsRowNumber),
-            ...rowsCopy.splice(itemRow.actionsRowNumber + 1),
-        ]);
-    };
-
     const editItem = (itemRow: WishListItemRow) => {
         setActionRow(itemRow);
         setOpenUpdateWishListItem(true);
-    };
-
-    const updateRow = (itemRow: WishListItemRow) => {
-        const rowsCopy = [...rows];
-        rowsCopy[itemRow.actionsRowNumber] = itemRow;
-        setRows(rowsCopy);
     };
 
     const contributeItem = (itemRow: WishListItemRow) => {
@@ -162,13 +148,11 @@ export const WishListDataGrid: React.FunctionComponent = () => {
         <div className={'WishListDataGrid'}>
             <DeleteWishListItem
                 itemRow={actionRow}
-                removeRow={removeRow}
                 open={openDeleteWishListItem}
                 setOpen={setOpenDeleteWishListItem}
             />
             <UpdateWishListItem
                 itemRow={actionRow}
-                updateRow={updateRow}
                 open={openUpdateWishListItem}
                 setOpen={setOpenUpdateWishListItem}
             />

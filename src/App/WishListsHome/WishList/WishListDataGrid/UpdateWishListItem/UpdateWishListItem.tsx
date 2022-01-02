@@ -12,37 +12,30 @@ import { TokenContext } from '../../../../../contexts/TokenContext';
 import { WishListItemRow } from '../WishListDataGrid';
 import { useUpdateWishListItemMutation } from '../../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
+import { useQueryClient } from 'react-query';
 
 export type UpdateWishListItemProps = {
     itemRow: WishListItemRow;
-    updateRow: (row: WishListItemRow) => void;
     open: boolean;
     setOpen: (open: boolean) => void;
 };
 
 export const UpdateWishListItem: React.FunctionComponent<
     UpdateWishListItemProps
-> = ({ itemRow, updateRow, open, setOpen }) => {
+> = ({ itemRow, open, setOpen }) => {
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
 
     const { token } = useContext(TokenContext);
+    const queryClient = useQueryClient();
 
     const updateWishListItem = useUpdateWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
-            onSuccess: () => {
-                updateRow({
-                    id: itemRow?.id || -1,
-                    title: title,
-                    quantity: quantity,
-                    contributionsQuantity: itemRow.contributionsQuantity,
-                    url: url,
-                    description: description,
-                    actionsRowNumber: itemRow?.actionsRowNumber,
-                });
+            onSuccess: async () => {
+                await queryClient.invalidateQueries('GetWishList');
                 setOpen(false);
             },
         },

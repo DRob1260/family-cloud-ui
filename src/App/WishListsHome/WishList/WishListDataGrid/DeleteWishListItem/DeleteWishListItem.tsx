@@ -13,24 +13,25 @@ import { TokenContext } from '../../../../../contexts/TokenContext';
 import { useDeleteWishListItemMutation } from '../../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
 import { WishListItemRow } from '../WishListDataGrid';
+import { useQueryClient } from 'react-query';
 
 export type DeleteWishListItemProps = {
     itemRow: WishListItemRow;
-    removeRow: (itemRow: WishListItemRow) => void;
     open: boolean;
     setOpen: (open: boolean) => void;
 };
 
 export const DeleteWishListItem: React.FunctionComponent<
     DeleteWishListItemProps
-> = ({ itemRow, removeRow, open, setOpen }) => {
+> = ({ itemRow, open, setOpen }) => {
     const { token } = useContext(TokenContext);
+    const queryClient = useQueryClient();
 
     const deleteWishListItem = useDeleteWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
-            onSuccess: () => {
-                removeRow(itemRow);
+            onSuccess: async () => {
+                await queryClient.invalidateQueries('GetWishList');
                 setOpen(false);
             },
         },
