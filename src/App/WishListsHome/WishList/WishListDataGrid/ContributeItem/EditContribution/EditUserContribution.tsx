@@ -72,6 +72,7 @@ export const EditUserContribution: React.FunctionComponent<
             },
         );
 
+    // todo: deleting contributions doesn't seem to be working as expected
     const deleteWishListItemContribution =
         useDeleteWishListItemContributionMutation(
             GraphqlClientWithAuth(token),
