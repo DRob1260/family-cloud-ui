@@ -32,7 +32,7 @@ export const WishListCards: React.FunctionComponent = () => {
                     </Grid>
                     {getWishList.data.familycloud_wish_list_by_pk?.wish_list_items.map(
                         (item) => (
-                            <Grid item xs={12}>
+                            <Grid item xs={12} sm={6} md={4} lg={3}>
                                 <WishListCard
                                     id={item.id}
                                     title={item.title}
