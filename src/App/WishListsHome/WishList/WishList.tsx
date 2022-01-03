@@ -7,6 +7,9 @@ import { useMatch, useNavigate, useSearch } from 'react-location';
 import { UpdateWishList } from './UpdateWishList/UpdateWishList';
 import { CreateWishListItem } from '../CreateWishListItem/CreateWishListItem';
 import { ShareWishList } from './ShareWishList/ShareWishList';
+import { DeleteWishListItem } from './WishListDataGrid/DeleteWishListItem/DeleteWishListItem';
+import { UpdateWishListItem } from './WishListDataGrid/UpdateWishListItem/UpdateWishListItem';
+import { ContributeItem } from './WishListDataGrid/ContributeItem/ContributeItem';
 
 export enum WishListViewEnum {
     DATA_GRID = 'DATA_GRID',
@@ -49,9 +52,12 @@ export const WishList: React.FunctionComponent = () => {
         <div className={'WishList'}>
             {getWishList.isSuccess && (
                 <div>
-                    <CreateWishListItem />
                     <ShareWishList />
                     <UpdateWishList />
+                    <ContributeItem />
+                    <UpdateWishListItem />
+                    <DeleteWishListItem />
+                    <CreateWishListItem />
                 </div>
             )}
             {search.wishListView === WishListViewEnum.DATA_GRID && (

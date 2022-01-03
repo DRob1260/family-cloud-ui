@@ -15,9 +15,6 @@ import {
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
 import { ItemActions } from './ItemActions/ItemActions';
-import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
-import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
-import { ContributeItem } from './ContributeItem/ContributeItem';
 import { useMatch, useNavigate } from 'react-location';
 
 export type WishListItemRow = {
@@ -32,16 +29,6 @@ export type WishListItemRow = {
 
 export const WishListDataGrid: React.FunctionComponent = () => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
-    const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
-    const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
-    const [openContributeItem, setOpenContributeItem] = useState(false);
-    const [actionRow, setActionRow] = useState<WishListItemRow>({
-        id: -1,
-        title: '',
-        actionsRowNumber: -1,
-        quantity: 1,
-        contributionsQuantity: 0,
-    });
 
     const { token } = useContext(TokenContext);
     const { params } = useMatch();
@@ -75,35 +62,13 @@ export const WishListDataGrid: React.FunctionComponent = () => {
         },
     );
 
-    const deleteItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenDeleteWishListItem(true);
-    };
-
-    const editItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenUpdateWishListItem(true);
-    };
-
-    const contributeItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenContributeItem(true);
-    };
-
     const columns: GridColDef[] = [
         {
             field: 'actionsRowNumber',
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => {
-                return (
-                    <ItemActions
-                        itemRow={params.row}
-                        deleteItem={deleteItem}
-                        editItem={editItem}
-                        contributeItem={contributeItem}
-                    />
-                );
+                return <ItemActions itemRow={params.row} />;
             },
         },
         {
@@ -146,22 +111,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
 
     return (
         <div className={'WishListDataGrid'}>
-            <DeleteWishListItem
-                itemRow={actionRow}
-                open={openDeleteWishListItem}
-                setOpen={setOpenDeleteWishListItem}
-            />
-            <UpdateWishListItem
-                itemRow={actionRow}
-                open={openUpdateWishListItem}
-                setOpen={setOpenUpdateWishListItem}
-            />
-            <ContributeItem
-                open={openContributeItem}
-                setOpen={setOpenContributeItem}
-                wishListItemId={actionRow.id}
-                wishListItemQuantity={actionRow.quantity}
-            />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && getWishList.data && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>

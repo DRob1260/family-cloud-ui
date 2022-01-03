@@ -12,27 +12,32 @@ import {
 import { TokenContext } from '../../../../../contexts/TokenContext';
 import { useDeleteWishListItemMutation } from '../../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
-import { WishListItemRow } from '../WishListDataGrid';
 import { useQueryClient } from 'react-query';
+import { useNavigate, useSearch } from 'react-location';
+import { ActiveWishListItem } from '../ItemActions/ItemActions';
 
-export type DeleteWishListItemProps = {
-    itemRow: WishListItemRow;
-    open: boolean;
-    setOpen: (open: boolean) => void;
-};
-
-export const DeleteWishListItem: React.FunctionComponent<
-    DeleteWishListItemProps
-> = ({ itemRow, open, setOpen }) => {
+export const DeleteWishListItem: React.FunctionComponent = () => {
     const { token } = useContext(TokenContext);
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const search = useSearch();
+
+    const close = () => {
+        navigate({
+            search: (old) => {
+                delete old?.deleteWishListItem;
+
+                return old || {};
+            },
+        });
+    };
 
     const deleteWishListItem = useDeleteWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: async () => {
                 await queryClient.invalidateQueries('GetWishList');
-                setOpen(false);
+                close();
             },
         },
     );
@@ -40,8 +45,8 @@ export const DeleteWishListItem: React.FunctionComponent<
     return (
         <div className={'DeleteWishListItem'}>
             <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
+                open={!!search.deleteWishListItem}
+                onClose={close}
                 fullWidth={true}
                 maxWidth={'xs'}
                 id={'DeleteWishListItem-dialog'}
@@ -57,18 +62,14 @@ export const DeleteWishListItem: React.FunctionComponent<
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        onClick={() => {
-                            setOpen(false);
-                        }}
-                    >
-                        Cancel
-                    </Button>
+                    <Button onClick={close}>Cancel</Button>
                     <Button
                         variant={'contained'}
                         onClick={() => {
+                            const activeWishListItem =
+                                search.activeWishListItem as ActiveWishListItem;
                             deleteWishListItem.mutate({
-                                itemId: itemRow.id,
+                                itemId: activeWishListItem.id,
                             });
                         }}
                         id={'delete-wish-list-item-button'}

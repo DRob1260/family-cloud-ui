@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ContributeItem.scss';
 import {
     Alert,
@@ -29,13 +29,8 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { EditUserContribution } from './EditContribution/EditUserContribution';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useQueryClient } from 'react-query';
-
-export type ContributeItemProps = {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    wishListItemId: number;
-    wishListItemQuantity: number;
-};
+import { useNavigate, useSearch } from 'react-location';
+import { ActiveWishListItem } from '../ItemActions/ItemActions';
 
 export type UserContributions = {
     user: {
@@ -48,12 +43,9 @@ export type UserContributions = {
     };
 };
 
-export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
-    open,
-    setOpen,
-    wishListItemId,
-    wishListItemQuantity,
-}) => {
+export const ContributeItem: React.FunctionComponent = () => {
+    const [activeWishListItem, setActiveWishListItem] =
+        useState<ActiveWishListItem | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [userContributions, setUserContributions] = useState<
         UserContributions[]
@@ -66,13 +58,33 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
     const auth0 = useAuth0();
 
     const { token } = useContext(TokenContext);
+    const search = useSearch();
+    const navigate = useNavigate();
 
     const queryClient = useQueryClient();
 
+    useEffect(() => {
+        const activeWishListItem =
+            search.activeWishListItem as ActiveWishListItem;
+        setActiveWishListItem(activeWishListItem || null);
+    }, [search.activeWishList, search.activeWishListItem]);
+
+    const close = () => {
+        navigate({
+            search: (old) => {
+                delete old?.contributeWishListItem;
+                return old || {};
+            },
+        });
+        setRetrieveError(false);
+        setInsertError(false);
+    };
+
     const getWishListItemContributions = useGetWishListItemContributionsQuery(
         GraphqlClientWithAuth(token),
-        { wish_list_item_id: wishListItemId },
+        { wish_list_item_id: activeWishListItem?.id },
         {
+            enabled: !!search.contributeWishListItem,
             onSuccess: (data) => {
                 setRetrieveError(false);
                 if (data) {
@@ -139,12 +151,6 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
             },
         );
 
-    const close = () => {
-        setRetrieveError(false);
-        setInsertError(false);
-        setOpen(false);
-    };
-
     const contributeButtonDisabled = () => {
         const existingContributionsQuantity =
             getWishListItemContributions.data
@@ -152,7 +158,9 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
 
         const invalidQuantity =
             quantity <= 0 ||
-            quantity > wishListItemQuantity - existingContributionsQuantity;
+            quantity >
+                (activeWishListItem?.quantity || 1) -
+                    existingContributionsQuantity;
 
         return invalidQuantity || insertWishListItemContribution.isLoading;
     };
@@ -160,7 +168,7 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
     return (
         <div className={'ContributeItem'}>
             <Dialog
-                open={open}
+                open={!!search.contributeWishListItem}
                 onClose={close}
                 className={'ContributeItem-dialog'}
                 fullWidth={true}
@@ -203,7 +211,8 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
                                                     insertWishListItemContribution.mutate(
                                                         {
                                                             wish_list_item_id:
-                                                                wishListItemId,
+                                                                activeWishListItem?.id ||
+                                                                -1,
                                                         },
                                                     );
                                                 }
@@ -326,10 +335,12 @@ export const ContributeItem: React.FunctionComponent<ContributeItemProps> = ({
                                                                     userContribution
                                                                 }
                                                                 wishListItemId={
-                                                                    wishListItemId
+                                                                    activeWishListItem?.id ||
+                                                                    -1
                                                                 }
                                                                 wishListItemQuantity={
-                                                                    wishListItemQuantity
+                                                                    activeWishListItem?.id ||
+                                                                    1
                                                                 }
                                                                 existingContributionsQuantity={
                                                                     getWishListItemContributions

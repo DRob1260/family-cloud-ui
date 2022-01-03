@@ -3,26 +3,55 @@ import './ItemActions.scss';
 import { IconButton } from '@mui/material';
 import { CardGiftcard, Delete, Edit } from '@mui/icons-material';
 import { WishListItemRow } from '../WishListDataGrid';
+import { useNavigate } from 'react-location';
 
 export type ItemActionsProps = {
     itemRow: WishListItemRow;
-    deleteItem: (itemRow: WishListItemRow) => void;
-    editItem: (itemRow: WishListItemRow) => void;
-    contributeItem: (itemRow: WishListItemRow) => void;
+};
+
+export type ActiveWishListItem = {
+    id: number;
+    title: string;
+    quantity: number;
+    contributions: number;
+    description?: string;
+    url?: string;
 };
 
 export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
     itemRow,
-    deleteItem,
-    editItem,
-    contributeItem,
 }) => {
+    const navigate = useNavigate();
+
+    const setActiveWishListItem = () => {
+        const activeWishListItem: ActiveWishListItem = {
+            id: itemRow.id,
+            title: itemRow.title,
+            quantity: itemRow.quantity,
+            contributions: itemRow.contributionsQuantity,
+            description: itemRow.description,
+            url: itemRow.url,
+        };
+        navigate({
+            search: (old) => ({
+                ...old,
+                activeWishListItem,
+            }),
+        });
+    };
+
     return (
         <div className={'ItemActions'}>
             <IconButton
                 title={'Delete Wish List Item'}
                 onClick={() => {
-                    deleteItem(itemRow);
+                    setActiveWishListItem();
+                    navigate({
+                        search: (old) => ({
+                            ...old,
+                            deleteWishListItem: true,
+                        }),
+                    });
                 }}
             >
                 <Delete id={'delete-wish-list-item-icon'} />
@@ -30,7 +59,13 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
             <IconButton
                 title={'Contribute Wish List Item'}
                 onClick={() => {
-                    contributeItem(itemRow);
+                    setActiveWishListItem();
+                    navigate({
+                        search: (old) => ({
+                            ...old,
+                            contributeWishListItem: true,
+                        }),
+                    });
                 }}
             >
                 <CardGiftcard id={'contribute-wish-list-item'} />
@@ -38,7 +73,13 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
             <IconButton
                 title={'Edit Wish List Item'}
                 onClick={() => {
-                    editItem(itemRow);
+                    setActiveWishListItem();
+                    navigate({
+                        search: (old) => ({
+                            ...old,
+                            updateWishListItem: true,
+                        }),
+                    });
                 }}
             >
                 <Edit id={'edit-wish-list-item-button'} />
