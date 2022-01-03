@@ -5,7 +5,7 @@ import { useGetWishListQuery } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { CircularProgress, Link, Paper } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { ItemActions } from './ItemActions/ItemActions';
+import { WishListItemActions } from './WishListItemActions/WishListItemActions';
 import { useMatch } from 'react-location';
 import { WishListTitle } from '../WishListTitle/WishListTitle';
 
@@ -59,7 +59,7 @@ export const WishListDataGrid: React.FunctionComponent = () => {
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => {
-                return <ItemActions itemRow={params.row} />;
+                return <WishListItemActions wishListItem={params.row} />;
             },
         },
         {

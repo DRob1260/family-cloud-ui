@@ -30,7 +30,7 @@ import { EditUserContribution } from './EditContribution/EditUserContribution';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useSearch } from 'react-location';
-import { ActiveWishListItem } from '../WishListDataGrid/ItemActions/ItemActions';
+import { ActiveWishListItem } from '../WishListDataGrid/WishListItemActions/WishListItemActions';
 
 export type UserContributions = {
     user: {

@@ -36,6 +36,12 @@ export const WishListCards: React.FunctionComponent = () => {
                                 <WishListCard
                                     id={item.id}
                                     title={item.title}
+                                    quantity={item.quantity}
+                                    contributions={
+                                        item
+                                            .wish_list_item_contributions_aggregate
+                                            .aggregate?.count || 0
+                                    }
                                     description={item.description}
                                     url={item.url}
                                 />

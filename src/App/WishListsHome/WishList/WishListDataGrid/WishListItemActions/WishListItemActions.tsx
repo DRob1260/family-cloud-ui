@@ -1,12 +1,12 @@
 import React from 'react';
-import './ItemActions.scss';
+import './WishListItemActions.scss';
 import { IconButton } from '@mui/material';
 import { CardGiftcard, Delete, Edit } from '@mui/icons-material';
-import { WishListItemRow } from '../WishListDataGrid';
 import { useNavigate } from 'react-location';
+import { WishListCardProps } from '../../WishListCards/WishListCard/WishListCard';
 
-export type ItemActionsProps = {
-    itemRow: WishListItemRow;
+export type WishListItemActionsProps = {
+    wishListItem: WishListCardProps;
 };
 
 export type ActiveWishListItem = {
@@ -14,23 +14,23 @@ export type ActiveWishListItem = {
     title: string;
     quantity: number;
     contributions: number;
-    description?: string;
-    url?: string;
+    description?: string | null;
+    url?: string | null;
 };
 
-export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
-    itemRow,
-}) => {
+export const WishListItemActions: React.FunctionComponent<
+    WishListItemActionsProps
+> = ({ wishListItem }) => {
     const navigate = useNavigate();
 
     const setActiveWishListItem = () => {
         const activeWishListItem: ActiveWishListItem = {
-            id: itemRow.id,
-            title: itemRow.title,
-            quantity: itemRow.quantity,
-            contributions: itemRow.contributionsQuantity,
-            description: itemRow.description,
-            url: itemRow.url,
+            id: wishListItem.id,
+            title: wishListItem.title,
+            quantity: wishListItem.quantity,
+            contributions: wishListItem.contributions,
+            description: wishListItem.description,
+            url: wishListItem.url,
         };
         navigate({
             search: (old) => ({
@@ -41,7 +41,7 @@ export const ItemActions: React.FunctionComponent<ItemActionsProps> = ({
     };
 
     return (
-        <div className={'ItemActions'}>
+        <div className={'WishListItemActions'}>
             <IconButton
                 title={'Delete Wish List Item'}
                 onClick={() => {
