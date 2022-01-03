@@ -8,15 +8,24 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
     const auth0 = useAuth0();
 
     useEffect(() => {
-        auth0
-            .getIdTokenClaims({
-                audience: 'family-cloud',
-                scope: 'openid profile',
-            })
-            .then((t) => {
-                setToken(t.__raw);
-            });
-    }, []);
+        if (!auth0.isAuthenticated) {
+            // do something
+        } else {
+            auth0
+                .getIdTokenClaims({
+                    audience: 'family-cloud',
+                    scope: 'openid profile',
+                })
+                .then((t) => {
+                    if (t) {
+                        if (process.env.NODE_ENV === 'development') {
+                            console.log('auth0 token', t.__raw);
+                        }
+                        setToken(t.__raw);
+                    }
+                });
+        }
+    }, [auth0]);
 
     return (
         <div
@@ -26,11 +35,9 @@ export const Auth0TokenWrapper: React.FunctionComponent = ({ children }) => {
                 width: '100%',
             }}
         >
-            {!auth0.isLoading && token && (
-                <TokenContext.Provider value={{ token: token }}>
-                    {children}
-                </TokenContext.Provider>
-            )}
+            <TokenContext.Provider value={{ token: token }}>
+                {children}
+            </TokenContext.Provider>
         </div>
     );
 };

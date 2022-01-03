@@ -33,24 +33,27 @@ import {
 } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { Delete, ExpandLess, ExpandMore } from '@mui/icons-material';
+import { useMatch, useNavigate, useSearch } from 'react-location';
 
-export type SharingWishListProps = {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    wishListId: number;
-};
-
-export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
-    open,
-    setOpen,
-    wishListId,
-}) => {
+export const ShareWishList: React.FunctionComponent = () => {
     const [userSelected, setUserSelected] = useState('');
     const [userSearchInput, setUserSearchInput] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [wishListInviteSelected, setWishListInvitedSelected] = useState('');
 
     const { token } = useContext(TokenContext);
+    const search = useSearch();
+    const navigate = useNavigate();
+    const match = useMatch();
+
+    const closeShareWishList = () => {
+        navigate({
+            search: (old) => {
+                delete old?.shareWishList;
+                return old || {};
+            },
+        });
+    };
 
     const searchUser = useSearchUserQuery(
         GraphqlClientWithAuth(token),
@@ -64,7 +67,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
 
     const getWishListInvites = useGetWishListInvitesQuery(
         GraphqlClientWithAuth(token),
-        { wish_list_id: wishListId },
+        { wish_list_id: parseInt(match.params.activeWishListId) },
     );
 
     const insertWishListInvite = useInsertWishListInviteMutation(
@@ -100,9 +103,9 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
     return (
         <div className={'ShareWishList'}>
             <Dialog
-                open={open}
+                open={search.shareWishList === true}
                 onClose={() => {
-                    setOpen(false);
+                    closeShareWishList();
                     setUserSearchInput('');
                     setUserSelected('');
                 }}
@@ -179,7 +182,10 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                                     insertWishListInvite.mutate(
                                                         {
                                                             wish_list_id:
-                                                                wishListId,
+                                                                parseInt(
+                                                                    match.params
+                                                                        .activeWishListId,
+                                                                ),
                                                             person_id: user.id,
                                                             admin: isAdmin,
                                                         },
@@ -206,6 +212,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                                             {getWishListInvites.data?.familycloud_wish_list_invite?.map(
                                                 (invite) => (
                                                     <div
+                                                        key={`share-wish-list-invite-${invite.id}`}
                                                         className={
                                                             wishListInviteSelected ===
                                                             invite.id
@@ -315,7 +322,7 @@ export const ShareWishList: React.FunctionComponent<SharingWishListProps> = ({
                 <DialogActions>
                     <Button
                         onClick={() => {
-                            setOpen(false);
+                            closeShareWishList();
                             setUserSearchInput('');
                             setUserSelected('');
                         }}

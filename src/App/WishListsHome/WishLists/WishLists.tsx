@@ -11,24 +11,19 @@ import {
     Typography,
 } from '@mui/material';
 import './WishLists.scss';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { useGetWishListsQuery } from '../../../types/hasura';
 import { AddCircle } from '@mui/icons-material';
-import { CreateWishList } from './CreateWishList/CreateWishList';
+import { useNavigate } from 'react-location';
 
-export type WishListsProps = {
-    activeWishListId: number | null;
-    setActiveWishListId: (wishListId: number | null) => void;
-};
-
-export const WishLists: React.FunctionComponent<WishListsProps> = ({
-    activeWishListId,
-    setActiveWishListId,
-}) => {
+export const WishLists: React.FunctionComponent = () => {
     const { token } = useContext(TokenContext);
-    const [createWishListOpen, setCreateWishListOpen] = useState(false);
+    const navigate = useNavigate();
+    const [activeWishListId, setActiveWishListId] = useState<null | number>(
+        null,
+    );
 
     const getWishLists = useGetWishListsQuery(
         GraphqlClientWithAuth(token),
@@ -45,13 +40,20 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
         },
     );
 
+    useEffect(() => {
+        navigate({
+            to: activeWishListId,
+            search: (old) => ({
+                ...old,
+                activeWishList: {
+                    id: activeWishListId,
+                },
+            }),
+        });
+    }, [activeWishListId, navigate]);
+
     return (
         <div className={'WishLists'}>
-            <CreateWishList
-                open={createWishListOpen}
-                setOpen={setCreateWishListOpen}
-                refetchWishLists={getWishLists.refetch}
-            />
             <Grid container spacing={2}>
                 {getWishLists.isLoading && (
                     <Grid item>
@@ -86,7 +88,13 @@ export const WishLists: React.FunctionComponent<WishListsProps> = ({
                                                 id={'create-wish-list-button'}
                                                 size={'small'}
                                                 onClick={() =>
-                                                    setCreateWishListOpen(true)
+                                                    navigate({
+                                                        search: (old) => ({
+                                                            ...old,
+                                                            createWishList:
+                                                                true,
+                                                        }),
+                                                    })
                                                 }
                                             >
                                                 <AddCircle

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './WishListDataGrid.scss';
-import { TokenContext } from '../../../contexts/TokenContext';
-import { useGetWishListQuery } from '../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
+import { useGetWishListQuery } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import {
     ButtonGroup,
     CircularProgress,
@@ -14,17 +14,8 @@ import {
 } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
-import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ItemActions } from './ItemActions/ItemActions';
-import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
-import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
-import { UpdateWishList } from './UpdateWishList/UpdateWishList';
-import { ShareWishList } from './ShareWishList/ShareWishList';
-import { ContributeItem } from './ContributeItem/ContributeItem';
-
-export type WishListDataGridProps = {
-    wishListId: number;
-};
+import { useMatch, useNavigate } from 'react-location';
 
 export type WishListItemRow = {
     id: number;
@@ -36,30 +27,17 @@ export type WishListItemRow = {
     actionsRowNumber: number;
 };
 
-export const WishListDataGrid: React.FunctionComponent<
-    WishListDataGridProps
-> = ({ wishListId }) => {
+export const WishListDataGrid: React.FunctionComponent = () => {
     const [rows, setRows] = useState<WishListItemRow[]>([]);
-    const [openCreateWishListItem, setOpenCreateWishListItem] = useState(false);
-    const [openDeleteWishListItem, setOpenDeleteWishListItem] = useState(false);
-    const [openUpdateWishListItem, setOpenUpdateWishListItem] = useState(false);
-    const [openWishListSettings, setOpenWishListSettings] = useState(false);
-    const [openWishListSharing, setOpenWishListSharing] = useState(false);
-    const [openContributeItem, setOpenContributeItem] = useState(false);
-    const [actionRow, setActionRow] = useState<WishListItemRow>({
-        id: -1,
-        title: '',
-        actionsRowNumber: -1,
-        quantity: 1,
-        contributionsQuantity: 0,
-    });
 
     const { token } = useContext(TokenContext);
+    const { params } = useMatch();
+    const navigate = useNavigate();
 
     const getWishList = useGetWishListQuery(
         GraphqlClientWithAuth(token),
         {
-            wishListId: wishListId,
+            wishListId: parseInt(params.activeWishListId),
         },
         {
             onSuccess: (data) => {
@@ -84,49 +62,13 @@ export const WishListDataGrid: React.FunctionComponent<
         },
     );
 
-    const deleteItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenDeleteWishListItem(true);
-    };
-
-    const removeRow = (itemRow: WishListItemRow) => {
-        const rowsCopy = [...rows];
-        setRows([
-            ...rowsCopy.splice(0, itemRow.actionsRowNumber),
-            ...rowsCopy.splice(itemRow.actionsRowNumber + 1),
-        ]);
-    };
-
-    const editItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenUpdateWishListItem(true);
-    };
-
-    const updateRow = (itemRow: WishListItemRow) => {
-        const rowsCopy = [...rows];
-        rowsCopy[itemRow.actionsRowNumber] = itemRow;
-        setRows(rowsCopy);
-    };
-
-    const contributeItem = (itemRow: WishListItemRow) => {
-        setActionRow(itemRow);
-        setOpenContributeItem(true);
-    };
-
     const columns: GridColDef[] = [
         {
             field: 'actionsRowNumber',
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => {
-                return (
-                    <ItemActions
-                        itemRow={params.row}
-                        deleteItem={deleteItem}
-                        editItem={editItem}
-                        contributeItem={contributeItem}
-                    />
-                );
+                return <ItemActions itemRow={params.row} />;
             },
         },
         {
@@ -169,51 +111,6 @@ export const WishListDataGrid: React.FunctionComponent<
 
     return (
         <div className={'WishListDataGrid'}>
-            <CreateWishListItem
-                wishListId={wishListId}
-                refetchWishListItems={getWishList.refetch}
-                open={openCreateWishListItem}
-                setOpen={setOpenCreateWishListItem}
-            />
-            <DeleteWishListItem
-                itemRow={actionRow}
-                removeRow={removeRow}
-                open={openDeleteWishListItem}
-                setOpen={setOpenDeleteWishListItem}
-            />
-            <UpdateWishListItem
-                itemRow={actionRow}
-                updateRow={updateRow}
-                open={openUpdateWishListItem}
-                setOpen={setOpenUpdateWishListItem}
-            />
-            <UpdateWishList
-                wishListId={wishListId}
-                initialTitle={
-                    getWishList.data?.familycloud_wish_list_by_pk?.title || ''
-                }
-                initialDescription={
-                    getWishList.data?.familycloud_wish_list_by_pk
-                        ?.description || ''
-                }
-                initialContributionsHidden={
-                    getWishList.data?.familycloud_wish_list_by_pk
-                        ?.author_item_contributions_hidden || true
-                }
-                open={openWishListSettings}
-                setOpen={setOpenWishListSettings}
-            />
-            <ShareWishList
-                open={openWishListSharing}
-                setOpen={setOpenWishListSharing}
-                wishListId={wishListId}
-            />
-            <ContributeItem
-                open={openContributeItem}
-                setOpen={setOpenContributeItem}
-                wishListItemId={actionRow.id}
-                wishListItemQuantity={actionRow.quantity}
-            />
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && getWishList.data && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
@@ -232,14 +129,26 @@ export const WishListDataGrid: React.FunctionComponent<
                                     title={'Configure Wish List'}
                                     id={'wish-list-settings-button'}
                                     onClick={() =>
-                                        setOpenWishListSettings(true)
+                                        navigate({
+                                            search: (old) => ({
+                                                ...old,
+                                                updateWishList: true,
+                                            }),
+                                        })
                                     }
                                 >
                                     <Settings />
                                 </IconButton>
                                 <IconButton
                                     title={'Share Wish List'}
-                                    onClick={() => setOpenWishListSharing(true)}
+                                    onClick={() =>
+                                        navigate({
+                                            search: (old) => ({
+                                                ...old,
+                                                shareWishList: true,
+                                            }),
+                                        })
+                                    }
                                 >
                                     <PeopleAlt id={'share-wish-list-icon'} />
                                 </IconButton>
@@ -247,7 +156,12 @@ export const WishListDataGrid: React.FunctionComponent<
                                     title={'Add Wish List Item'}
                                     id={'add-wish-list-item-button'}
                                     onClick={() =>
-                                        setOpenCreateWishListItem(true)
+                                        navigate({
+                                            search: (old) => ({
+                                                ...old,
+                                                createWishListItem: true,
+                                            }),
+                                        })
                                     }
                                 >
                                     <AddCircle id={'add-wish-list-item-icon'} />

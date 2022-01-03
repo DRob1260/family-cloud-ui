@@ -11,39 +11,47 @@ import {
     Switch,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { useInsertWishListMutation } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../contexts/TokenContext';
+import { useInsertWishListMutation } from '../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
+import { useQueryClient } from 'react-query';
+import { useNavigate, useSearch } from 'react-location';
 
-export type CreateWishListType = {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    refetchWishLists: () => void;
-};
-
-export const CreateWishList: React.FunctionComponent<CreateWishListType> = ({
-    open,
-    setOpen,
-    refetchWishLists,
-}) => {
+export const CreateWishList: React.FunctionComponent = () => {
     const { token } = useContext(TokenContext);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [contributionsHidden, setContributionsHidden] = useState(true);
 
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const search = useSearch();
+
+    const closeCreateWishList = () => {
+        navigate({
+            search: (old) => {
+                delete old?.createWishList;
+                return old || {};
+            },
+        });
+    };
+
     const insertWishListMutation = useInsertWishListMutation(
         GraphqlClientWithAuth(token),
         {
             onSuccess: () => {
-                setOpen(false);
-                refetchWishLists();
+                closeCreateWishList();
+                queryClient.invalidateQueries('GetWishLists');
             },
         },
     );
 
     return (
         <div className={'CreateWishList'}>
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog
+                open={search.createWishList === true}
+                onClose={closeCreateWishList}
+            >
                 <DialogTitle>New Wish List</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={1}>
@@ -88,13 +96,7 @@ export const CreateWishList: React.FunctionComponent<CreateWishListType> = ({
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        onClick={() => {
-                            setOpen(false);
-                        }}
-                    >
-                        Cancel
-                    </Button>
+                    <Button onClick={closeCreateWishList}>Cancel</Button>
                     <Button
                         variant={'contained'}
                         onClick={() => {

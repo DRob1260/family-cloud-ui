@@ -16,9 +16,9 @@ import { Delete } from '@mui/icons-material';
 import {
     useDeleteWishListItemContributionMutation,
     useInsertWishListItemContributionMutation,
-} from '../../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
-import { TokenContext } from '../../../../../contexts/TokenContext';
+} from '../../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../../../contexts/TokenContext';
 import { useQueryClient } from 'react-query';
 
 export type EditUserContributionProps = {
@@ -72,6 +72,7 @@ export const EditUserContribution: React.FunctionComponent<
             },
         );
 
+    // todo: deleting contributions doesn't seem to be working as expected
     const deleteWishListItemContribution =
         useDeleteWishListItemContributionMutation(
             GraphqlClientWithAuth(token),

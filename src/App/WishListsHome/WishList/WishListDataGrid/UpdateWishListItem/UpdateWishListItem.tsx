@@ -8,58 +8,59 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../contexts/TokenContext';
-import { WishListItemRow } from '../WishListDataGrid';
-import { useUpdateWishListItemMutation } from '../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../../contexts/TokenContext';
+import { useUpdateWishListItemMutation } from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
+import { useQueryClient } from 'react-query';
+import { useNavigate, useSearch } from 'react-location';
+import { ActiveWishListItem } from '../ItemActions/ItemActions';
 
-export type UpdateWishListItemProps = {
-    itemRow: WishListItemRow;
-    updateRow: (row: WishListItemRow) => void;
-    open: boolean;
-    setOpen: (open: boolean) => void;
-};
-
-export const UpdateWishListItem: React.FunctionComponent<
-    UpdateWishListItemProps
-> = ({ itemRow, updateRow, open, setOpen }) => {
+export const UpdateWishListItem: React.FunctionComponent = () => {
+    const [id, setId] = useState(-1);
     const [title, setTitle] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
 
     const { token } = useContext(TokenContext);
+    const queryClient = useQueryClient();
+    const search = useSearch();
+    const navigate = useNavigate();
+
+    const close = () => {
+        navigate({
+            search: (old) => {
+                delete old?.updateWishListItem;
+                return old || {};
+            },
+        });
+    };
 
     const updateWishListItem = useUpdateWishListItemMutation(
         GraphqlClientWithAuth(token),
         {
-            onSuccess: () => {
-                updateRow({
-                    id: itemRow?.id || -1,
-                    title: title,
-                    quantity: quantity,
-                    contributionsQuantity: itemRow.contributionsQuantity,
-                    url: url,
-                    description: description,
-                    actionsRowNumber: itemRow?.actionsRowNumber,
-                });
-                setOpen(false);
+            onSuccess: async () => {
+                await queryClient.invalidateQueries('GetWishList');
+                close();
             },
         },
     );
 
     useEffect(() => {
-        setTitle(itemRow?.title || '');
-        setQuantity(itemRow?.quantity || 1);
-        setUrl(itemRow?.url || '');
-        setDescription(itemRow?.description || '');
-    }, [itemRow]);
+        const activeWishListItem =
+            search.activeWishListItem as ActiveWishListItem;
+        setId(activeWishListItem.id);
+        setTitle(activeWishListItem.title || '');
+        setQuantity(activeWishListItem.quantity || 1);
+        setUrl(activeWishListItem?.url || '');
+        setDescription(activeWishListItem?.description || '');
+    }, [search.activeWishListItem]);
 
     return (
         <div className={'UpdateWishListItem'}>
             <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
+                open={!!search.updateWishListItem}
+                onClose={close}
                 fullWidth={true}
                 maxWidth={'xs'}
             >
@@ -113,12 +114,12 @@ export const UpdateWishListItem: React.FunctionComponent<
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={close}>Cancel</Button>
                     <Button
                         variant={'contained'}
                         onClick={() => {
                             updateWishListItem.mutate({
-                                itemId: itemRow?.id,
+                                itemId: id,
                                 title: title,
                                 quantity: quantity,
                                 description: description,
