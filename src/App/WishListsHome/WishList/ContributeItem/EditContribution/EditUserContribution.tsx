@@ -16,9 +16,9 @@ import { Delete } from '@mui/icons-material';
 import {
     useDeleteWishListItemContributionMutation,
     useInsertWishListItemContributionMutation,
-} from '../../../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../../../graphql/GraphqlClient';
-import { TokenContext } from '../../../../../../contexts/TokenContext';
+} from '../../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../../contexts/TokenContext';
 import { useQueryClient } from 'react-query';
 
 export type EditUserContributionProps = {

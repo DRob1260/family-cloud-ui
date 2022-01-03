@@ -8,9 +8,9 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { useInsertWishListItemMutation } from '../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
-import { TokenContext } from '../../../contexts/TokenContext';
+import { useInsertWishListItemMutation } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
 import { useMatch, useNavigate, useSearch } from 'react-location';
 import { useQueryClient } from 'react-query';
 

@@ -5,11 +5,11 @@ import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
 import { TokenContext } from '../../../contexts/TokenContext';
 import { useMatch, useNavigate, useSearch } from 'react-location';
 import { UpdateWishList } from './UpdateWishList/UpdateWishList';
-import { CreateWishListItem } from '../CreateWishListItem/CreateWishListItem';
+import { CreateWishListItem } from './CreateWishListItem/CreateWishListItem';
 import { ShareWishList } from './ShareWishList/ShareWishList';
-import { DeleteWishListItem } from './WishListDataGrid/DeleteWishListItem/DeleteWishListItem';
-import { UpdateWishListItem } from './WishListDataGrid/UpdateWishListItem/UpdateWishListItem';
-import { ContributeItem } from './WishListDataGrid/ContributeItem/ContributeItem';
+import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
+import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
+import { ContributeItem } from './ContributeItem/ContributeItem';
 
 export enum WishListViewEnum {
     DATA_GRID = 'DATA_GRID',

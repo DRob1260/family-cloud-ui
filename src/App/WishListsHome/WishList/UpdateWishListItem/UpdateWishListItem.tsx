@@ -8,12 +8,12 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { TokenContext } from '../../../../../contexts/TokenContext';
-import { useUpdateWishListItemMutation } from '../../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
+import { useUpdateWishListItemMutation } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useSearch } from 'react-location';
-import { ActiveWishListItem } from '../ItemActions/ItemActions';
+import { ActiveWishListItem } from '../WishListDataGrid/ItemActions/ItemActions';
 
 export const UpdateWishListItem: React.FunctionComponent = () => {
     const [id, setId] = useState(-1);

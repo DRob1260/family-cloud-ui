@@ -9,12 +9,12 @@ import {
     Grid,
     Typography,
 } from '@mui/material';
-import { TokenContext } from '../../../../../contexts/TokenContext';
-import { useDeleteWishListItemMutation } from '../../../../../types/hasura';
-import { GraphqlClientWithAuth } from '../../../../../graphql/GraphqlClient';
+import { TokenContext } from '../../../../contexts/TokenContext';
+import { useDeleteWishListItemMutation } from '../../../../types/hasura';
+import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useSearch } from 'react-location';
-import { ActiveWishListItem } from '../ItemActions/ItemActions';
+import { ActiveWishListItem } from '../WishListDataGrid/ItemActions/ItemActions';
 
 export const DeleteWishListItem: React.FunctionComponent = () => {
     const { token } = useContext(TokenContext);
