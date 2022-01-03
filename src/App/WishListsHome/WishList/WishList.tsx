@@ -12,7 +12,7 @@ import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { ContributeItem } from './ContributeItem/ContributeItem';
 import { WishListCards } from './WishListCards/WishListCards';
-import { Stack, Switch } from '@mui/material';
+import { Stack, Switch, useMediaQuery, useTheme } from '@mui/material';
 import { GridView, List } from '@mui/icons-material';
 
 export enum WishListViewEnum {
@@ -27,6 +27,8 @@ export const WishList: React.FunctionComponent = () => {
     const search = useSearch();
     const match = useMatch();
     const navigate = useNavigate();
+    const theme = useTheme();
+    const screenIsLarge = useMediaQuery(theme.breakpoints.up('lg'));
 
     // todo: new query that doesn't retrieve item data
     const getWishList = useGetWishListQuery(
@@ -62,6 +64,14 @@ export const WishList: React.FunctionComponent = () => {
             }),
         });
     }, [navigate, wishListView]);
+
+    useEffect(() => {
+        if (screenIsLarge) {
+            setWishListView(WishListViewEnum.DATA_GRID);
+        } else {
+            setWishListView(WishListViewEnum.CARDS);
+        }
+    }, [screenIsLarge]);
 
     return (
         <div className={'WishList'}>
