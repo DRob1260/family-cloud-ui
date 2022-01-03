@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import './WishList.scss';
 import { useGetWishListQuery } from '../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../graphql/GraphqlClient';
 import { WishListDataGrid } from './WishListDataGrid/WishListDataGrid';
@@ -10,12 +11,18 @@ import { ShareWishList } from './ShareWishList/ShareWishList';
 import { DeleteWishListItem } from './DeleteWishListItem/DeleteWishListItem';
 import { UpdateWishListItem } from './UpdateWishListItem/UpdateWishListItem';
 import { ContributeItem } from './ContributeItem/ContributeItem';
+import { WishListCards } from './WishListCards/WishListCards';
+import { Stack, Switch } from '@mui/material';
+import { GridView, List } from '@mui/icons-material';
 
 export enum WishListViewEnum {
     DATA_GRID = 'DATA_GRID',
+    CARDS = 'CARDS',
 }
 
 export const WishList: React.FunctionComponent = () => {
+    const [wishListView, setWishListView] = useState(WishListViewEnum.CARDS);
+
     const { token } = useContext(TokenContext);
     const search = useSearch();
     const match = useMatch();
@@ -32,7 +39,6 @@ export const WishList: React.FunctionComponent = () => {
                 navigate({
                     search: (old) => ({
                         ...old,
-                        wishListView: WishListViewEnum.DATA_GRID,
                         activeWishList: {
                             id: data.familycloud_wish_list_by_pk?.id,
                             title: data.familycloud_wish_list_by_pk?.title,
@@ -48,6 +54,15 @@ export const WishList: React.FunctionComponent = () => {
         },
     );
 
+    useEffect(() => {
+        navigate({
+            search: (old) => ({
+                ...old,
+                wishListView,
+            }),
+        });
+    }, [navigate, wishListView]);
+
     return (
         <div className={'WishList'}>
             {getWishList.isSuccess && (
@@ -58,10 +73,36 @@ export const WishList: React.FunctionComponent = () => {
                     <UpdateWishListItem />
                     <DeleteWishListItem />
                     <CreateWishListItem />
+                    <div id={'wish-list-view-switch'}>
+                        <Stack
+                            direction={'row'}
+                            spacing={1}
+                            alignItems={'center'}
+                        >
+                            <List />
+                            <Switch
+                                title={'Wish List view'}
+                                checked={
+                                    wishListView === WishListViewEnum.CARDS
+                                }
+                                onChange={(event) => {
+                                    let view = WishListViewEnum.CARDS;
+                                    if (!event.target.checked) {
+                                        view = WishListViewEnum.DATA_GRID;
+                                    }
+                                    setWishListView(view);
+                                }}
+                            />
+                            <GridView />
+                        </Stack>
+                    </div>
                 </div>
             )}
             {search.wishListView === WishListViewEnum.DATA_GRID && (
                 <WishListDataGrid />
+            )}
+            {search.wishListView === WishListViewEnum.CARDS && (
+                <WishListCards />
             )}
         </div>
     );

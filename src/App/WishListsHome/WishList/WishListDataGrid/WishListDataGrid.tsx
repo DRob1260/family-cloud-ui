@@ -3,19 +3,11 @@ import './WishListDataGrid.scss';
 import { TokenContext } from '../../../../contexts/TokenContext';
 import { useGetWishListQuery } from '../../../../types/hasura';
 import { GraphqlClientWithAuth } from '../../../../graphql/GraphqlClient';
-import {
-    ButtonGroup,
-    CircularProgress,
-    Grid,
-    IconButton,
-    Link,
-    Paper,
-    Typography,
-} from '@mui/material';
+import { CircularProgress, Link, Paper } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { AddCircle, PeopleAlt, Settings } from '@mui/icons-material';
 import { ItemActions } from './ItemActions/ItemActions';
-import { useMatch, useNavigate } from 'react-location';
+import { useMatch } from 'react-location';
+import { WishListTitle } from '../WishListTitle/WishListTitle';
 
 export type WishListItemRow = {
     id: number;
@@ -32,7 +24,6 @@ export const WishListDataGrid: React.FunctionComponent = () => {
 
     const { token } = useContext(TokenContext);
     const { params } = useMatch();
-    const navigate = useNavigate();
 
     const getWishList = useGetWishListQuery(
         GraphqlClientWithAuth(token),
@@ -114,61 +105,12 @@ export const WishListDataGrid: React.FunctionComponent = () => {
             {getWishList.isLoading && <CircularProgress />}
             {getWishList.isSuccess && getWishList.data && (
                 <Paper elevation={3} id={'wish-list-data-grid-paper'}>
-                    <Grid container id={'wish-lists-data-grid-header-grid'}>
-                        <Grid item xs={6} md={10} lg={11}>
-                            <Typography variant={'h6'}>
-                                {
-                                    getWishList.data.familycloud_wish_list_by_pk
-                                        ?.title
-                                }
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6} md={2} lg={1}>
-                            <ButtonGroup id={'wish-list-data-grid-actions'}>
-                                <IconButton
-                                    title={'Configure Wish List'}
-                                    id={'wish-list-settings-button'}
-                                    onClick={() =>
-                                        navigate({
-                                            search: (old) => ({
-                                                ...old,
-                                                updateWishList: true,
-                                            }),
-                                        })
-                                    }
-                                >
-                                    <Settings />
-                                </IconButton>
-                                <IconButton
-                                    title={'Share Wish List'}
-                                    onClick={() =>
-                                        navigate({
-                                            search: (old) => ({
-                                                ...old,
-                                                shareWishList: true,
-                                            }),
-                                        })
-                                    }
-                                >
-                                    <PeopleAlt id={'share-wish-list-icon'} />
-                                </IconButton>
-                                <IconButton
-                                    title={'Add Wish List Item'}
-                                    id={'add-wish-list-item-button'}
-                                    onClick={() =>
-                                        navigate({
-                                            search: (old) => ({
-                                                ...old,
-                                                createWishListItem: true,
-                                            }),
-                                        })
-                                    }
-                                >
-                                    <AddCircle id={'add-wish-list-item-icon'} />
-                                </IconButton>
-                            </ButtonGroup>
-                        </Grid>
-                    </Grid>
+                    <WishListTitle
+                        title={
+                            getWishList.data.familycloud_wish_list_by_pk
+                                ?.title || ''
+                        }
+                    />
                     <DataGrid columns={columns} rows={rows} autoHeight={true} />
                 </Paper>
             )}

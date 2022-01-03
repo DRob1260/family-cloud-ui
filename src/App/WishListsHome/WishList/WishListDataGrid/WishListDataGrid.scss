@@ -1,34 +1,5 @@
 .WishListDataGrid {
   #wish-list-data-grid-paper {
-    #wish-lists-data-grid-header-grid {
-      position: relative;
-      height: 48px;
-      padding-right: 16px;
-      padding-left: 16px;
-
-      .MuiTypography-root {
-        margin: 0;
-        position: absolute;
-        top: 25%;
-      }
-
-      #wish-list-data-grid-actions {
-        float: right;
-        #wish-list-settings-button {
-          color: #1565c0;
-        }
-
-        #share-wish-list-icon {
-          color: #1565c0;
-        }
-
-        #add-wish-list-item-button {
-          color: #1565c0;
-        }
-      }
-
-    }
-
     .MuiDataGrid-root {
       border: none;
     }
