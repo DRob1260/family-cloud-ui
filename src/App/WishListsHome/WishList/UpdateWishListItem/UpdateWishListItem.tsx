@@ -49,11 +49,13 @@ export const UpdateWishListItem: React.FunctionComponent = () => {
     useEffect(() => {
         const activeWishListItem =
             search.activeWishListItem as ActiveWishListItem;
-        setId(activeWishListItem.id);
-        setTitle(activeWishListItem.title || '');
-        setQuantity(activeWishListItem.quantity || 1);
-        setUrl(activeWishListItem?.url || '');
-        setDescription(activeWishListItem?.description || '');
+        if (activeWishListItem) {
+            setId(activeWishListItem.id);
+            setTitle(activeWishListItem.title || '');
+            setQuantity(activeWishListItem.quantity || 1);
+            setUrl(activeWishListItem?.url || '');
+            setDescription(activeWishListItem?.description || '');
+        }
     }, [search.activeWishListItem]);
 
     return (
